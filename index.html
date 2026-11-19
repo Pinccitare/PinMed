@@ -1036,12 +1036,12 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
 
 /* Navegação inferior e carrossel exclusivos para celulares (mantém 3 colunas no desktop) */
-.mob-nav,.mob-only,.mi-sw,.pv-foot,.mob-rx-dock{display:none}
+.mob-bottom-stack,.mob-nav,.mob-only,.mi-sw,.mob-rx-dock,.mob-act-bar{display:none}
 .ed-foot{position:relative}
-.ed-foot .btn-fila-view,.pv-foot .btn-fila-view{flex:none;padding:0 11px;gap:6px}
-.ed-foot .btn-fila-view .count,.pv-foot .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
-.ed-foot .btn-fila-view.has-q,.pv-foot .btn-fila-view.has-q{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand)}
-.ed-foot .btn-fila-view.has-q .count,.pv-foot .btn-fila-view.has-q .count{background:var(--brand);color:#fff}
+.ed-foot .btn-fila-view,.mob-act-bar .btn-fila-view{flex:none;padding:0 11px;gap:6px}
+.ed-foot .btn-fila-view .count,.mob-act-bar .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
+.ed-foot .btn-fila-view.has-q,.mob-act-bar .btn-fila-view.has-q{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand)}
+.ed-foot .btn-fila-view.has-q .count,.mob-act-bar .btn-fila-view.has-q .count{background:var(--brand);color:#fff}
 
 /* Pop-up conectado da Fila (Editor e Prévia) */
 .fila-pop{position:fixed;right:16px;bottom:72px;z-index:180;width:min(388px,calc(100vw - 20px));max-height:min(62vh,440px);background:var(--surface);color:var(--text);border:1px solid var(--line-strong);border-radius:16px;box-shadow:0 22px 54px -10px rgba(6,16,30,.45);display:flex;flex-direction:column;overflow:hidden;animation:pop .14s ease-out}
@@ -1062,7 +1062,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 
 @media screen and (max-width:860px){
   .mob-only{display:inline-flex}
-  .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}
+  html,body{overflow:hidden;overflow-x:clip}
+  .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden;overflow-x:clip}
   .top{flex:none;height:auto;flex-wrap:wrap;padding:6px 10px;gap:6px;z-index:30}
   .top>.brand{display:flex!important;order:1;font-size:15px}
   .top>.brand svg{width:25px;height:25px}
@@ -1136,8 +1137,13 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .side .md-wrap.swiping .md{transition:none}
   html:not([data-theme=dark]) .side .md-wrap .md{background:#ffffff;margin-bottom:0}
 
-  /* Pop-up flutuante de receitas montadas por swipe (acima da barra inferior, mesmo estilo vidro arredondado) */
-  .mob-rx-dock{position:fixed;left:50%;bottom:calc(74px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;gap:4px;padding:4px 5px;border-radius:999px;max-width:calc(100vw - 20px);background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32);z-index:82;animation:pop .18s ease-out}
+  /* Stack inferior único (evita qualquer sobreposição entre Barra de ação, Dock de receitas e Barra carrossel) */
+  .ed-foot{display:none!important}
+  .mob-bottom-stack{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;pointer-events:none}
+  .mob-bottom-stack>*{pointer-events:auto}
+
+  /* Pop-up flutuante de receitas montadas por swipe (empilhado acima da barra carrossel) */
+  .mob-rx-dock{display:inline-flex;align-items:center;gap:4px;padding:4px 5px;border-radius:999px;max-width:100%;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32);animation:pop .18s ease-out}
   .mob-rx-dock.hidden{display:none!important}
   .app:not([data-mob="side"]) .mob-rx-dock{display:none!important}
   .mob-rx-pill{height:38px;padding:0 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#ffffff;background:rgba(35,137,232,.36);border:1px solid rgba(125,184,240,.42);white-space:nowrap;transition:transform .12s,background .14s}
@@ -1156,22 +1162,22 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-rx-split{background:rgba(12,35,64,.16)}
   html:not([data-theme=dark]) .mob-rx-x{color:#5b6b7f}
 
-  /* Barra de ação flutuante em vidro, levemente acima da barra carrossel, com 3 botões de tamanho igual */
-  .ed,.center{position:relative}
-  .ed-foot,.pv-foot{position:absolute;left:10px;right:10px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:82;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
-  .ed-foot .btn,.pv-foot .btn{width:100%;height:38px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:700;gap:5px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none}
-  .ed-foot .btn-secondary,.pv-foot .btn-secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);color:#eef5ff}
-  .ed-foot .btn-fila-view.has-q,.pv-foot .btn-fila-view.has-q{background:rgba(35,137,232,.36);border-color:rgba(125,184,240,.46);color:#ffffff}
-  .ed-foot .btn-fila-view .count,.pv-foot .btn-fila-view .count{background:rgba(255,255,255,.22);color:#ffffff}
-  .ed-foot .btn-fila-view.has-q .count,.pv-foot .btn-fila-view.has-q .count{background:#ffffff;color:#0b4a8a}
-  .ed-foot .btn-primary,.pv-foot .btn-primary{background:linear-gradient(180deg,rgba(35,137,232,.92),rgba(11,111,199,.96));border:1px solid rgba(255,255,255,.28);color:#ffffff}
-  .ed-foot .lbl-desk,.pv-foot .lbl-desk{display:none}
-  html:not([data-theme=dark]) .ed-foot,html:not([data-theme=dark]) .pv-foot{background:linear-gradient(180deg,rgba(255,255,255,.84) 0%,rgba(238,245,252,.9) 100%);border-color:rgba(12,35,64,.14);box-shadow:0 12px 30px -6px rgba(12,35,64,.24),inset 0 1px 0 rgba(255,255,255,.95)}
-  html:not([data-theme=dark]) .ed-foot .btn-secondary,html:not([data-theme=dark]) .pv-foot .btn-secondary{background:rgba(12,35,64,.06);border-color:rgba(12,35,64,.12);color:#1d3550}
-  html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
-  html:not([data-theme=dark]) .ed-foot .btn-fila-view .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view .count{background:rgba(12,35,64,.1);color:#1d3550}
-  html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q .count{background:#0b6fc7;color:#ffffff}
-  .fila-pop{left:10px;right:10px;bottom:calc(136px + env(safe-area-inset-bottom,0px));width:auto;max-height:56dvh}
+  /* Barra de ação flutuante em vidro, sempre 8px acima da Barra carrossel, com 3 botões iguais */
+  .mob-act-bar{width:100%;max-width:420px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
+  .app[data-mob="side"] .mob-act-bar,.mob-act-bar:empty{display:none!important}
+  .mob-act-bar .btn{width:100%;height:38px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:700;gap:5px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none}
+  .mob-act-bar .btn-secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);color:#eef5ff}
+  .mob-act-bar .btn-fila-view.has-q{background:rgba(35,137,232,.36);border-color:rgba(125,184,240,.46);color:#ffffff}
+  .mob-act-bar .btn-fila-view .count{background:rgba(255,255,255,.22);color:#ffffff}
+  .mob-act-bar .btn-fila-view.has-q .count{background:#ffffff;color:#0b4a8a}
+  .mob-act-bar .btn-primary{background:linear-gradient(180deg,rgba(35,137,232,.92),rgba(11,111,199,.96));border:1px solid rgba(255,255,255,.28);color:#ffffff}
+  .mob-act-bar .lbl-desk{display:none}
+  html:not([data-theme=dark]) .mob-act-bar{background:linear-gradient(180deg,rgba(255,255,255,.86) 0%,rgba(238,245,252,.92) 100%);border-color:rgba(12,35,64,.14);box-shadow:0 12px 30px -6px rgba(12,35,64,.24),inset 0 1px 0 rgba(255,255,255,.95)}
+  html:not([data-theme=dark]) .mob-act-bar .btn-secondary{background:rgba(12,35,64,.06);border-color:rgba(12,35,64,.12);color:#1d3550}
+  html:not([data-theme=dark]) .mob-act-bar .btn-fila-view.has-q{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
+  html:not([data-theme=dark]) .mob-act-bar .btn-fila-view .count{background:rgba(12,35,64,.1);color:#1d3550}
+  html:not([data-theme=dark]) .mob-act-bar .btn-fila-view.has-q .count{background:#0b6fc7;color:#ffffff}
+  .fila-pop{left:10px;right:10px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:auto;max-height:54dvh;z-index:95}
 
   #btn-side{display:none}
   .pv-bar{height:44px;padding:0 8px;gap:6px}
@@ -1187,8 +1193,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .dlg-b{padding:4px 16px 16px}
   .dlg-f{padding:12px 16px}
 
-  /* Barra flutuante inferior estilo vidro (Liquid Glass) na paleta PinMed */
-  .mob-nav{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:4px;height:54px;padding:5px 6px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.54) 0%,rgba(9,22,40,.66) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.24);box-shadow:0 14px 36px -6px rgba(4,12,24,.52),inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(255,255,255,.08);z-index:80;max-width:calc(100vw - 16px)}
+  /* Barra carrossel flutuante em vidro (base do stack inferior, nunca sobreposta) */
+  .mob-nav{position:static;transform:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:54px;padding:5px 6px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.54) 0%,rgba(9,22,40,.66) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.24);box-shadow:0 14px 36px -6px rgba(4,12,24,.52),inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(255,255,255,.08);max-width:100%}
   .mob-new{width:42px;height:42px;flex:none;display:inline-grid;place-items:center;border-radius:999px;background:linear-gradient(180deg,rgba(35,137,232,.86),rgba(11,111,199,.92));color:#ffffff;border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 4px 12px -2px rgba(11,111,199,.55);transition:transform .12s ease,filter .14s ease}
   .mob-new svg.i{width:19px;height:19px;stroke-width:2.4}
   .mob-new:active{transform:scale(.93)}
@@ -1249,7 +1255,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-tab.on{background:rgba(11,111,199,.14);color:#0b5fa8;box-shadow:inset 0 0 0 1px rgba(11,111,199,.24)}
 }
 @media print{
-  .app,.mob-nav,.mob-rx-dock,.fila-pop,.pv-foot,#tour-bg,#tour-spot,#tour-card,#save-pop{display:none!important}
+  .app,.mob-bottom-stack,.mob-nav,.mob-rx-dock,.mob-act-bar,.fila-pop,#tour-bg,#tour-spot,#tour-card,#save-pop{display:none!important}
 }
 </style>
 </head>
@@ -1450,19 +1456,21 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
       </div>
       <div class="strip hidden" id="strip" role="alert" aria-live="polite"></div>
       <div class="pv-scroll" id="pv-scroll"><div class="pv-stage" id="pv-stage"></div></div>
-      <div class="pv-foot" id="pv-foot"></div>
     </section>
 
     <aside class="ed" id="ed" aria-label="Editor"></aside>
   </div>
-  <div class="mob-rx-dock hidden" id="mob-rx-dock" role="region" aria-label="Receitas montadas por swipe"></div>
-  <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
-    <button type="button" class="mob-new" id="btn-mob-novo" title="Novo documento" aria-label="Novo documento" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
-    <span class="mob-sep" aria-hidden="true"></span>
-    <button type="button" class="mob-tab on" data-mob="side" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Modelos</span></button>
-    <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
-    <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
-  </nav>
+  <div class="mob-bottom-stack" id="mob-bottom-stack">
+    <div class="mob-rx-dock hidden" id="mob-rx-dock" role="region" aria-label="Receitas montadas por swipe"></div>
+    <div class="mob-act-bar" id="mob-act-bar" role="region" aria-label="Ações do documento"></div>
+    <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
+      <button type="button" class="mob-new" id="btn-mob-novo" title="Novo documento" aria-label="Novo documento" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      <span class="mob-sep" aria-hidden="true"></span>
+      <button type="button" class="mob-tab on" data-mob="side" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Modelos</span></button>
+      <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
+      <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
+    </nav>
+  </div>
   <div class="fila-pop hidden" id="pop-fila-ed" role="dialog" aria-label="Fila de impressão"></div>
 </div>
 
@@ -5633,7 +5641,7 @@ function renderFoot() {
       <button type="button" class="btn btn-primary" data-act="print-one" title="Imprimir apenas esta folha (Ctrl+Shift+P)">${ic('print')}<span>Imprimir<span class="lbl-desk"> esta folha</span></span></button>`
     : '';
   const edf = $('#ed-foot'); if (edf) setHTML(edf, h);
-  const pvf = $('#pv-foot'); if (pvf) setHTML(pvf, h);
+  const mab = $('#mob-act-bar'); if (mab) setHTML(mab, h);
 }
 function renderFilaPop() {
   const pop = $('#pop-fila-ed'); if (!pop) return;
@@ -6126,14 +6134,17 @@ function abrir(key, opts = {}) {
     if (!opts.semSalvar && mudouRec) save(false);
   }
   renderAll();
-  if (opts.fromUser && window.innerWidth <= 860 && typeof setMobTab === 'function') {
+  const isMob = window.innerWidth <= 860;
+  if (opts.fromUser && isMob && typeof setMobTab === 'function') {
     setMobTab('ed');
   }
   if (opts.fromUser && S.aba === 'modelos' && suportaTextoRapido(S.drafts[key]?.doc)) {
     trocarAba('texto');
     return;
   }
-  requestAnimationFrame(() => { const el = $(`.mi[data-key="${CSS.escape(key)}"]`); (el?.closest('.sel-sec') || el)?.scrollIntoView({ block: 'nearest' }); });
+  if (!isMob) {
+    requestAnimationFrame(() => { const el = $(`.mi[data-key="${CSS.escape(key)}"]`); (el?.closest('.sel-sec') || el)?.scrollIntoView({ block: 'nearest' }); });
+  }
 }
 function novoDocumento(tipo, itens) {
   const key = uid('novo'), doc = novoDoc(tipo);
@@ -6143,8 +6154,9 @@ function novoDocumento(tipo, itens) {
   S.ativo = key; S.calcAberta = false;
   if (S.img) S.img.pend = null;
   renderAll();
-  if (window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab('ed');
-  if (!itens) setTimeout(() => $('[data-b="titulo"]')?.focus(), 30);
+  const isMob = window.innerWidth <= 860;
+  if (isMob && typeof setMobTab === 'function') setMobTab('ed');
+  if (!itens) setTimeout(() => { try { $('[data-b="titulo"]')?.focus({ preventScroll: true }); } catch (_) { $('[data-b="titulo"]')?.focus(); } }, isMob ? 300 : 30);
   return key;
 }
 function mudarTipo(t) {
@@ -6178,7 +6190,10 @@ function addMed(i) {
   if (m.t === 'ATB' && tipo === 'receita' && !d.doc.duasVias) { d.doc.duasVias = true; d.doc.meiaFolha = false; toast(`${m.n} adicionado · receita passou para 2 vias`, 'info'); }
   else toast(`${m.n} adicionado`);
   renderEditor(); changed({ forcarSide: true });
-  setTimeout(() => $$('#ed .card').pop()?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 30);
+  setTimeout(() => {
+    const eb = $('#ed-body');
+    if (eb) eb.scrollTo({ top: eb.scrollHeight, behavior: 'smooth' });
+  }, 40);
 }
 async function salvar() {
   const d = draft(); if (!d) return;
@@ -6894,6 +6909,11 @@ function flashSalvo(txt = 'Salvo!') {
 }
 function setMobTab(tab) {
   const app = $('#app'); if (!app) return;
+  const mainEl = $('.main');
+  if (mainEl) { mainEl.classList.remove('dragging'); mainEl.style.transform = ''; mainEl.scrollLeft = 0; }
+  app.scrollLeft = 0;
+  document.documentElement.scrollLeft = 0;
+  document.body.scrollLeft = 0;
   app.dataset.mob = tab;
   if (tab !== 'side') {
     app.classList.remove('mob-pac-open');
@@ -7143,14 +7163,18 @@ function bind() {
       if (window.innerWidth <= 860) setMobTab('ed');
     }
   });
-  // Rodapé de ações da Prévia (espelho do Editor: Visualizar fila, Adc. à fila e Imprimir)
-  $('#pv-foot')?.addEventListener('click', e => {
+  // Barra de ação mobile (Editor e Prévia: Visualizar fila, Adc. à fila e Imprimir)
+  $('#mob-act-bar')?.addEventListener('click', e => {
     const a = e.target.closest('[data-act]')?.dataset.act;
     if (!a) return;
     if (a === 'fila-pop') toggleFilaPop();
     else if (a === 'fila') toggleFila(S.ativo);
     else if (a === 'print-one') imprimir([S.ativo]);
   });
+  // Guarda anti-travamento do carrossel: impede scrollLeft acidental no .app ao focar inputs no celular
+  $('#app')?.addEventListener('scroll', () => {
+    if (window.innerWidth <= 860 && $('#app').scrollLeft !== 0) $('#app').scrollLeft = 0;
+  }, { passive: true });
   // Pop-up conectado da Fila no Editor e na Prévia
   $('#pop-fila-ed')?.addEventListener('click', e => {
     const act = e.target.closest('[data-fp]')?.dataset.fp;
