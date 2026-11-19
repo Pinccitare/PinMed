@@ -1031,8 +1031,31 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
 
 /* Navegação inferior e carrossel exclusivos para celulares (mantém 3 colunas no desktop) */
-.mob-nav,.mob-only,.mi-sw{display:none}
-@media (max-width:860px){
+.mob-nav,.mob-only,.mi-sw,.pv-foot,.mob-rx-dock{display:none}
+.ed-foot{position:relative}
+.ed-foot .btn-fila-view,.pv-foot .btn-fila-view{flex:none;padding:0 11px;gap:6px}
+.ed-foot .btn-fila-view .count,.pv-foot .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
+.ed-foot .btn-fila-view.has-q,.pv-foot .btn-fila-view.has-q{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand)}
+.ed-foot .btn-fila-view.has-q .count,.pv-foot .btn-fila-view.has-q .count{background:var(--brand);color:#fff}
+
+/* Pop-up conectado da Fila (Editor e Prévia) */
+.fila-pop{position:fixed;right:16px;bottom:72px;z-index:180;width:min(388px,calc(100vw - 20px));max-height:min(62vh,440px);background:var(--surface);color:var(--text);border:1px solid var(--line-strong);border-radius:16px;box-shadow:0 22px 54px -10px rgba(6,16,30,.45);display:flex;flex-direction:column;overflow:hidden;animation:pop .14s ease-out}
+.fila-pop-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.fila-pop-h b{font-size:13px;font-weight:750;display:flex;align-items:center;gap:6px}
+.fila-pop-list{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:5px}
+.fila-pop-it{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:border-color .12s,background .12s}
+.fila-pop-it.on{border-color:var(--brand-line);background:var(--brand-soft)}
+.fila-pop-it .fp-ord{width:20px;height:20px;border-radius:6px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:grid;place-items:center;flex:none}
+.fila-pop-it.on .fp-ord{background:var(--brand);color:#fff}
+.fila-pop-it .fp-go{flex:1;min-width:0;text-align:left;display:flex;flex-direction:column;gap:1px;padding:2px 4px;border-radius:6px}
+.fila-pop-it .fp-go b{font-size:12.5px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+.fila-pop-it .fp-go small{font-size:11px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-pop-it .fp-act{display:flex;align-items:center;gap:2px;flex:none}
+.fila-pop-f{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:var(--surface-2)}
+.fila-pop-empty{padding:18px 14px;text-align:center;color:var(--text-3);font-size:12.5px;line-height:1.45}
+.md-wrap{position:relative}
+
+@media screen and (max-width:860px){
   .mob-only{display:inline-flex}
   .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}
   .top{flex:none;height:auto;flex-wrap:wrap;padding:6px 10px;gap:6px;z-index:30}
@@ -1095,16 +1118,55 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .side .mi-t{font-size:13.5px}
   .side .grp-t{padding:9px 8px;font-size:13px}
 
+  /* Swipe nos Medicamentos ("+ Receita" / "+ Controle C1") */
+  .side .md-wrap{position:relative;overflow:hidden;border-radius:10px;margin-bottom:4px}
+  .side .md-sw{position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding-left:16px;background:#eaf4ff;color:#0b4a8a;font-size:12.5px;font-weight:750;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .12s,background .15s}
+  .side .md-sw svg.i{width:16px;height:16px;color:#0b6fc7;flex:none}
+  .side .md-sw.is-c1{background:#fff3df;color:#8a4b00}
+  .side .md-sw.is-c1 svg.i{color:#c96d00}
+  .side .md-wrap.swiping .md-sw{opacity:1}
+  .side .md-wrap.swiping.sw-ready .md-sw{background:#d4eaff}
+  .side .md-wrap.swiping.sw-ready .md-sw.is-c1{background:#ffe4b8}
+  .side .md-wrap .md{position:relative;z-index:1;background:var(--navy);border-radius:10px;transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .side .md-wrap.swiping .md{transition:none}
+  html:not([data-theme=dark]) .side .md-wrap .md{background:#ffffff;margin-bottom:0}
+
+  /* Pop-up flutuante de receitas montadas por swipe (acima da barra inferior, mesmo estilo vidro arredondado) */
+  .mob-rx-dock{position:fixed;left:50%;bottom:calc(74px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;gap:4px;padding:4px 5px;border-radius:999px;max-width:calc(100vw - 20px);background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32);z-index:82;animation:pop .18s ease-out}
+  .mob-rx-dock.hidden{display:none!important}
+  .app:not([data-mob="side"]) .mob-rx-dock{display:none!important}
+  .mob-rx-pill{height:38px;padding:0 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#ffffff;background:rgba(35,137,232,.36);border:1px solid rgba(125,184,240,.42);white-space:nowrap;transition:transform .12s,background .14s}
+  .mob-rx-pill.is-esp{background:rgba(217,119,6,.36);border-color:rgba(251,191,36,.48);color:#fff6e5}
+  .mob-rx-pill:active{transform:scale(.95)}
+  .mob-rx-pill .rx-n{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ffffff;color:#0b4a8a;font-size:11px;font-weight:800;display:inline-grid;place-items:center}
+  .mob-rx-pill.is-esp .rx-n{color:#8a4b00}
+  .mob-rx-split{width:1px;height:22px;background:rgba(255,255,255,.22);flex:none}
+  .mob-rx-x{width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;color:rgba(255,255,255,.72);flex:none}
+  .mob-rx-x svg.i{width:13px;height:13px}
+  html:not([data-theme=dark]) .mob-rx-dock{background:linear-gradient(180deg,rgba(255,255,255,.86) 0%,rgba(238,245,252,.92) 100%);border-color:rgba(12,35,64,.14);box-shadow:0 12px 30px -6px rgba(12,35,64,.24),inset 0 1px 0 rgba(255,255,255,.95)}
+  html:not([data-theme=dark]) .mob-rx-pill{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
+  html:not([data-theme=dark]) .mob-rx-pill .rx-n{background:#0b6fc7;color:#ffffff}
+  html:not([data-theme=dark]) .mob-rx-pill.is-esp{background:rgba(217,119,6,.14);border-color:rgba(217,119,6,.32);color:#8a4b00}
+  html:not([data-theme=dark]) .mob-rx-pill.is-esp .rx-n{background:#c96d00;color:#ffffff}
+  html:not([data-theme=dark]) .mob-rx-split{background:rgba(12,35,64,.16)}
+  html:not([data-theme=dark]) .mob-rx-x{color:#5b6b7f}
+
+  /* Rodapé de ações visível tanto no Editor quanto na Prévia no celular */
+  .pv-foot{display:flex;gap:6px;flex:none;background:var(--surface);border-top:1px solid var(--line);padding:10px 10px calc(76px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 20px -16px rgba(15,28,46,.35)}
+  .ed-foot{padding:10px 10px calc(76px + env(safe-area-inset-bottom,0px));gap:6px}
+  .ed-foot .btn,.pv-foot .btn{height:42px;font-size:12.5px;padding:0 10px}
+  .ed-foot .btn:not(.btn-fila-view),.pv-foot .btn:not(.btn-fila-view){flex:1;min-width:0}
+  .ed-foot .lbl-desk,.pv-foot .lbl-desk{display:none}
+  .fila-pop{left:10px;right:10px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:auto;max-height:56dvh}
+
   #btn-side{display:none}
   .pv-bar{height:44px;padding:0 8px;gap:6px}
   .pv-title h2{font-size:13px}
   .zoom{height:30px}
   .zoom .zoom-fit{display:none}
-  .pv-scroll{padding:10px 8px calc(86px + env(safe-area-inset-bottom,0px))}
+  .pv-scroll{padding:10px 8px 18px}
   .ed-h{padding:10px 12px}
   .ed-body{padding:10px 12px 24px}
-  .ed-foot{padding:10px 12px calc(78px + env(safe-area-inset-bottom,0px))}
-  .ed-foot .btn{height:42px;font-size:13px;padding:0 12px}
   #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
   dialog.dlg{width:calc(100vw - 16px);max-height:calc(100dvh - 24px);border-radius:14px}
   .dlg-h{padding:16px 16px 10px}
@@ -1171,6 +1233,9 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-sep{background:rgba(12,35,64,.14)}
   html:not([data-theme=dark]) .mob-tab{color:#415870}
   html:not([data-theme=dark]) .mob-tab.on{background:rgba(11,111,199,.14);color:#0b5fa8;box-shadow:inset 0 0 0 1px rgba(11,111,199,.24)}
+}
+@media print{
+  .app,.mob-nav,.mob-rx-dock,.fila-pop,.pv-foot,#tour-bg,#tour-spot,#tour-card,#save-pop{display:none!important}
 }
 </style>
 </head>
@@ -1369,10 +1434,12 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
       </div>
       <div class="strip hidden" id="strip" role="alert" aria-live="polite"></div>
       <div class="pv-scroll" id="pv-scroll"><div class="pv-stage" id="pv-stage"></div></div>
+      <div class="pv-foot" id="pv-foot"></div>
     </section>
 
     <aside class="ed" id="ed" aria-label="Editor"></aside>
   </div>
+  <div class="mob-rx-dock hidden" id="mob-rx-dock" role="region" aria-label="Receitas montadas por swipe"></div>
   <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
     <button type="button" class="mob-new" id="btn-mob-novo" title="Novo documento" aria-label="Novo documento" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
     <span class="mob-sep" aria-hidden="true"></span>
@@ -1380,6 +1447,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
     <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
     <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
   </nav>
+  <div class="fila-pop hidden" id="pop-fila-ed" role="dialog" aria-label="Fila de impressão"></div>
 </div>
 
 <div id="print-root" aria-hidden="true"></div>
@@ -4252,7 +4320,8 @@ const S = {
   verAlergicos: false, verContraindicados: false,
   calcAberta: false, calc: { peso: '', preset: 'dipirona', dose: null, gpm: null }, calcRes: null,
   img: { mod: 'rx', contraste: 'sem', pend: null },
-  undo: {}, redo: {}, textoRapido: '', trResultado: null
+  undo: {}, redo: {}, textoRapido: '', trResultado: null,
+  rxSwipe: { simples: null, especial: null }
 };
 function idadeAtualAnos() {
   const raw = String(S.paciente?.idade || '').trim();
@@ -4784,7 +4853,11 @@ function renderMedBtnHTML({ m, i }) {
     ? `<span class="tg tg-alg" title="${esc(idDanger[1])}">Idade</span>`
     : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
   const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
-  return `<button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>`;
+  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
+  return `<div class="md-wrap" data-med="${i}">
+    <span class="mi-sw md-sw${ehC1 ? ' is-c1' : ''}" aria-hidden="true">${ic('plus')}<span>${ehC1 ? '+ Controle C1' : '+ Receita'}</span></span>
+    <button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>
+  </div>`;
 }
 function renderMeds() {
   $('#chips').classList.add('hidden');
@@ -5520,10 +5593,97 @@ function renderAlerts() {
   setHTML(el, alertas(d.doc).map(([k, msg, act, lbl]) => `<div class="note ${k}">${ic(k === 'info' ? 'info' : 'alert')}<p>${msg}</p>${act ? `<button type="button" class="btn btn-secondary btn-sm" data-act="${act}">${lbl}</button>` : ''}</div>`).join(''));
 }
 function renderFoot() {
-  const el = $('#ed-foot'), d = draft(); if (!el || !d) return;
-  const pos = S.fila.indexOf(S.ativo);
-  setHTML(el, `<button type="button" class="btn btn-secondary" data-act="fila" title="Ctrl+Enter">${ic(pos >= 0 ? 'check' : 'layers')}${pos >= 0 ? `Na fila (${pos + 1}º)` : 'Adicionar à fila'}</button>
-    <button type="button" class="btn btn-primary" data-act="print-one" title="Imprimir apenas esta folha (Ctrl+Shift+P)">${ic('print')} Imprimir esta folha</button>`);
+  const d = draft(), n = S.fila.length, pos = d ? S.fila.indexOf(S.ativo) : -1;
+  const popOpen = !$('#pop-fila-ed')?.classList.contains('hidden');
+  const h = d
+    ? `<button type="button" class="btn btn-secondary btn-fila-view${n ? ' has-q' : ''}" data-act="fila-pop" aria-haspopup="dialog" aria-expanded="${popOpen ? 'true' : 'false'}" title="Visualizar e alternar documentos na fila">${ic('layers')}<span class="lbl-fv">Fila</span><span class="count">${n}</span></button>
+      <button type="button" class="btn btn-secondary" data-act="fila" title="Ctrl+Enter">${ic(pos >= 0 ? 'check' : 'plus')}${pos >= 0 ? `Na fila (${pos + 1}º)` : '<span>Adc. à fila</span>'}</button>
+      <button type="button" class="btn btn-primary" data-act="print-one" title="Imprimir apenas esta folha (Ctrl+Shift+P)">${ic('print')}<span>Imprimir<span class="lbl-desk"> esta folha</span></span></button>`
+    : '';
+  const edf = $('#ed-foot'); if (edf) setHTML(edf, h);
+  const pvf = $('#pv-foot'); if (pvf) setHTML(pvf, h);
+}
+function renderFilaPop() {
+  const pop = $('#pop-fila-ed'); if (!pop) return;
+  const itens = S.fila.map(k => [k, docDe(k)]).filter(x => x[1]), n = itens.length;
+  pop.innerHTML = `<div class="fila-pop-h">
+      <b>${ic('layers')} Fila de impressão (${n})</b>
+      <button type="button" class="ib ib-sm" data-fp="close" aria-label="Fechar fila">${ic('x')}</button>
+    </div>
+    <div class="fila-pop-list">${n ? itens.map(([k, doc], i) => {
+      const tv = tipoVisual(doc), info = TIPOS[tv] || TIPOS.receita, ativo = k === S.ativo;
+      return `<div class="fila-pop-it${ativo ? ' on' : ''}" data-key="${esc(k)}">
+        <span class="fp-ord">${i + 1}</span>
+        <button type="button" class="fp-go" data-fp="open" title="Abrir no editor"><b>${esc(doc.titulo || 'Sem título')}</b><small>${esc(info.chip || info.label)}${ativo ? ' · editando agora' : ''}</small></button>
+        <div class="fp-act">
+          <button type="button" class="ib ib-sm" data-fp="up" title="Mover para cima" aria-label="Subir"${i ? '' : ' disabled'}>${ic('up')}</button>
+          <button type="button" class="ib ib-sm" data-fp="down" title="Mover para baixo" aria-label="Descer"${i < n - 1 ? '' : ' disabled'}>${ic('down')}</button>
+          <button type="button" class="ib ib-sm danger" data-fp="rm" title="Remover da fila" aria-label="Remover">${ic('x')}</button>
+        </div>
+      </div>`;
+    }).join('') : '<div class="fila-pop-empty">A fila está vazia.<br>Toque em <b>Adc. à fila</b> ou arraste um modelo para a direita na biblioteca.</div>'}</div>
+    <div class="fila-pop-f">
+      <button type="button" class="btn btn-ghost btn-sm" data-fp="close">Fechar</button>
+      ${n ? `<button type="button" class="btn btn-primary btn-sm" data-fp="print">${ic('print')} Imprimir fila (${n})</button>` : ''}
+    </div>`;
+}
+function toggleFilaPop(forcarFechar = false) {
+  const pop = $('#pop-fila-ed'); if (!pop) return;
+  const abrirP = !forcarFechar && pop.classList.contains('hidden');
+  if (abrirP) {
+    fecharTopPopovers(false);
+    closeMenu(false);
+    renderFilaPop();
+    pop.classList.remove('hidden');
+  } else {
+    pop.classList.add('hidden');
+  }
+  $$('[data-act="fila-pop"]').forEach(b => b.setAttribute('aria-expanded', abrirP ? 'true' : 'false'));
+}
+function addMedSwipe(i) {
+  const m = CATALOGO[i]; if (!m) return;
+  const item = novoItem({ nome: m.n, apresentacao: m.a, qtd: m.q, posologia: m.p, obs: m.o, via: m.v });
+  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
+  const slot = ehC1 ? 'especial' : 'simples';
+  let key = S.rxSwipe[slot];
+  if (!key || !S.drafts[key]) {
+    key = uid('novo');
+    const doc = novoDoc(ehC1 ? 'especial' : 'receita');
+    doc.titulo = ehC1 ? 'Receita de Controle Especial' : 'Receita';
+    doc.itens = [item];
+    if (ehC1) doc.duasVias = true;
+    else if (ehAtb(m.n, m.a)) doc.duasVias = true;
+    if (localEhPoc() && suportaLayoutPoc(doc) && !doc.layoutPreOpLab) doc.layoutPoc = true;
+    S.drafts[key] = { doc, modeloId: null };
+    S.rxSwipe[slot] = key;
+  } else {
+    const doc = S.drafts[key].doc;
+    if (!Array.isArray(doc.itens)) doc.itens = [];
+    doc.itens = itensValidos(doc);
+    doc.itens.push(item);
+    if (!ehC1 && ehAtb(m.n, m.a)) doc.duasVias = true;
+  }
+  const nItens = itensValidos(S.drafts[key].doc).length;
+  renderMobRxDock();
+  if (S.ativo === key) { renderEditor(); renderPreview(); }
+  toast(`${m.n} → ${ehC1 ? 'Controle C1' : 'Receita'} (${nItens})`);
+}
+function renderMobRxDock() {
+  const dock = $('#mob-rx-dock'); if (!dock) return;
+  const kS = S.rxSwipe.simples && S.drafts[S.rxSwipe.simples] ? S.rxSwipe.simples : null;
+  const kE = S.rxSwipe.especial && S.drafts[S.rxSwipe.especial] ? S.rxSwipe.especial : null;
+  const nS = kS ? itensValidos(S.drafts[kS].doc).length : 0;
+  const nE = kE ? itensValidos(S.drafts[kE].doc).length : 0;
+  if (!nS) S.rxSwipe.simples = null;
+  if (!nE) S.rxSwipe.especial = null;
+  if (!nS && !nE) { dock.classList.add('hidden'); dock.innerHTML = ''; return; }
+  let h = '';
+  if (nS) h += `<button type="button" class="mob-rx-pill" data-rx-open="${esc(kS)}">${ic('pill')}<span>Receita</span><span class="rx-n">${nS}</span></button>`;
+  if (nS && nE) h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
+  if (nE) h += `<button type="button" class="mob-rx-pill is-esp" data-rx-open="${esc(kE)}">${ic('shield')}<span>Especial</span><span class="rx-n">${nE}</span></button>`;
+  h += `<button type="button" class="mob-rx-x" data-rx-close title="Ocultar aviso" aria-label="Ocultar">${ic('x')}</button>`;
+  dock.innerHTML = h;
+  dock.classList.remove('hidden');
 }
 function syncExChips() {
   const box = $('#qchips'), d = draft();
@@ -5546,6 +5706,7 @@ function renderFilaUI() {
   $('#btn-fila').title = n ? `Fila de impressão — ${n} documento${n > 1 ? 's' : ''}` : 'Fila de impressão (vazia)';
   renderFoot();
   if ($('#dlg-fila').open) renderFila();
+  if (!$('#pop-fila-ed')?.classList.contains('hidden')) renderFilaPop();
 }
 let MED_INDEX = [];
 let _cbAtivo = null; // { input, list, itens, idx }
@@ -6069,6 +6230,8 @@ async function novaConsulta() {
   clearTimeout(_undoTimer); _undoTimer = 0; _undoKey = null;
   const manter = S.ativo && getModelo(S.ativo) ? S.ativo : (db.recentes.find(getModelo) || db.modelos[0]?.id);
   S.drafts = {}; S.fila = []; S.calcAberta = false;
+  S.rxSwipe = { simples: null, especial: null };
+  renderMobRxDock(); toggleFilaPop(true);
   if (S.aba === 'texto') $('#tr-box')?.remove();
   fillPaciente(); abrir(manter, { semSalvar: true }); renderFilaUI();
   $('#p-nome').focus();
@@ -6146,7 +6309,17 @@ async function imprimirAgora(keys) {
     await Promise.all($$('img', root).map(i => i.decode().catch(() => {})));
     const ruins = $$('.page', root).map((p, i) => fitPage(p) === 3 ? (p.dataset.docTitle || docs[i]?.titulo || 'Documento') : null).filter(Boolean);
     if (ruins.length && !await ask({ title: 'Conteúdo pode sair cortado', msg: `Não coube na folha: <b>${ruins.map(esc).join(', ')}</b>. Imprimir mesmo assim?`, ok: 'Imprimir assim mesmo' })) { root.innerHTML = ''; return; }
-    if (!S.paciente.nome.trim() && !await ask({ title: 'Imprimir sem o nome do paciente?', msg: 'O campo “Paciente” está vazio — a linha sairá em branco para preencher à mão.', ok: 'Imprimir assim', cancel: 'Voltar e preencher' })) { root.innerHTML = ''; $('#p-nome').focus(); return; }
+    if (!S.paciente.nome.trim() && !await ask({ title: 'Imprimir sem o nome do paciente?', msg: 'O campo “Paciente” está vazio — a linha sairá em branco para preencher à mão.', ok: 'Imprimir assim', cancel: 'Voltar e preencher' })) {
+      root.innerHTML = '';
+      if (window.innerWidth <= 860) {
+        $('#app')?.classList.add('mob-pac-open');
+        $('#pop-pac')?.classList.remove('hidden');
+        setTimeout(() => $('#p-nome-mob')?.focus(), 20);
+      } else {
+        $('#p-nome')?.focus();
+      }
+      return;
+    }
     prepararOrientacao(root);
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     window.print();
@@ -6693,6 +6866,8 @@ function setMobTab(tab) {
   if (tab !== 'side') {
     app.classList.remove('mob-pac-open');
     $('#btn-mob-pac-toggle')?.setAttribute('aria-expanded', 'false');
+  } else {
+    toggleFilaPop(true);
   }
   fecharTopPopovers(false);
   $$('.mob-tab').forEach(b => {
@@ -6875,45 +7050,98 @@ function bind() {
   }
   let _swItemAtivo = false;
   if (sideListEl) {
-    let miEl = null, mMain = null, mAct = null, isx = 0, isy = 0, locked = false, firedVib = false, lastDx = 0;
+    let swBox = null, swMain = null, swAct = null, swKind = '', isx = 0, isy = 0, locked = false, firedVib = false, lastDx = 0;
     sideListEl.addEventListener('touchstart', e => {
       if (window.innerWidth > 860 || e.touches.length !== 1) return;
       const mi = e.target.closest('.mi:not(.sel-item)');
-      if (!mi || e.target.closest('.mi-a')) return;
-      miEl = mi; mMain = $('.mi-main', mi); mAct = $('.mi-a', mi);
+      const mdw = !mi ? e.target.closest('.md-wrap') : null;
+      if (mi) {
+        if (e.target.closest('.mi-a')) return;
+        swBox = mi; swMain = $('.mi-main', mi); swAct = $('.mi-a', mi); swKind = 'mi';
+      } else if (mdw) {
+        swBox = mdw; swMain = $('.md', mdw); swAct = null; swKind = 'md';
+      } else return;
       isx = e.touches[0].clientX; isy = e.touches[0].clientY;
       locked = false; firedVib = false; lastDx = 0; _swItemAtivo = false;
     }, { passive: true });
     sideListEl.addEventListener('touchmove', e => {
-      if (!miEl || window.innerWidth > 860) return;
+      if (!swBox || window.innerWidth > 860) return;
       const dx = e.touches[0].clientX - isx, dy = e.touches[0].clientY - isy;
       if (!locked) {
         if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-        if (dx <= 0 || Math.abs(dy) > Math.abs(dx) * 1.15) { miEl = null; return; }
+        if (dx <= 0 || Math.abs(dy) > Math.abs(dx) * 1.15) { swBox = null; return; }
         locked = true; _swItemAtivo = true;
-        miEl.classList.add('swiping');
+        swBox.classList.add('swiping');
       }
       lastDx = Math.max(0, Math.min(148, dx));
-      const tr = `translate3d(${lastDx}px,0,0)`;
-      if (mMain) mMain.style.transform = tr;
-      if (mAct) mAct.style.transform = `translate3d(${lastDx}px,-50%,0)`;
+      if (swMain) swMain.style.transform = `translate3d(${lastDx}px,0,0)`;
+      if (swAct) swAct.style.transform = `translate3d(${lastDx}px,-50%,0)`;
       const pronto = lastDx >= 74;
-      miEl.classList.toggle('sw-ready', pronto);
+      swBox.classList.toggle('sw-ready', pronto);
       if (pronto && !firedVib) { firedVib = true; navigator.vibrate?.(12); }
     }, { passive: true });
     const endMiSwipe = () => {
-      if (!miEl) return;
-      const alvo = miEl, disparar = locked && lastDx >= 74, key = alvo.dataset.key;
+      if (!swBox) return;
+      const alvo = swBox, disparar = locked && lastDx >= 74, tipo = swKind;
+      const key = alvo.dataset.key, medIdx = alvo.dataset.med;
       alvo.classList.remove('swiping', 'sw-ready');
-      if (mMain) mMain.style.transform = '';
-      if (mAct) mAct.style.transform = '';
-      miEl = mMain = mAct = null; locked = false;
+      if (swMain) swMain.style.transform = '';
+      if (swAct) swAct.style.transform = '';
+      swBox = swMain = swAct = null; swKind = ''; locked = false;
       setTimeout(() => { _swItemAtivo = false; }, 30);
-      if (disparar && key) toggleFila(key);
+      if (!disparar) return;
+      if (tipo === 'mi' && key) toggleFila(key);
+      else if (tipo === 'md' && medIdx !== undefined) addMedSwipe(+medIdx);
     };
     sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
     sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
   }
+  // Pop-up flutuante das receitas montadas via swipe em Medicamentos
+  $('#mob-rx-dock')?.addEventListener('click', e => {
+    if (e.target.closest('[data-rx-close]')) {
+      S.rxSwipe = { simples: null, especial: null };
+      renderMobRxDock();
+      return;
+    }
+    const b = e.target.closest('[data-rx-open]');
+    if (!b) return;
+    const key = b.dataset.rxOpen;
+    if (key && S.drafts[key]) {
+      abrir(key);
+      if (window.innerWidth <= 860) setMobTab('ed');
+    }
+  });
+  // Rodapé de ações da Prévia (espelho do Editor: Visualizar fila, Adc. à fila e Imprimir)
+  $('#pv-foot')?.addEventListener('click', e => {
+    const a = e.target.closest('[data-act]')?.dataset.act;
+    if (!a) return;
+    if (a === 'fila-pop') toggleFilaPop();
+    else if (a === 'fila') toggleFila(S.ativo);
+    else if (a === 'print-one') imprimir([S.ativo]);
+  });
+  // Pop-up conectado da Fila no Editor e na Prévia
+  $('#pop-fila-ed')?.addEventListener('click', e => {
+    const act = e.target.closest('[data-fp]')?.dataset.fp;
+    if (!act) return;
+    if (act === 'close') { toggleFilaPop(true); return; }
+    if (act === 'print') { toggleFilaPop(true); imprimir([...S.fila]); return; }
+    const row = e.target.closest('.fila-pop-it[data-key]');
+    if (!row) return;
+    const k = row.dataset.key, idx = S.fila.indexOf(k);
+    if (act === 'open') {
+      abrir(k);
+      toggleFilaPop(true);
+      if (window.innerWidth <= 860) setMobTab('ed');
+    } else if (act === 'rm') {
+      toggleFila(k);
+    } else if (act === 'up' && idx > 0) {
+      [S.fila[idx - 1], S.fila[idx]] = [S.fila[idx], S.fila[idx - 1]];
+      renderSide(); renderFilaUI();
+    } else if (act === 'down' && idx >= 0 && idx < S.fila.length - 1) {
+      [S.fila[idx + 1], S.fila[idx]] = [S.fila[idx], S.fila[idx + 1]];
+      renderSide(); renderFilaUI();
+    }
+  });
   // Swipe horizontal (carrossel mobile: Modelos <-> Editor <-> Prévia)
   const mainEl = $('.main');
   if (mainEl) {
@@ -7336,6 +7564,7 @@ function bind() {
       case 'del': excluirModelo(d.modeloId); break;
       case 'fav': toggleFav(d.modeloId); break;
       case 'fila': toggleFila(S.ativo); break;
+      case 'fila-pop': toggleFilaPop(); break;
       case 'print-one': imprimir([S.ativo]); break;
       case 'presc': abrirPresc(); break;
       case 'dual': pushUndo(S.ativo, true); d.doc.duasVias = true; d.doc.meiaFolha = false; renderEditor(); changed({ forcarSide: true }); toast('Receita em 2 vias (A4 deitado) ativada'); break;
@@ -7372,6 +7601,10 @@ function bind() {
     if (pp && !pp.classList.contains('hidden') && !pp.contains(e.target) && !$('#btn-mob-pac')?.contains(e.target)) {
       pp.classList.add('hidden'); $('#btn-mob-pac')?.setAttribute('aria-expanded', 'false');
     }
+    const pfe = $('#pop-fila-ed');
+    if (pfe && !pfe.classList.contains('hidden') && !pfe.contains(e.target) && !e.target.closest('[data-act="fila-pop"]')) {
+      toggleFilaPop(true);
+    }
   });
   let _lastWinW = window.innerWidth;
   window.addEventListener('resize', () => {
@@ -7404,6 +7637,7 @@ function bind() {
     else if (((mod && e.shiftKey && k === 'z') || (mod && k === 'y')) && !aberto && !isTyping(e.target)) { e.preventDefault(); refazer(); }
     else if (mod && e.key === 'Enter') { e.preventDefault(); if (!aberto) toggleFila(S.ativo); }
     else if (e.key === 'Escape' && menuEl) { e.preventDefault(); closeMenu(true); }
+    else if (e.key === 'Escape' && !$('#pop-fila-ed')?.classList.contains('hidden')) { e.preventDefault(); toggleFilaPop(true); }
     else if (e.key === 'Escape' && (!$('#pop-cond')?.classList.contains('hidden') || !$('#pop-alg')?.classList.contains('hidden') || !$('#pop-pac')?.classList.contains('hidden'))) { e.preventDefault(); fecharTopPopovers(true); }
     else if (e.key === 'Escape' && document.activeElement?.classList.contains('tip')) { e.preventDefault(); document.activeElement.blur(); }
     else if (e.key === '?' && !isTyping(e.target) && !aberto) abrirAjuda();
