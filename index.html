@@ -997,7 +997,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
 
 /* Navegação inferior e carrossel exclusivos para celulares (mantém 3 colunas no desktop) */
-.mob-nav,.mob-only{display:none}
+.mob-nav,.mob-only,.mi-sw{display:none}
 @media (max-width:860px){
   .mob-only{display:inline-flex}
   .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}
@@ -1041,11 +1041,23 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .ed{order:2}
   .center{order:3}
 
-  /* Modelos limpo e fluido no celular */
+  /* Modelos limpo e fluido no celular + Favorito limpo + Swipe estilo Gmail "Adc. à Fila" */
   .side-brand,.side-local,.side .sel-vazio,.side kbd,.side-f{display:none!important}
   .side-h{padding:8px 10px 8px;gap:7px}
   .side-list{padding:4px 8px calc(86px + env(safe-area-inset-bottom,0px))}
-  .side .mi-main{padding:9px 10px}
+  .side .mi{position:relative;overflow:hidden;border-radius:10px}
+  .side .mi-sw{position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding-left:16px;background:#eaf4ff;color:#0b4a8a;font-size:12.5px;font-weight:750;letter-spacing:.01em;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .12s,background .15s}
+  .side .mi-sw svg.i{width:16px;height:16px;color:#0b6fc7;flex:none}
+  .side .mi.swiping .mi-sw{opacity:1}
+  .side .mi.swiping.sw-ready .mi-sw{background:#d4eaff;color:#08386b}
+  .side .mi-main{position:relative;z-index:1;padding:9px 10px;background:var(--navy);transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .side .mi.on .mi-main{background:#123257}
+  .side .mi:not(.sel-item) .mi-main{padding-right:44px}
+  .side .mi:not(.sel-item) .mi-a{pointer-events:auto;right:4px;padding:0;background:none!important;z-index:2;transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .side .mi:not(.sel-item) .mi-a [data-act="fila"]{display:none!important}
+  .side .mi:not(.sel-item) .mi-a [data-act="fav"]{opacity:1;pointer-events:auto;width:34px;height:34px;color:#8aa4c2;border-radius:9px}
+  .side .mi:not(.sel-item) .mi-a [data-act="fav"].fav-on{color:#f5c042}
+  .side .mi.swiping .mi-main,.side .mi.swiping .mi-a{transition:none}
   .side .mi-t{font-size:13.5px}
   .side .grp-t{padding:9px 8px;font-size:13px}
 
@@ -4527,7 +4539,8 @@ function itemHTML(key, doc, sel = false, emBusca = false) {
   const subTxt = [infoTipo.chip || infoTipo.label, res].filter(Boolean).join(' · ');
   const pinCount = sel ? 0 : (m?.fav ? 1 : 0) + (qi >= 0 ? 1 : 0);
   const pinCls = pinCount === 2 ? ' has-pin2' : (pinCount === 1 ? ' has-pin' : '');
-  return `<div class="mi t-${t}${key === S.ativo ? ' on' : ''}${pinCls}" data-key="${esc(key)}">
+  return `<div class="mi t-${t}${key === S.ativo ? ' on' : ''}${sel ? ' sel-item' : ''}${pinCls}" data-key="${esc(key)}">
+    ${sel ? '' : `<span class="mi-sw" aria-hidden="true">${ic('layers')}<span>${qi >= 0 ? 'Tirar da Fila' : 'Adc. à Fila'}</span></span>`}
     <button type="button" class="mi-main" data-act="open"${key === S.ativo ? ' aria-current="true"' : ''}>
       ${sel ? `<span class="sel-ord" aria-hidden="true">${qi + 1}</span>` : ''}<span class="mi-ic" aria-hidden="true">${ic(infoTipo.icon)}</span>
       <span class="mi-b"><span class="mi-t" title="${esc(raw)}">${esc(limpo)}</span><span class="mi-s">${badges}<span class="mi-sub">${esc(subTxt)}${tag}</span></span></span>
@@ -6698,6 +6711,49 @@ function bind() {
     changed();
   });
   $('#btn-mob-nova')?.addEventListener('click', () => { fecharTopPopovers(false); novaConsulta(); });
+  // Swipe estilo Gmail (esquerda -> direita) nos modelos no celular para "Adc. à Fila"
+  const sideListEl = $('#side-list');
+  let _swItemAtivo = false;
+  if (sideListEl) {
+    let miEl = null, mMain = null, mAct = null, isx = 0, isy = 0, locked = false, firedVib = false, lastDx = 0;
+    sideListEl.addEventListener('touchstart', e => {
+      if (window.innerWidth > 860 || e.touches.length !== 1) return;
+      const mi = e.target.closest('.mi:not(.sel-item)');
+      if (!mi || e.target.closest('.mi-a')) return;
+      miEl = mi; mMain = $('.mi-main', mi); mAct = $('.mi-a', mi);
+      isx = e.touches[0].clientX; isy = e.touches[0].clientY;
+      locked = false; firedVib = false; lastDx = 0; _swItemAtivo = false;
+    }, { passive: true });
+    sideListEl.addEventListener('touchmove', e => {
+      if (!miEl || window.innerWidth > 860) return;
+      const dx = e.touches[0].clientX - isx, dy = e.touches[0].clientY - isy;
+      if (!locked) {
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        if (dx <= 0 || Math.abs(dy) > Math.abs(dx) * 1.15) { miEl = null; return; }
+        locked = true; _swItemAtivo = true;
+        miEl.classList.add('swiping');
+      }
+      lastDx = Math.max(0, Math.min(148, dx));
+      const tr = `translate3d(${lastDx}px,0,0)`;
+      if (mMain) mMain.style.transform = tr;
+      if (mAct) mAct.style.transform = `translate3d(${lastDx}px,-50%,0)`;
+      const pronto = lastDx >= 74;
+      miEl.classList.toggle('sw-ready', pronto);
+      if (pronto && !firedVib) { firedVib = true; navigator.vibrate?.(12); }
+    }, { passive: true });
+    const endMiSwipe = () => {
+      if (!miEl) return;
+      const alvo = miEl, disparar = locked && lastDx >= 74, key = alvo.dataset.key;
+      alvo.classList.remove('swiping', 'sw-ready');
+      if (mMain) mMain.style.transform = '';
+      if (mAct) mAct.style.transform = '';
+      miEl = mMain = mAct = null; locked = false;
+      setTimeout(() => { _swItemAtivo = false; }, 30);
+      if (disparar && key) toggleFila(key);
+    };
+    sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
+    sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
+  }
   // Swipe horizontal (carrossel mobile: Modelos <-> Editor <-> Prévia)
   const mainEl = $('.main');
   if (mainEl) {
@@ -6711,8 +6767,10 @@ function bind() {
       ativoSwipe = true; travado = false;
     }, { passive: true });
     mainEl.addEventListener('touchmove', e => {
-      if (!ativoSwipe || window.innerWidth > 860) return;
+      if (!ativoSwipe || _swItemAtivo || window.innerWidth > 860) return;
       const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+      const curMob = $('#app')?.dataset.mob || 'side';
+      if (curMob === 'side' && dx > 0) { ativoSwipe = false; return; }
       if (!travado) {
         if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
         if (Math.abs(dy) > Math.abs(dx) * 1.15) { ativoSwipe = false; return; }
