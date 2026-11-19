@@ -1151,12 +1151,21 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-rx-split{background:rgba(12,35,64,.16)}
   html:not([data-theme=dark]) .mob-rx-x{color:#5b6b7f}
 
-  /* Rodapé de ações visível tanto no Editor quanto na Prévia no celular */
-  .pv-foot{display:flex;gap:6px;flex:none;background:var(--surface);border-top:1px solid var(--line);padding:10px 10px calc(76px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 20px -16px rgba(15,28,46,.35)}
-  .ed-foot{padding:10px 10px calc(76px + env(safe-area-inset-bottom,0px));gap:6px}
-  .ed-foot .btn,.pv-foot .btn{height:42px;font-size:12.5px;padding:0 10px}
-  .ed-foot .btn:not(.btn-fila-view),.pv-foot .btn:not(.btn-fila-view){flex:1;min-width:0}
+  /* Rodapé de ações flutuante em vidro (igual ao dock de receitas), com 3 botões de tamanho igual no Editor e na Prévia */
+  .ed,.center{position:relative}
+  .ed-foot,.pv-foot{position:absolute;left:10px;right:10px;bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:60;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
+  .ed-foot .btn,.pv-foot .btn{width:100%;height:38px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:700;gap:5px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none}
+  .ed-foot .btn-secondary,.pv-foot .btn-secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);color:#eef5ff}
+  .ed-foot .btn-fila-view.has-q,.pv-foot .btn-fila-view.has-q{background:rgba(35,137,232,.36);border-color:rgba(125,184,240,.46);color:#ffffff}
+  .ed-foot .btn-fila-view .count,.pv-foot .btn-fila-view .count{background:rgba(255,255,255,.22);color:#ffffff}
+  .ed-foot .btn-fila-view.has-q .count,.pv-foot .btn-fila-view.has-q .count{background:#ffffff;color:#0b4a8a}
+  .ed-foot .btn-primary,.pv-foot .btn-primary{background:linear-gradient(180deg,rgba(35,137,232,.92),rgba(11,111,199,.96));border:1px solid rgba(255,255,255,.28);color:#ffffff}
   .ed-foot .lbl-desk,.pv-foot .lbl-desk{display:none}
+  html:not([data-theme=dark]) .ed-foot,html:not([data-theme=dark]) .pv-foot{background:linear-gradient(180deg,rgba(255,255,255,.84) 0%,rgba(238,245,252,.9) 100%);border-color:rgba(12,35,64,.14);box-shadow:0 12px 30px -6px rgba(12,35,64,.24),inset 0 1px 0 rgba(255,255,255,.95)}
+  html:not([data-theme=dark]) .ed-foot .btn-secondary,html:not([data-theme=dark]) .pv-foot .btn-secondary{background:rgba(12,35,64,.06);border-color:rgba(12,35,64,.12);color:#1d3550}
+  html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
+  html:not([data-theme=dark]) .ed-foot .btn-fila-view .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view .count{background:rgba(12,35,64,.1);color:#1d3550}
+  html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q .count{background:#0b6fc7;color:#ffffff}
   .fila-pop{left:10px;right:10px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:auto;max-height:56dvh}
 
   #btn-side{display:none}
@@ -1164,9 +1173,9 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .pv-title h2{font-size:13px}
   .zoom{height:30px}
   .zoom .zoom-fit{display:none}
-  .pv-scroll{padding:10px 8px 18px}
+  .pv-scroll{padding:10px 8px calc(138px + env(safe-area-inset-bottom,0px))}
   .ed-h{padding:10px 12px}
-  .ed-body{padding:10px 12px 24px}
+  .ed-body{padding:10px 12px calc(138px + env(safe-area-inset-bottom,0px))}
   #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
   dialog.dlg{width:calc(100vw - 16px);max-height:calc(100dvh - 24px);border-radius:14px}
   .dlg-h{padding:16px 16px 10px}
@@ -4704,7 +4713,7 @@ function itemHTML(key, doc, sel = false, emBusca = false) {
     </button>
     <div class="mi-a">
       ${m ? `<button type="button" class="ib ib-sm${m.fav ? ' fav-on' : ''}" data-act="fav" title="${m.fav ? 'Remover dos favoritos' : 'Favoritar'}" aria-label="${m.fav ? 'Remover dos favoritos: ' : 'Favoritar: '}${esc(limpo)}" aria-pressed="${m.fav ? 'true' : 'false'}">${ic(m.fav ? 'star-f' : 'star')}</button>` : ''}
-      ${sel ? `<button type="button" class="ib ib-sm" data-act="fila" title="Tirar dos selecionados para impressão" aria-label="Remover da fila: ${esc(limpo)}">${ic('x')}</button>`
+      ${sel ? `<button type="button" class="ib ib-sm" data-act="fila" title="Tirar dos selecionados para impressão" aria-label="Remover da fila: ${esc(limpo)}">${ic('trash')}</button>`
         : `<button type="button" class="ib ib-sm${qi >= 0 ? ' q-on' : ''}" data-act="fila" title="${qi >= 0 ? 'Remover da fila' : 'Selecionar para impressão'}" aria-label="${qi >= 0 ? 'Remover da fila: ' : 'Selecionar para impressão: '}${esc(limpo)}" aria-pressed="${qi >= 0 ? 'true' : 'false'}">${qi >= 0 ? `<span class="qn">${qi + 1}</span>` : ic('layers')}</button>`}
     </div></div>`;
 }
@@ -5618,7 +5627,7 @@ function renderFilaPop() {
         <div class="fp-act">
           <button type="button" class="ib ib-sm" data-fp="up" title="Mover para cima" aria-label="Subir"${i ? '' : ' disabled'}>${ic('up')}</button>
           <button type="button" class="ib ib-sm" data-fp="down" title="Mover para baixo" aria-label="Descer"${i < n - 1 ? '' : ' disabled'}>${ic('down')}</button>
-          <button type="button" class="ib ib-sm danger" data-fp="rm" title="Remover da fila" aria-label="Remover">${ic('x')}</button>
+          <button type="button" class="ib ib-sm danger" data-fp="rm" title="Remover da fila" aria-label="Remover">${ic('trash')}</button>
         </div>
       </div>`;
     }).join('') : '<div class="fila-pop-empty">A fila está vazia.<br>Toque em <b>Adc. à fila</b> ou arraste um modelo para a direita na biblioteca.</div>'}</div>
@@ -6602,7 +6611,7 @@ function renderFila() {
       <button type="button" class="fq-b" data-act="fq-open" title="Abrir no editor"><b>${esc(tit)}</b><small>${infoTipo.label}${isSplit(doc) ? ' · A4 deitado, 2 vias' : ''}${S.drafts[k] && isDirty(k) ? ' · editado' : ''}</small></button>
       <button type="button" class="ib ib-sm" data-act="fq-up" title="Subir" aria-label="Mover ${esc(tit)} para cima na fila" ${i ? '' : 'disabled'}>${ic('up')}</button>
       <button type="button" class="ib ib-sm" data-act="fq-down" title="Descer" aria-label="Mover ${esc(tit)} para baixo na fila" ${i < n - 1 ? '' : 'disabled'}>${ic('down')}</button>
-      <button type="button" class="ib ib-sm danger" data-act="fq-rm" title="Remover da fila" aria-label="Remover ${esc(tit)} da fila">${ic('x')}</button></div>`;
+      <button type="button" class="ib ib-sm danger" data-act="fq-rm" title="Remover da fila" aria-label="Remover ${esc(tit)} da fila">${ic('trash')}</button></div>`;
     }).join('')
     : `<div class="empty-st">${ic('layers')}<b>A fila está vazia</b><p>Monte o kit da consulta clicando em ${ic('layers')} ao lado de um modelo, ou em “Adicionar à fila” no editor.</p></div>`}</div>
   <div class="dlg-f">${n ? `<button type="button" class="btn btn-ghost" data-act="fq-clear">Esvaziar</button><span class="sp"></span>` : ''}<button type="button" class="btn btn-ghost" data-close>Fechar</button>${n ? `<button type="button" class="btn btn-primary" data-act="fq-print">${ic('print')} Imprimir ${n} documento${n > 1 ? 's' : ''}</button>` : ''}</div>`;
