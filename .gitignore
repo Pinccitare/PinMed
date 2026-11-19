@@ -16,3 +16,7 @@ node_modules/
 dist/
 launcher/*.exe
 launcher/pacote.bin
+
+# Antigravity local data – não versionar
+.agents/
+PinMed.zip
