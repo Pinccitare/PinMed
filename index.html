@@ -972,17 +972,23 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 /* Tutorial guiado (Spotlight Tour) */
 #tour-bg{position:fixed;inset:0;background:rgba(8,18,32,.56);z-index:9990;pointer-events:auto;transition:opacity .18s}
 #tour-spot{position:fixed;z-index:9991;border-radius:12px;border:2px solid #4fc3f7;box-shadow:0 0 0 9999px rgba(8,18,32,.62),0 0 0 4px rgba(79,195,247,.32);pointer-events:none;transition:top .2s ease,left .2s ease,width .2s ease,height .2s ease}
-#tour-card{position:fixed;z-index:9992;width:min(360px,calc(100vw - 24px));background:var(--surf,#fff);color:var(--ink,#0f1c2e);border:1px solid var(--line,#d8e2ee);border-radius:14px;padding:16px 18px;box-shadow:0 18px 48px rgba(8,18,32,.32);display:flex;flex-direction:column;gap:10px}
+#tour-card{position:fixed;z-index:9992;width:min(360px,calc(100vw - 24px));background:#ffffff;color:#0b1c30;border:1px solid #cbd8e6;border-radius:16px;padding:16px 18px;box-shadow:0 20px 52px rgba(6,16,30,.38);display:flex;flex-direction:column;gap:10px}
+[data-theme=dark] #tour-card{background:#0f1f33;color:#f5f9ff;border-color:#2b4564;box-shadow:0 20px 56px rgba(0,0,0,.65)}
 #tour-card .tour-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-#tour-card .tour-badge{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#0284c7;background:rgba(2,132,199,.12);padding:3px 9px;border-radius:99px}
-[data-theme=dark] #tour-card .tour-badge{color:#7dd3fc;background:rgba(125,211,252,.16)}
-#tour-card .tour-skip{background:none;border:0;color:var(--muted,#5b6b7f);font-size:12px;font-weight:600;cursor:pointer;padding:2px 6px;border-radius:6px}
-#tour-card .tour-skip:hover{background:var(--surf-2,rgba(15,28,46,.06));color:var(--ink)}
-#tour-card h3{margin:0;font-size:15px;font-weight:750;line-height:1.3}
-#tour-card p{margin:0;font-size:13px;line-height:1.5;color:var(--muted,#475569)}
-[data-theme=dark] #tour-card p{color:#cbd5e1}
+#tour-card .tour-badge{font-size:11px;font-weight:750;letter-spacing:.04em;text-transform:uppercase;color:#0b5fa8;background:#e3f1ff;padding:3px 10px;border-radius:99px}
+[data-theme=dark] #tour-card .tour-badge{color:#8fd0ff;background:rgba(94,176,255,.18)}
+#tour-card .tour-skip{background:none;border:0;color:#475c73;font-size:12.5px;font-weight:650;cursor:pointer;padding:4px 8px;border-radius:7px}
+#tour-card .tour-skip:hover{background:rgba(15,28,46,.07);color:#0b1c30}
+[data-theme=dark] #tour-card .tour-skip{color:#a8c0da}
+[data-theme=dark] #tour-card .tour-skip:hover{background:rgba(255,255,255,.08);color:#ffffff}
+#tour-card h3{margin:0;font-size:15.5px;font-weight:750;line-height:1.3;color:#0b1c30}
+[data-theme=dark] #tour-card h3{color:#f5f9ff}
+#tour-card p{margin:0;font-size:13.5px;line-height:1.52;color:#24364a;font-weight:450}
+[data-theme=dark] #tour-card p{color:#d8e4f2}
 #tour-card .tour-act{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
 #tour-card .tour-nav{display:flex;gap:8px;margin-left:auto}
+.top-pop-f{display:flex;justify-content:flex-end;padding-top:6px;border-top:1px solid var(--line);margin-top:2px}
+.top-pop-f .btn{min-width:74px;height:32px;font-size:12.5px;font-weight:700}
 @media print{#tour-bg,#tour-spot,#tour-card,.mob-nav,#save-pop{display:none!important}}
 
 /* Pop-up breve "Salvo!" (visível inclusive sobre <dialog>) */
@@ -1036,14 +1042,12 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .center{order:3}
 
   /* Modelos limpo e fluido no celular */
-  .side-brand,.side-local,.side .sel-vazio,.side kbd{display:none!important}
+  .side-brand,.side-local,.side .sel-vazio,.side kbd,.side-f{display:none!important}
   .side-h{padding:8px 10px 8px;gap:7px}
-  .side-list{padding:4px 8px 86px}
+  .side-list{padding:4px 8px calc(86px + env(safe-area-inset-bottom,0px))}
   .side .mi-main{padding:9px 10px}
   .side .mi-t{font-size:13.5px}
   .side .grp-t{padding:9px 8px;font-size:13px}
-  .side-f{padding:8px 10px calc(74px + env(safe-area-inset-bottom,0px))}
-  .side-f .btn{height:38px}
 
   #btn-side{display:none}
   .pv-bar{height:44px;padding:0 8px;gap:6px}
@@ -1053,7 +1057,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .pv-scroll{padding:10px 8px calc(86px + env(safe-area-inset-bottom,0px))}
   .ed-h{padding:10px 12px}
   .ed-body{padding:10px 12px 24px}
-  .ed-foot{padding:10px 12px calc(74px + env(safe-area-inset-bottom,0px))}
+  .ed-foot{padding:10px 12px calc(78px + env(safe-area-inset-bottom,0px))}
   .ed-foot .btn{height:42px;font-size:13px;padding:0 12px}
   #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
   dialog.dlg{width:calc(100vw - 16px);max-height:calc(100dvh - 24px);border-radius:14px}
@@ -1061,13 +1065,17 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .dlg-b{padding:4px 16px 16px}
   .dlg-f{padding:12px 16px}
 
-  /* Pílula flutuante inferior na paleta azul-marinho do PinMed */
-  .mob-nav{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:4px;height:52px;padding:5px;border-radius:999px;background:rgba(12,35,64,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(94,176,255,.26);box-shadow:0 12px 32px -6px rgba(6,16,30,.58),inset 0 1px 0 rgba(255,255,255,.08);z-index:80}
-  .mob-tab{height:42px;min-width:92px;padding:0 14px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;border-radius:999px;color:#a9c2de;font-size:12px;font-weight:650;transition:background .16s ease,color .16s ease,transform .12s ease}
-  .mob-tab svg.i{width:17px;height:17px;flex:none}
-  .mob-tab.on{background:rgba(94,176,255,.24);color:#ffffff;box-shadow:inset 0 0 0 1px rgba(94,176,255,.42)}
-  .mob-tab:active{transform:scale(.96)}
-  .toast{bottom:76px;max-width:calc(100vw - 24px)}
+  /* Barra flutuante inferior estilo vidro (Liquid Glass) na paleta PinMed */
+  .mob-nav{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:4px;height:54px;padding:5px 6px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.54) 0%,rgba(9,22,40,.66) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.24);box-shadow:0 14px 36px -6px rgba(4,12,24,.52),inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(255,255,255,.08);z-index:80;max-width:calc(100vw - 16px)}
+  .mob-new{width:42px;height:42px;flex:none;display:inline-grid;place-items:center;border-radius:999px;background:linear-gradient(180deg,rgba(35,137,232,.86),rgba(11,111,199,.92));color:#ffffff;border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 4px 12px -2px rgba(11,111,199,.55);transition:transform .12s ease,filter .14s ease}
+  .mob-new svg.i{width:19px;height:19px;stroke-width:2.4}
+  .mob-new:active{transform:scale(.93)}
+  .mob-sep{width:1px;height:24px;background:rgba(255,255,255,.18);margin:0 2px;flex:none}
+  .mob-tab{height:42px;min-width:78px;padding:0 12px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:5px;border-radius:999px;color:rgba(232,242,255,.82);font-size:12px;font-weight:650;transition:background .16s ease,color .16s ease,transform .12s ease}
+  .mob-tab svg.i{width:16px;height:16px;flex:none}
+  .mob-tab.on{background:rgba(255,255,255,.22);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.36),0 2px 10px rgba(0,0,0,.18)}
+  .mob-tab:active{transform:scale(.95)}
+  .toast{bottom:78px;max-width:calc(100vw - 24px)}
 }
 </style>
 </head>
@@ -1150,6 +1158,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
           <div class="top-pop-h"><b>Paciente e consulta</b><button type="button" class="top-pop-clr" id="btn-mob-nova">Nova consulta</button></div>
           <div class="cond-peso"><label for="p-nome-mob">Nome completo</label><input class="in" id="p-nome-mob" placeholder="Nome completo do paciente" autocomplete="off" spellcheck="false"></div>
           <div class="cond-peso"><label for="p-data-mob">Data da consulta</label><input class="in" id="p-data-mob" type="date"></div>
+          <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
       <label class="pf pf-nome"><span class="pf-l">Paciente</span><input id="p-nome" data-p="nome" placeholder="Nome completo — sai em todos os documentos" autocomplete="off" spellcheck="false"></label>
@@ -1164,6 +1173,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
           <input class="in" id="alg-search" placeholder="Buscar medicação ou classe no app..." autocomplete="off" spellcheck="false" aria-label="Buscar medicação ou classe para alergia">
           <div class="alg-chips hidden" id="alg-chips"></div>
           <div class="alg-res" id="alg-results" role="listbox" aria-label="Sugestões de medicações e classes"></div>
+          <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
       <div class="pf-pop-wrap pf-cond-wrap">
@@ -1191,6 +1201,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
               <input class="in" id="p-peso" data-p="peso" inputmode="decimal" placeholder="Ex.: 15" autocomplete="off" spellcheck="false">
             </div>
           </div>
+          <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
       <label class="pf pf-data"><span class="pf-l">Data</span><input id="p-data" data-p="data" type="date"></label>
@@ -1263,6 +1274,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
     <aside class="ed" id="ed" aria-label="Editor"></aside>
   </div>
   <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
+    <button type="button" class="mob-new" id="btn-mob-novo" title="Novo documento" aria-label="Novo documento" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
+    <span class="mob-sep" aria-hidden="true"></span>
     <button type="button" class="mob-tab on" data-mob="side" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Modelos</span></button>
     <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
     <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
@@ -6624,6 +6637,16 @@ function bind() {
     if (el.tagName === 'SELECT') el.addEventListener('change', () => { onPacField(el); renderMobPacUI(); });
   });
   $$('.mob-tab').forEach(b => b.addEventListener('click', () => setMobTab(b.dataset.mob)));
+  $('#btn-mob-novo')?.addEventListener('click', e => menuNovo(e.currentTarget));
+  $$('[data-pop-ok]').forEach(b => b.addEventListener('click', () => {
+    if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
+    fecharTopPopovers(false);
+    if (window.innerWidth <= 860 && $('#app')?.dataset.mob !== 'side') {
+      $('#app')?.classList.remove('mob-pac-open');
+      $('#btn-mob-pac-toggle')?.setAttribute('aria-expanded', 'false');
+      renderMobPacUI();
+    }
+  }));
   $('#btn-mob-pac-toggle')?.addEventListener('click', () => {
     const app = $('#app'); if (!app) return;
     const abrirBar = !app.classList.contains('mob-pac-open');
