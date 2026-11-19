@@ -639,10 +639,6 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
   --focus:0 0 0 3px rgba(94,176,255,.28);
   background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);border-right:0;color:var(--text);color-scheme:dark
 }
-html:not([data-theme=dark]) .side{
-  --navy:#1e4b82; --navy-2:#173c69;
-  background:linear-gradient(180deg,#1e4b82 0%,#173c69 100%)
-}
 .side-brand{display:flex;align-items:center;gap:11px;padding:16px 16px 12px}
 .side-brand .brand{width:auto;gap:11px}
 .side-brand .brand svg{width:42px;height:42px;padding:0;border-radius:0;background:transparent;box-shadow:none;flex:none}
@@ -748,12 +744,16 @@ html:not([data-theme=dark]) .side{
 .side ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);background-clip:padding-box}
 
 /* ---------- Cabeçalho ---------- */
-.top{background:var(--surface);border-bottom:1px solid var(--line);padding:0 14px;gap:10px}
-.top>.brand{display:flex;width:auto;flex:none;gap:8px;font-size:17px;color:var(--text);align-items:center}
+.top{background:var(--surface);border-bottom:1px solid var(--line);padding:0 14px 0 0;gap:10px}
+.top>.brand{display:flex;width:284px;justify-content:center;flex:none;gap:10px;font-size:21px;font-weight:750;letter-spacing:-.025em;color:var(--text);align-items:center}
+.app.no-side .top>.brand{width:auto;padding-left:6px}
+@media (max-width:1400px){.top>.brand{width:260px}}
+@media (max-width:1280px){.top>.brand{width:248px}}
+@media (max-width:1120px){.top>.brand{width:232px}}
 .top>.brand span{display:inline!important;color:var(--text)}
 .top>.brand span b{color:var(--brand)}
-.top>.brand svg{width:30px;height:30px;flex:none}
-#btn-side-open{display:none}
+.top>.brand svg{width:38px;height:38px;flex:none}
+#btn-side-open{display:none;margin-left:10px}
 .app.no-side #btn-side-open{display:inline-grid}
 .pac{max-width:none;gap:7px;flex:1;min-width:0}
 .pf{height:36px;border-radius:10px;background:var(--surface-2);border-color:var(--line);padding:0 11px;justify-content:center}
@@ -990,10 +990,18 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 @keyframes pm-in{from{opacity:0;transform:translateY(5px)}}
 
 /* ajustes de cabeçalho e barra lateral */
-.side-local{padding:10px 10px 8px;display:flex;flex-direction:row;align-items:center;gap:6px}
+.side-local{position:relative;padding:10px 10px 8px;display:flex;flex-direction:row;align-items:center;gap:6px}
 .side-local .ib{width:34px;height:34px;flex:none;color:#c7d6e6;border-radius:9px}
 .side-local .ib:hover{background:rgba(255,255,255,.12);color:#fff}
-.side .ctx-pills,.side .chips{display:none!important}
+.side .ctx-pills,.side .chips,.side .grp-t .n,.side .sec-t .n{display:none!important}
+.loc-btn{flex:1;min-width:0;cursor:pointer;text-align:left;justify-content:flex-start;padding:0 28px 0 10px}
+.loc-btn-tx{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;font-weight:600;color:#f1f6fc}
+.pop-local-side{position:absolute;top:calc(100% - 2px);left:10px;width:min(310px,calc(100vw - 24px));z-index:130;color:var(--text);color-scheme:light dark}
+.side .pop-local-side{--surface:#ffffff;--surface-2:#f6f8fb;--line:#e2e8f0;--line-strong:#cbd5e1;--text:#0f1c2e;--text-2:#46556a;--text-3:#5b6b80;--brand-soft:#e8f2fc;--info:#0b6fc7;--info-soft:#e8f2fc;--info-line:#b6d4f4}
+[data-theme=dark] .side .pop-local-side{--surface:#0f1d2e;--surface-2:#132438;--line:#1f3249;--line-strong:#2b4360;--text:#e8eef6;--text-2:#a9b8cb;--text-3:#8ca1ba;--brand-soft:#11294a;--info:#4ea3f5;--info-soft:#11294a;--info-line:#1f4c7d}
+.side .pop-local-side .in{background:var(--surface-2);border-color:var(--line-strong);color:var(--text)}
+.pv-zoom-float .zoom-fit{width:30px;height:30px;padding:0;display:inline-grid;place-items:center}
+.pv-zoom-float .zoom-fit svg.i{width:15px;height:15px}
 .side .hsel{position:relative;max-width:none;width:100%;height:38px;border-radius:10px;padding:0 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#f1f6fc;transition:background .15s,border-color .15s,box-shadow .15s}
 .side .hsel:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.18)}
 .side .hsel:focus-within{background:rgba(255,255,255,.12);border-color:var(--brand-line);box-shadow:var(--focus)}
@@ -1091,8 +1099,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html,body{overflow:hidden;overflow-x:clip}
   .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden;overflow-x:clip}
   .top{flex:none;height:auto;flex-wrap:wrap;padding:6px 10px;gap:6px;z-index:30}
-  .top>.brand{display:flex!important;order:1;font-size:15px}
-  .top>.brand svg{width:25px;height:25px}
+  .top>.brand{display:flex!important;width:auto!important;justify-content:flex-start;order:1;font-size:16px;gap:7px}
+  .top>.brand svg{width:26px;height:26px}
   .mob-pac-toggle{order:2;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-2);font-size:12px;font-weight:650;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mob-pac-toggle.has-val{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
   .mob-pac-toggle.has-alg{background:var(--danger-soft);border-color:var(--danger-line);color:var(--danger)}
@@ -1360,6 +1368,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
     <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
   </defs>
 </svg>
 
@@ -1450,8 +1459,15 @@ body.pm-locked .app{pointer-events:none;user-select:none}
   <div class="main">
     <aside class="side" aria-label="Biblioteca">
       <div class="side-local">
-        <div class="hsel" title="Local de atendimento">
-          <svg class="i" aria-hidden="true"><use href="#i-building"/></svg><select id="sel-local" aria-label="Local de atendimento"></select>
+        <button type="button" class="hsel loc-btn" id="btn-local" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-local-side" title="Selecionar ou buscar local de atendimento">
+          <svg class="i" aria-hidden="true"><use href="#i-building"/></svg>
+          <span class="loc-btn-tx" id="local-summary">Local</span>
+        </button>
+        <select id="sel-local" class="sr-only" tabindex="-1" aria-hidden="true"></select>
+        <div class="top-pop pop-local-side hidden" id="pop-local-side" role="dialog" aria-label="Local de atendimento">
+          <div class="top-pop-h"><b>Local de atendimento</b></div>
+          <input class="in" id="local-search" placeholder="Buscar unidade ou hospital..." autocomplete="off" spellcheck="false" aria-label="Buscar local de atendimento">
+          <div class="alg-res" id="local-results" role="listbox" aria-label="Locais de atendimento"></div>
         </div>
         <button type="button" class="ib" id="btn-side" title="Recolher biblioteca (Ctrl+B)" aria-label="Recolher biblioteca" aria-expanded="true"><svg class="i" aria-hidden="true"><use href="#i-panel"/></svg></button>
       </div>
@@ -1485,7 +1501,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
           <button type="button" class="ib" id="z-out" title="Diminuir zoom (Alt+-)" aria-label="Diminuir zoom"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg></button>
           <button type="button" class="zoom-v" id="z-val" title="Redefinir zoom para 100% (Alt+0)" aria-label="Redefinir zoom para 100%">100%</button>
           <button type="button" class="ib" id="z-in" title="Aumentar zoom (Alt+=)" aria-label="Aumentar zoom"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
-          <button type="button" class="zoom-fit" id="z-fit" title="Caber folha inteira na altura da tela" aria-pressed="false">Folha inteira</button>
+          <button type="button" class="zoom-fit" id="z-fit" title="Folha inteira (ajustar à tela)" aria-label="Folha inteira" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-expand"/></svg></button>
         </div>
       </div>
     </section>
@@ -4859,9 +4875,9 @@ function renderSide() {
   let html = '';
   // Selecionados para impressão: na ordem em que foram clicados
   const sel = S.fila.map(k => [k, docDe(k)]).filter(([, d]) => d);
-  html += sel.length
-    ? `<div class="sel-sec"><div class="sec-h">${ic('print')}<span>Fila</span><span class="n">${sel.length}</span><span class="sp"></span><button type="button" class="sel-print-btn" data-act="sel-print" title="Imprimir os ${sel.length} documento${sel.length > 1 ? 's' : ''} da fila">${ic('print')} Imprimir (${sel.length})</button><button type="button" class="lnk" data-act="sel-limpar" title="Limpar fila">Limpar</button></div>${sel.map(([k, d]) => itemHTML(k, d, true)).join('')}</div>`
-    : `<div class="sel-vazio">${ic('layers')}<span>Clique em <b>${ic('layers')}</b> ao passar no modelo para montar a fila de impressão.</span></div>`;
+  if (sel.length) {
+    html += `<div class="sel-sec"><div class="sec-h">${ic('print')}<span>Fila</span><span class="n">${sel.length}</span><span class="sp"></span><button type="button" class="sel-print-btn" data-act="sel-print" title="Imprimir os ${sel.length} documento${sel.length > 1 ? 's' : ''} da fila">${ic('print')} Imprimir (${sel.length})</button><button type="button" class="lnk" data-act="sel-limpar" title="Limpar fila">Limpar</button></div>${sel.map(([k, d]) => itemHTML(k, d, true)).join('')}</div>`;
+  }
   if (temAlg && (ocultosAlg || S.verAlergicos)) {
     html += S.verAlergicos
       ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os modelos, inclusive os que contêm medicamentos da alergia do paciente.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-alg">Ocultar</button></div>`
@@ -5946,18 +5962,30 @@ function cbSelecionar(m) {
   }
   changed({ forcarSide: true });
 }
-function renderLocalSel() {
-  $('#sel-local').innerHTML = db.locais.map(l => `<option value="${esc(l.id)}"${l.id === db.localAtivoId ? ' selected' : ''}>${esc(l.nome)}</option>`).join('');
-  const ativo = localAtivo();
-  const ml = $('#mob-local-lbl');
-  if (ml && ativo) ml.textContent = ativo.nome.split(/[-–—(]/)[0].trim().slice(0, 18) || 'Local';
-  const list = $('#mob-local-list');
-  if (list) {
-    list.innerHTML = db.locais.map(l => `<button type="button" class="alg-opt" role="option" data-mob-loc="${esc(l.id)}"${l.id === db.localAtivoId ? ' style="background:var(--brand-soft)"' : ''}>
-      <span class="alg-opt-tx"><b>${esc(l.nome)}</b>${l.subtitulo ? `<small>${esc(l.subtitulo)}</small>` : ''}</span>
-      ${l.id === db.localAtivoId ? '<span class="tg tg-cls">Ativo</span>' : ''}
-    </button>`).join('');
+function renderLocalResultados(q = '') {
+  const box = $('#local-results'); if (!box) return;
+  const termos = normBusca(q).split(/\s+/).filter(Boolean);
+  const res = db.locais.filter(l => {
+    if (!termos.length) return true;
+    const h = normBusca(`${l.nome} ${l.subtitulo || ''} ${l.cidade || ''}`);
+    return termos.every(t => h.includes(t));
+  });
+  if (!res.length) {
+    box.innerHTML = `<div class="fila-pop-empty" style="padding:12px">Nenhum local encontrado.</div>`;
+    return;
   }
+  box.innerHTML = res.map(l => `<button type="button" class="alg-opt" role="option" data-loc-pick="${esc(l.id)}"${l.id === db.localAtivoId ? ' style="background:var(--brand-soft)"' : ''}>
+    <span class="alg-opt-tx"><b>${esc(l.nome)}</b>${l.subtitulo || l.cidade ? `<small>${esc([l.subtitulo, l.cidade].filter(Boolean).join(' · '))}</small>` : ''}</span>
+    ${l.id === db.localAtivoId ? '<span class="tg tg-cls">Ativo</span>' : ''}
+  </button>`).join('');
+}
+function renderLocalSel() {
+  const sel = $('#sel-local');
+  if (sel) sel.innerHTML = db.locais.map(l => `<option value="${esc(l.id)}"${l.id === db.localAtivoId ? ' selected' : ''}>${esc(l.nome)}</option>`).join('');
+  const ativo = localAtivo();
+  const ls = $('#local-summary');
+  if (ls && ativo) ls.textContent = ativo.nome;
+  renderLocalResultados($('#local-search')?.value || '');
 }
 const CLASSES_ALERGIA_NOMES = [
   ['Penicilinas / Beta-lactâmicos', 'penicilina'],
@@ -6103,7 +6131,7 @@ function fecharTopPopovers(retornarFoco = false) {
     ['#pop-cond', '#btn-cond'],
     ['#pop-alg', '#pf-alg'],
     ['#pop-pac', '#btn-mob-pac'],
-    ['#pop-local', '#btn-mob-local']
+    ['#pop-local-side', '#btn-local']
   ];
   for (const [popSel, btnSel] of pares) {
     const pop = $(popSel);
@@ -6862,18 +6890,18 @@ function menuCfg(anchor) {
 }
 function iniciarTutorial() {
   const passos = [
-    { sel: '#btn-cfg', mob: 'side', titulo: '1. Cadastre seus dados médicos', texto: 'Acesse Configurações (⚙) → Dados do prescritor para informar seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas e receitas.' },
-    { sel: '.side-local .hsel', selMob: '#btn-cfg', mob: 'side', titulo: '2. Local de atendimento e Download', texto: 'Selecione a unidade ou hospital onde está atendendo (no celular, acesse em Configurações ⚙ → Locais e cabeçalhos). Em Configurações você também encontra o botão Baixar / Instalar aplicativo para usar offline.' },
-    { sel: '.pf-nome', selMob: '#btn-mob-pac', mob: 'side', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
+    { sel: '#btn-cfg', mob: 'side', titulo: '1. Cadastre seus dados médicos', texto: 'Acesse Configurações (⚙) → Dados do prescritor para informar Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas e receitas.' },
+    { sel: '#btn-local', selMob: '#btn-cfg', mob: 'side', titulo: '2. Local de atendimento com busca', texto: 'Clique para buscar e trocar a unidade ou hospital onde está atendendo (no celular, acesse em Configurações ⚙ → Locais e cabeçalhos).' },
+    { sel: '.pf-nome', selMob: '#btn-mob-pac', mob: 'side', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez na barra superior para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
     { sel: '#pf-alg', mob: 'side', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
     { sel: '#btn-cond', mob: 'side', titulo: '5. Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
-    { sel: '.side .search', mob: 'side', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio e filtre por Modelos, Medicamentos, Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
-    { sel: '#side-list .mi', selMob: '#side-list .mi', mob: 'side', demo: 'swipe', titulo: '7. Arraste para o lado (Fila e Carrossel)', texto: 'No celular, arraste qualquer modelo da esquerda para a direita para adicionar ou tirar da fila ("Adc. à Fila"). Arraste a tela para os lados para trocar entre Modelos, Editor e Prévia.' },
+    { sel: '.side .search', mob: 'side', titulo: '6. Busca por texto ou voz e abas', texto: 'Pesquise por doença, CID ou remédio digitando ou usando o microfone, e alterne entre Modelos, Medicamentos e Texto rápido. Os grupos começam fechados para manter a tela limpa.' },
+    { sel: '#side-list', selMob: '#side-list', mob: 'side', demo: 'swipe', titulo: '7. Arraste para o lado (Fila e Carrossel)', texto: 'No celular, arraste um modelo da esquerda para a direita para "Adc. à Fila" ou um medicamento para montar receita/controle especial. Arraste a tela para alternar entre Modelos, Editor e Prévia.' },
     { sel: '#tab-texto', mob: 'side', titulo: '8. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
-    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: '9. Editor clínico e formatação', texto: 'Deslize para o lado ou toque em Editor para ajustar doses, ver alertas clínicos, Formatação POC e Formato de impressão no rodapé.' },
-    { sel: 'section.center', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: '10. Prévia fiel da folha A4', texto: 'Deslize novamente ou toque em Prévia para conferir exatamente como sairá no papel antes de imprimir ou gerar PDF.' },
+    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: '9. Editor sanfonado e formatação', texto: 'Os medicamentos e orientações abrem recolhidos para manter a tela limpa — clique em qualquer item para expandir e editar. Formatação POC e Formato de impressão ficam no rodapé.' },
+    { sel: '.pv-zoom-float', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: '10. Prévia fiel da folha A4 e Zoom', texto: 'A coluna central exibe a folha A4 sem distrações, com o controle de zoom e tela cheia flutuando no canto inferior direito.' },
     { sel: '#btn-print', mob: 'center', titulo: '11. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final.' },
-    { sel: '#btn-cfg', mob: 'side', titulo: '12. Configurações, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, faz backup dos seus modelos, acessa este tutorial e instala/baixa o PinMed como aplicativo.' }
+    { sel: '#btn-cfg', mob: 'side', titulo: '12. Configurações, Cadeado, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, bloqueia o acesso com o cadeado, faz backup dos modelos e baixa/instala o PinMed como aplicativo.' }
   ];
   let idx = 0, _tPos = 0;
   const fechar = () => {
@@ -7420,12 +7448,44 @@ function bind() {
   });
   $('#p-data').addEventListener('change', e => { if (!e.target.value) { S.paciente.data = hojeISO(); e.target.value = S.paciente.data; changed(); } });
   $('#btn-nova').onclick = novaConsulta;
+  $('#btn-local')?.addEventListener('click', () => {
+    const pop = $('#pop-local-side'); if (!pop) return;
+    const abrirPop = pop.classList.contains('hidden');
+    fecharTopPopovers(false); closeMenu(false);
+    if (abrirPop) {
+      const inp = $('#local-search'); if (inp) inp.value = '';
+      renderLocalResultados('');
+      pop.classList.remove('hidden');
+      $('#btn-local')?.setAttribute('aria-expanded', 'true');
+      setTimeout(() => inp?.focus(), 10);
+    }
+  });
+  $('#local-search')?.addEventListener('input', e => renderLocalResultados(e.target.value));
+  $('#local-search')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      $('#local-results [data-loc-pick]')?.click();
+    } else if (e.key === 'Escape') {
+      e.preventDefault(); e.stopPropagation();
+      fecharTopPopovers(true);
+    }
+  });
+  $('#local-results')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-loc-pick]'); if (!b) return;
+    const prev = db.localAtivoId;
+    db.localAtivoId = b.dataset.locPick;
+    if (!save()) { db.localAtivoId = prev; return; }
+    aplicarAutoPocLocal();
+    renderLocalSel(); renderPreview(); seguro(renderEditor);
+    fecharTopPopovers(false);
+    toast(`Cabeçalho: ${localAtivo().nome}`, 'info');
+  });
   $('#sel-local').onchange = e => {
     const prev = db.localAtivoId;
     db.localAtivoId = e.target.value;
     if (!save()) { db.localAtivoId = prev; renderLocalSel(); return; }
     aplicarAutoPocLocal();
-    renderPreview(); seguro(renderEditor); toast(`Cabeçalho: ${localAtivo().nome}`, 'info');
+    renderLocalSel(); renderPreview(); seguro(renderEditor); toast(`Cabeçalho: ${localAtivo().nome}`, 'info');
   };
   $('#btn-tema').onclick = () => { db.prefs.tema = document.documentElement.dataset.theme === 'dark' ? 'claro' : 'escuro'; save(false); applyTheme(); };
   $('#btn-cfg').onclick = e => menuCfg(e.currentTarget);
@@ -7783,6 +7843,10 @@ function bind() {
     if (pp && !pp.classList.contains('hidden') && !pp.contains(e.target) && !$('#btn-mob-pac')?.contains(e.target)) {
       pp.classList.add('hidden'); $('#btn-mob-pac')?.setAttribute('aria-expanded', 'false');
     }
+    const pl = $('#pop-local-side');
+    if (pl && !pl.classList.contains('hidden') && !pl.contains(e.target) && !$('#btn-local')?.contains(e.target)) {
+      pl.classList.add('hidden'); $('#btn-local')?.setAttribute('aria-expanded', 'false');
+    }
     const pfe = $('#pop-fila-ed');
     if (pfe && !pfe.classList.contains('hidden') && !pfe.contains(e.target) && !e.target.closest('[data-act="fila-pop"]')) {
       toggleFilaPop(true);
@@ -7821,7 +7885,7 @@ function bind() {
     else if (mod && e.key === 'Enter') { e.preventDefault(); if (!aberto) toggleFila(S.ativo); }
     else if (e.key === 'Escape' && menuEl) { e.preventDefault(); closeMenu(true); }
     else if (e.key === 'Escape' && !$('#pop-fila-ed')?.classList.contains('hidden')) { e.preventDefault(); toggleFilaPop(true); }
-    else if (e.key === 'Escape' && (!$('#pop-cond')?.classList.contains('hidden') || !$('#pop-alg')?.classList.contains('hidden') || !$('#pop-pac')?.classList.contains('hidden'))) { e.preventDefault(); fecharTopPopovers(true); }
+    else if (e.key === 'Escape' && (!$('#pop-cond')?.classList.contains('hidden') || !$('#pop-alg')?.classList.contains('hidden') || !$('#pop-pac')?.classList.contains('hidden') || !$('#pop-local-side')?.classList.contains('hidden'))) { e.preventDefault(); fecharTopPopovers(true); }
     else if (e.key === 'Escape' && document.activeElement?.classList.contains('tip')) { e.preventDefault(); document.activeElement.blur(); }
     else if (e.key === '?' && !isTyping(e.target) && !aberto) abrirAjuda();
   });
