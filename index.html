@@ -987,6 +987,30 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 [data-theme=dark] #tour-card p{color:#d8e4f2}
 #tour-card .tour-act{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
 #tour-card .tour-nav{display:flex;gap:8px;margin-left:auto}
+.tour-demo{position:relative;overflow:hidden;border-radius:11px;height:52px;background:#eaf4ff;border:1px solid #c9e2ff;margin:2px 0;user-select:none}
+.tour-demo-bg{position:absolute;inset:0;display:flex;align-items:center;gap:7px;padding-left:14px;color:#0b4a8a;font-size:12px;font-weight:750}
+.tour-demo-bg svg.i{width:15px;height:15px;color:#0b6fc7}
+.tour-demo-card{position:relative;z-index:1;height:100%;display:flex;align-items:center;gap:9px;padding:0 12px;background:#0e2542;color:#eef4fb;border-radius:10px;animation:pm-swipe-demo 2.6s cubic-bezier(.4,0,.2,1) infinite}
+.tour-demo-ic{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);color:#7cbcff;display:grid;place-items:center;flex:none}
+.tour-demo-ic svg.i{width:15px;height:15px}
+.tour-demo-tx{display:flex;flex-direction:column;min-width:0;flex:1;line-height:1.2}
+.tour-demo-tx b{font-size:12px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tour-demo-tx small{font-size:10.5px;color:#9bb2cc}
+.tour-demo-star{color:#f5c042;flex:none}
+.tour-demo-star svg.i{width:14px;height:14px}
+.tour-demo-finger{position:absolute;z-index:2;top:50%;left:26px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.88);border:2px solid #0b6fc7;box-shadow:0 3px 10px rgba(0,0,0,.35);transform:translate(-50%,-50%);pointer-events:none;animation:pm-finger-demo 2.6s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes pm-swipe-demo{
+  0%,16%{transform:translateX(0)}
+  52%,68%{transform:translateX(112px)}
+  86%,100%{transform:translateX(0)}
+}
+@keyframes pm-finger-demo{
+  0%{opacity:0;transform:translate(0,-50%) scale(.85)}
+  12%{opacity:1;transform:translate(0,-50%) scale(1)}
+  52%,66%{opacity:1;transform:translate(112px,-50%) scale(.95)}
+  76%{opacity:0;transform:translate(112px,-50%) scale(.8)}
+  100%{opacity:0;transform:translate(0,-50%) scale(.85)}
+}
 .top-pop-f{display:flex;justify-content:flex-end;padding-top:6px;border-top:1px solid var(--line);margin-top:2px}
 .top-pop-f .btn{min-width:74px;height:32px;font-size:12.5px;font-weight:700}
 @media print{#tour-bg,#tour-spot,#tour-card,.mob-nav,#save-pop{display:none!important}}
@@ -6464,11 +6488,12 @@ function iniciarTutorial() {
     { sel: '#pf-alg', mob: 'side', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
     { sel: '#btn-cond', mob: 'side', titulo: '5. Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
     { sel: '.side .search', mob: 'side', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio e filtre por Modelos, Medicamentos, Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
-    { sel: '#tab-texto', mob: 'side', titulo: '7. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
-    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: '8. Editor clínico e formatação', texto: 'Deslize para o lado ou toque em Editor para ajustar doses, ver alertas clínicos, Formatação POC e Formato de impressão no rodapé.' },
-    { sel: 'section.center', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: '9. Prévia fiel da folha A4', texto: 'Deslize novamente ou toque em Prévia para conferir exatamente como sairá no papel antes de imprimir ou gerar PDF.' },
-    { sel: '#btn-print', mob: 'center', titulo: '10. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final.' },
-    { sel: '#btn-cfg', mob: 'side', titulo: '11. Configurações, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, faz backup dos seus modelos, acessa este tutorial e instala/baixa o PinMed como aplicativo.' }
+    { sel: '#side-list .mi', selMob: '#side-list .mi', mob: 'side', demo: 'swipe', titulo: '7. Arraste para o lado (Fila e Carrossel)', texto: 'No celular, arraste qualquer modelo da esquerda para a direita para adicionar ou tirar da fila ("Adc. à Fila"). Arraste a tela para os lados para trocar entre Modelos, Editor e Prévia.' },
+    { sel: '#tab-texto', mob: 'side', titulo: '8. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
+    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: '9. Editor clínico e formatação', texto: 'Deslize para o lado ou toque em Editor para ajustar doses, ver alertas clínicos, Formatação POC e Formato de impressão no rodapé.' },
+    { sel: 'section.center', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: '10. Prévia fiel da folha A4', texto: 'Deslize novamente ou toque em Prévia para conferir exatamente como sairá no papel antes de imprimir ou gerar PDF.' },
+    { sel: '#btn-print', mob: 'center', titulo: '11. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final.' },
+    { sel: '#btn-cfg', mob: 'side', titulo: '12. Configurações, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, faz backup dos seus modelos, acessa este tutorial e instala/baixa o PinMed como aplicativo.' }
   ];
   let idx = 0, _tPos = 0;
   const fechar = () => {
@@ -6535,12 +6560,24 @@ function iniciarTutorial() {
 
   function renderPasso() {
     const p = passos[idx];
+    const demoHtml = p.demo === 'swipe'
+      ? `<div class="tour-demo" aria-hidden="true">
+          <div class="tour-demo-bg">${ic('layers')}<span>Adc. à Fila</span></div>
+          <div class="tour-demo-card">
+            <span class="tour-demo-ic">${ic('pill')}</span>
+            <span class="tour-demo-tx"><b>Sinusite bacteriana aguda</b><small>Receita · 2 itens</small></span>
+            <span class="tour-demo-star">${ic('star-f')}</span>
+          </div>
+          <span class="tour-demo-finger"></span>
+        </div>`
+      : '';
     card.innerHTML = `<div class="tour-top">
         <span class="tour-badge">Passo ${idx + 1} de ${passos.length}</span>
         <button type="button" class="tour-skip" id="tour-skip">Pular tudo</button>
       </div>
       <h3>${esc(p.titulo)}</h3>
       <p>${esc(p.texto)}</p>
+      ${demoHtml}
       <div class="tour-act">
         <div class="tour-nav">
           ${idx > 0 ? '<button type="button" class="btn btn-secondary" id="tour-prev">Anterior</button>' : ''}
