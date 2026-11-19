@@ -1,7 +1,7 @@
 /* PinMed — Service Worker
    Guarda o app no computador para abrir sem internet.
    Estratégia: Stale-While-Revalidate com atualização segura (sem interromper consulta ativa). */
-const CACHE = 'pinmed-v26';
+const CACHE = 'pinmed-v27';
 const ARQUIVOS_CORE = ['./', './index.html', './manifest.json'];
 const ARQUIVOS_OPCIONAIS = ['./icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 const ARQUIVOS = [...ARQUIVOS_CORE, ...ARQUIVOS_OPCIONAIS];

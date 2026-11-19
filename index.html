@@ -641,7 +641,7 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 }
 .side-brand{display:flex;align-items:center;gap:11px;padding:16px 16px 12px}
 .side-brand .brand{width:auto;gap:11px}
-.side-brand .brand svg{width:36px;height:36px;padding:4px;border-radius:11px;background:#fff;box-shadow:0 4px 12px -4px rgba(0,0,0,.4)}
+.side-brand .brand svg{width:42px;height:42px;padding:0;border-radius:0;background:transparent;box-shadow:none;flex:none}
 .side-brand .brand span{display:block!important;font-size:19px;font-weight:700;letter-spacing:-.02em;line-height:1.05;color:#fff}
 .side-brand .brand span b{color:#5eb0ff;font-weight:700}
 .side-brand .brand span small{display:block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9bb2cc;margin-top:4px}
@@ -782,8 +782,13 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 [data-theme=dark] #p-lact[aria-pressed=true]{background:#113836;border-color:#115e59;color:#5eead4}
 [data-theme=dark] #p-lact[aria-pressed=true] .cond-dot{background:#2dd4bf;border-color:#2dd4bf}
 [data-theme=dark] #p-lact[aria-pressed=true] .cond-st{color:#5eead4}
+.cond-row-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:8px}
+.cond-idade-in{display:flex;gap:4px}
+.cond-idade-in input{flex:1;min-width:0}
+.cond-idade-in select{width:76px;flex:none;padding:0 6px}
 .cond-peso{display:flex;flex-direction:column;gap:4px}
 .cond-peso label{font-size:11px;font-weight:650;color:var(--text-2);letter-spacing:.04em;text-transform:uppercase}
+.tg-warn{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn-line)}
 .alg-chips{display:flex;flex-wrap:wrap;gap:5px}
 .alg-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;background:var(--danger-soft);border:1px solid var(--danger-line);color:var(--danger);font-size:11.5px;font-weight:650}
 .alg-chip button{width:16px;height:16px;border-radius:50%;display:inline-grid;place-items:center;color:inherit;font-size:13px;line-height:1}
@@ -974,7 +979,59 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 [data-theme=dark] #tour-card p{color:#cbd5e1}
 #tour-card .tour-act{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
 #tour-card .tour-nav{display:flex;gap:8px;margin-left:auto}
-@media print{#tour-bg,#tour-spot,#tour-card{display:none!important}}
+@media print{#tour-bg,#tour-spot,#tour-card,.mob-nav,#save-pop{display:none!important}}
+
+/* Pop-up breve "Salvo!" (visível inclusive sobre <dialog>) */
+.save-pop{position:fixed;top:22px;left:50%;transform:translate(-50%,-10px) scale(.96);z-index:2147483647;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:#0f766e;color:#fff;font-size:14px;font-weight:700;letter-spacing:.01em;box-shadow:0 14px 36px -8px rgba(8,24,38,.45),0 0 0 1px rgba(255,255,255,.18);opacity:0;pointer-events:none;transition:opacity .16s ease,transform .18s cubic-bezier(.2,.8,.2,1)}
+.save-pop.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
+
+/* Navegação inferior exclusiva para celulares (mantém 3 colunas no desktop) */
+.mob-nav{display:none}
+@media (max-width:860px){
+  .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}
+  .top{flex:none;height:auto;flex-wrap:wrap;padding:8px 10px;gap:6px}
+  .top>.brand{display:flex!important;order:1;font-size:15px}
+  .top>.brand svg{width:26px;height:26px}
+  .top-r{order:2;margin-left:auto;gap:4px}
+  .top-r .vsep{display:none}
+  .top-r #btn-print span{display:none}
+  .top-r #btn-print{padding:0 10px;height:34px}
+  .top-r #btn-fila{height:34px;padding:0 8px}
+  .pac{order:3;flex:1 1 100%;max-width:none;flex-wrap:wrap;gap:6px}
+  .pf{height:40px;padding:0 9px}
+  .pf-nome{flex:1 1 100%;min-width:0}
+  .pf-alg-wrap{flex:1 1 42%;min-width:120px}
+  .pf-cond-wrap{flex:1 1 36%;min-width:110px}
+  .pf-cond-btn{min-width:0;max-width:none}
+  .pf-data{flex:0 0 126px}
+  .top-pop,.top-pop.pop-alg{position:fixed;left:10px;right:10px;top:116px;width:auto;max-width:none;max-height:calc(100dvh - 180px);overflow-y:auto;z-index:120}
+  .main{display:flex!important;flex:1 1 0;min-height:0;overflow:hidden}
+  .side,.center,.ed{display:none!important;flex:1 1 100%;width:100%;max-width:none;min-width:0;min-height:0;border:0}
+  .app[data-mob="side"] .side,.app[data-mob="center"] .center,.app[data-mob="ed"] .ed{display:flex!important}
+  .side-brand{display:none}
+  .side-local{padding-top:10px}
+  #btn-side{display:none}
+  .pv-bar{height:48px;padding:0 8px;gap:6px}
+  .pv-title h2{font-size:13.5px}
+  .zoom{height:32px}
+  .zoom .zoom-fit{display:none}
+  .pv-scroll{padding:12px 8px 28px}
+  .ed-h{padding:10px 12px}
+  .ed-body{padding:10px 12px 20px}
+  .ed-foot{padding:10px 12px}
+  .ed-foot .btn{height:42px;font-size:13px;padding:0 12px}
+  #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  dialog.dlg{width:calc(100vw - 16px);max-height:calc(100dvh - 24px);border-radius:14px}
+  .dlg-h{padding:16px 16px 10px}
+  .dlg-b{padding:4px 16px 16px}
+  .dlg-f{padding:12px 16px}
+  .mob-nav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:4px;height:58px;padding:4px 8px calc(4px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);z-index:40}
+  .mob-tab{flex:1;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:10px;color:var(--text-3);font-size:11px;font-weight:650;transition:background .14s,color .14s}
+  .mob-tab svg.i{width:18px;height:18px}
+  .mob-tab.on{background:var(--brand-soft);color:var(--brand)}
+  .toast{bottom:70px;max-width:calc(100vw - 24px)}
+}
 </style>
 </head>
 <body>
@@ -1029,7 +1086,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   </defs>
 </svg>
 
-<div class="app" id="app">
+<div class="app" id="app" data-mob="side">
   <h1 class="sr-only">PinMed — Documentos médicos</h1>
   <header class="top">
     <div class="brand" title="PinMed">
@@ -1063,7 +1120,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
         </div>
       </div>
       <div class="pf-pop-wrap pf-cond-wrap">
-        <button type="button" class="pf pf-btn pf-cond-btn" id="btn-cond" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-cond" title="Gestante, Lactante e Peso (kg)">
+        <button type="button" class="pf pf-btn pf-cond-btn" id="btn-cond" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-cond" title="Gestante, Lactante, Idade e Peso (kg)">
           <span class="pf-l">Condições</span>
           <span class="pf-v ph" id="cond-summary">Condições ▾</span>
         </button>
@@ -1071,9 +1128,21 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
           <div class="top-pop-h"><b>Condições clínicas</b><button type="button" class="top-pop-clr hidden" id="btn-cond-clear">Limpar condições</button></div>
           <button type="button" class="cond-row" id="p-gest" data-flag="gestante" aria-pressed="false"><span class="cond-dot" aria-hidden="true"></span><span>Gestante</span><span class="cond-st" id="st-gest">Não</span></button>
           <button type="button" class="cond-row" id="p-lact" data-flag="lactante" aria-pressed="false"><span class="cond-dot" aria-hidden="true"></span><span>Lactante</span><span class="cond-st" id="st-lact">Não</span></button>
-          <div class="cond-peso">
-            <label for="p-peso">Peso (kg)</label>
-            <input class="in" id="p-peso" data-p="peso" inputmode="decimal" placeholder="Ex.: 15" autocomplete="off" spellcheck="false">
+          <div class="cond-row-grid">
+            <div class="cond-peso">
+              <label for="p-idade">Idade</label>
+              <div class="cond-idade-in">
+                <input class="in" id="p-idade" data-p="idade" inputmode="decimal" placeholder="Ex.: 4" autocomplete="off" spellcheck="false">
+                <select class="in" id="p-idade-un" data-p="idadeUn" aria-label="Unidade da idade">
+                  <option value="anos">anos</option>
+                  <option value="meses">meses</option>
+                </select>
+              </div>
+            </div>
+            <div class="cond-peso">
+              <label for="p-peso">Peso (kg)</label>
+              <input class="in" id="p-peso" data-p="peso" inputmode="decimal" placeholder="Ex.: 15" autocomplete="off" spellcheck="false">
+            </div>
           </div>
         </div>
       </div>
@@ -1095,9 +1164,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
     <aside class="side" aria-label="Biblioteca">
       <div class="side-brand">
 <div class="brand" title="PinMed">
-        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <svg viewBox="6 6 36 39" fill="none" aria-hidden="true">
           <defs><linearGradient id="pm-pin-s" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e88e5"/><stop offset="55%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#e0f7fa"/></linearGradient></defs>
-          <rect x="1" y="1" width="46" height="46" rx="11" fill="#0c2340"/>
           <path d="M24 43.2L22 36.2h4L24 43.2z" fill="#e0f7fa"/>
           <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin-s)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
@@ -1147,6 +1215,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 
     <aside class="ed" id="ed" aria-label="Editor"></aside>
   </div>
+  <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
+    <button type="button" class="mob-tab on" data-mob="side" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Modelos</span></button>
+    <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
+    <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
+  </nav>
 </div>
 
 <div id="print-root" aria-hidden="true"></div>
@@ -4007,12 +4080,13 @@ function save(alterou = true) {
 }
 const getModelo = id => db.modelos.find(m => m.id === id);
 const localEhPoc = () => { const l = localAtivo(); return !!l && (l.id === 'loc-poc-sesau-ro' || /oswaldo cruz|\bpoc\b/i.test(l.nome || '')); };
+const suportaLayoutPoc = doc => !!doc && (doc.tipo === 'receita' || doc.tipo === 'especial' || (doc.tipo === 'exame' && !doc.imagem));
 const localAtivo = () => db.locais.find(l => l.id === db.localAtivoId) || db.locais[0];
 const backupPendente = () => !!db.alteradoEm && (!db.ultimoBackup || db.alteradoEm > db.ultimoBackup) && (!db.ultimoBackup || Date.now() - db.ultimoBackup > 7 * 864e5);
 
 /* ---------- Estado da consulta ---------- */
 const S = {
-  paciente: { nome: '', alergias: '', data: hojeISO(), gestante: false, lactante: false, peso: '' },
+  paciente: { nome: '', alergias: '', data: hojeISO(), gestante: false, lactante: false, peso: '', idade: '', idadeUn: 'anos' },
   drafts: {}, ativo: null, fila: [], aba: 'modelos',
   filtro: { cat: 'todos', q: '', ctx: '' },
   verAlergicos: false, verContraindicados: false,
@@ -4020,13 +4094,35 @@ const S = {
   img: { mod: 'rx', contraste: 'sem', pend: null },
   undo: {}, redo: {}, textoRapido: '', trResultado: null
 };
+function idadeAtualAnos() {
+  const raw = String(S.paciente?.idade || '').trim();
+  if (!raw) return null;
+  const m = raw.replace(',', '.').match(/(\d+(?:\.\d+)?)/);
+  if (!m) return null;
+  const v = parseFloat(m[1]);
+  if (!Number.isFinite(v) || v <= 0) return null;
+  const un = /\b(mes|meses|m)\b/i.test(raw) ? 'meses' : (S.paciente?.idadeUn || 'anos');
+  return un === 'meses' ? v / 12 : v;
+}
+function idadeFormatada() {
+  const raw = String(S.paciente?.idade || '').trim();
+  if (!raw) return '';
+  if (/[a-z]/i.test(raw)) return raw;
+  const un = S.paciente?.idadeUn === 'meses' ? (Number(raw.replace(',', '.')) === 1 ? 'mês' : 'meses') : (Number(raw.replace(',', '.')) === 1 ? 'ano' : 'anos');
+  return `${raw} ${un}`;
+}
 const draft = () => S.drafts[S.ativo];
 const docDe = k => S.drafts[k]?.doc || getModelo(k);
 const sig = d => { const { id, usos, fav, atualizadoEm, ...r } = d; return JSON.stringify(r); };
 function isDirty(k) {
   const d = S.drafts[k]; if (!d) return false;
   if (!d.modeloId) return true;
-  const m = getModelo(d.modeloId); return !m || sig(d.doc) !== sig(m);
+  const m = getModelo(d.modeloId); if (!m) return true;
+  if (d.autoPoc) {
+    const cmpDoc = { ...d.doc, layoutPoc: m.layoutPoc };
+    return sig(cmpDoc) !== sig(m);
+  }
+  return sig(d.doc) !== sig(m);
 }
 let isSplit = d => (d.tipo === 'especial' ? (d.duasVias !== false) : (['receita', 'exame', 'preop_exame'].includes(d.tipo) && !!d.duasVias));
 const itensValidos = d => (d.itens || []).filter(i => (i.nome || '').trim());
@@ -4109,7 +4205,7 @@ function meiaFolha(doc, c, via) {
       <div class="hf-box"><div class="cap">Identificação do fornecedor</div><div class="ln" style="margin-top:6mm"><i></i></div><div class="ln">Assinatura do farmacêutico<i></i></div><div class="ln">Data<i></i></div></div></div>`;
   else if (via === 1) boxes = `<div class="hf-boxes one"><div class="hf-box"><div class="cap">Registro da dispensação (farmácia)</div><div class="ln">Data<i></i>Quantidade<i></i>Lote<i></i></div><div class="ln">Assinatura do farmacêutico<i></i></div></div></div>`;
   const emit = esp ? `<div class="hf-emit"><div class="cap">Identificação do emitente</div><b>${limpoP(P.nome) ? esc(limpoP(P.nome)) : blank(60)}</b><div>${limpoP(P.crm) ? esc(limpoP(P.crm)) : 'CRM ' + blank(30)}${limpoP(P.esp) ? ' · ' + esc(limpoP(P.esp)) : ''}</div><div>${end ? esc(end) : 'Endereço ' + blank(55)}</div>${linha3 ? `<div>${esc(linha3)}</div>` : ''}</div>` : '';
-  const idadePac = String(c.pac?.idade || '').trim();
+  const idadePac = idadeFormatada() || String(c.pac?.idade || '').trim();
   const sexoPac = String(c.pac?.sexo || '').trim().toUpperCase();
   const rdcPac = !esp ? `<div class="r" style="margin-top:1.5mm"><div><span class="k">Idade</span>${idadePac ? `<b>${esc(idadePac)}</b>` : '______'}</div><div><span class="k">Sexo</span>(${sexoPac === 'M' ? '<b>X</b>' : '&nbsp;'}) M &nbsp; (${sexoPac === 'F' ? '<b>X</b>' : '&nbsp;'}) F</div></div>` : '';
   return `<div class="half fit-host">
@@ -4265,13 +4361,13 @@ function exameComContrasteAlergico(doc) {
   return linhas.filter(l => /\bcom contraste\b|\bangiotomografia\b|\bangiorressonancia\b|\burotomografia\b|\bcontraste iodado\b/i.test(norm(l)));
 }
 function modeloContraindicadoCondicao(m) {
-  if (!S.paciente?.gestante && !S.paciente?.lactante) return false;
-  return alertasGestLact(m).some(([nivel]) => nivel === 'danger');
+  if (!S.paciente?.gestante && !S.paciente?.lactante && idadeAtualAnos() === null) return false;
+  return alertasGestLact(m).some(([nivel]) => nivel === 'danger') || alertasIdade(m).some(([nivel]) => nivel === 'danger');
 }
 const modelosVisiveis = () => {
   let lista = db.modelos;
   if (!S.verAlergicos && termosAlergia().length) lista = lista.filter(m => !itensAlergicos(m).length);
-  if (!S.verContraindicados && (S.paciente?.gestante || S.paciente?.lactante)) lista = lista.filter(m => !modeloContraindicadoCondicao(m));
+  if (!S.verContraindicados && (S.paciente?.gestante || S.paciente?.lactante || idadeAtualAnos() !== null)) lista = lista.filter(m => !modeloContraindicadoCondicao(m));
   return lista;
 };
 
@@ -4407,7 +4503,8 @@ function renderSide() {
   if (S.aba === 'texto') return renderTexto();
   const qNorm = normBusca(S.filtro.q), termos = qNorm ? qNorm.split(/\s+/).filter(Boolean) : [], cat = S.filtro.cat, ctxF = S.filtro.ctx || '';
   const temAlg = termosAlergia().length > 0;
-  const temCond = !!(S.paciente?.gestante || S.paciente?.lactante);
+  const idAnos = idadeAtualAnos();
+  const temCond = !!(S.paciente?.gestante || S.paciente?.lactante || idAnos !== null);
   const baseAlg = (temAlg && !S.verAlergicos) ? db.modelos.filter(m => !itensAlergicos(m).length) : db.modelos;
   const ocultosAlg = db.modelos.length - baseAlg.length;
   const modelos = (temCond && !S.verContraindicados) ? baseAlg.filter(m => !modeloContraindicadoCondicao(m)) : baseAlg;
@@ -4449,10 +4546,14 @@ function renderSide() {
       : `<div class="alg-note">${ic('alert')}<p><b>${ocultosAlg} modelo${ocultosAlg > 1 ? 's ocultos' : ' oculto'}</b> por alergia do paciente.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-alg">Mostrar</button></div>`;
   }
   if (temCond && (ocultosCond || S.verContraindicados)) {
-    const lblCond = S.paciente.gestante && S.paciente.lactante ? 'gestação/lactação' : S.paciente.gestante ? 'gestação' : 'lactação';
+    const condPartes = [];
+    if (S.paciente.gestante) condPartes.push('gestação');
+    if (S.paciente.lactante) condPartes.push('lactação');
+    if (idAnos !== null) condPartes.push(`idade (${idadeFormatada()})`);
+    const lblCond = condPartes.join(' / ');
     html += S.verContraindicados
-      ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os modelos, inclusive os contraindicados na ${lblCond}.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Ocultar</button></div>`
-      : `<div class="alg-note">${ic('alert')}<p><b>${ocultosCond} modelo${ocultosCond > 1 ? 's ocultados' : ' ocultado'}</b> (contraindicado${ocultosCond > 1 ? 's' : ''} na ${lblCond}).</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Mostrar</button></div>`;
+      ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os modelos, inclusive os contraindicados para ${esc(lblCond)}.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Ocultar</button></div>`
+      : `<div class="alg-note">${ic('alert')}<p><b>${ocultosCond} modelo${ocultosCond > 1 ? 's ocultados' : ' ocultado'}</b> (contraindicado${ocultosCond > 1 ? 's' : ''} para ${esc(lblCond)}).</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Mostrar</button></div>`;
   }
   const novos = Object.entries(S.drafts).filter(([k, d]) => !d.modeloId && (termos.length || !S.fila.includes(k)) && (cat === 'todos' || tipoVisual(d.doc) === cat) && casaContexto(d.doc, ctxF) && casaBusca(d.doc, termos));
   html += secao('Nesta consulta', 'clock', novos.map(([k, d]) => itemHTML(k, d.doc, false, !!termos.length)));
@@ -4503,20 +4604,39 @@ function renderMeds() {
   $('#chips').classList.add('hidden');
   $('#ctx-pills')?.classList.add('hidden');
   const qNorm = normBusca(S.filtro.q), termos = qNorm ? qNorm.split(/\s+/).filter(Boolean) : [];
-  const lista = CATALOGO.map((m, i) => ({ m, i })).filter(({ m }) => {
+  const idAnos = idadeAtualAnos();
+  const base = CATALOGO.map((m, i) => ({ m, i })).filter(({ m }) => {
     if (!termos.length) return true;
     const h = normBusca(`${m.n} ${m.a} ${m.c} ${m.t}`);
     return termos.every(t => h.includes(t));
   });
+  const lista = (idAnos !== null && !S.verContraindicados)
+    ? base.filter(({ m }) => !alertaIdadeMed(m).some(([nv]) => nv === 'danger'))
+    : base;
+  const ocultosIdade = base.length - lista.length;
   const d = draft(), alvo = d && (d.doc.tipo === 'receita' || d.doc.tipo === 'especial') ? `“${esc(d.doc.titulo || 'documento atual')}”` : 'uma receita nova';
   let html = `<div class="side-hint">Clique para incluir em ${alvo}. Medicamentos de controle especial abrem no receituário próprio.</div>`;
+  if (idAnos !== null && (ocultosIdade || S.verContraindicados)) {
+    html += S.verContraindicados
+      ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os medicamentos, inclusive os contraindicados para ${esc(idadeFormatada())}.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Ocultar</button></div>`
+      : `<div class="alg-note">${ic('alert')}<p><b>${ocultosIdade} medicamento${ocultosIdade > 1 ? 's ocultados' : ' ocultado'}</b> por restrição de idade (${esc(idadeFormatada())}).</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Mostrar</button></div>`;
+  }
   if (!lista.length) html += `<div class="empty-st">${ic('pill')}<b>Nenhum medicamento encontrado</b><p>Você pode digitar qualquer medicamento direto no editor.</p></div>`;
   const grupos = new Map();
   lista.forEach(x => { if (!grupos.has(x.m.c)) grupos.set(x.m.c, []); grupos.get(x.m.c).push(x); });
   grupos.forEach((itens, g) => {
     const aberto = !!termos.length || db.prefs.abertos.includes('med:' + g);
     html += `<button type="button" class="grp-t" data-grp="med:${esc(g)}" aria-expanded="${aberto}">${ic('chev')}${esc(g)}<span class="n">${itens.length}</span></button>`;
-    if (aberto) html += `<div class="grp-b">${itens.map(({ m, i }) => `<button type="button" class="md" data-med="${i}" title="${esc(m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small></span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>`).join('')}</div>`;
+    if (aberto) html += `<div class="grp-b">${itens.map(({ m, i }) => {
+      const aId = alertaIdadeMed(m);
+      const idDanger = aId.find(([nv]) => nv === 'danger');
+      const idWarn = aId.find(([nv]) => nv === 'warn');
+      const idTag = idDanger
+        ? `<span class="tg tg-alg" title="${esc(idDanger[1])}">Idade</span>`
+        : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
+      const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
+      return `<button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>`;
+    }).join('')}</div>`;
   });
   setHTML($('#side-list'), html);
 }
@@ -5107,6 +5227,58 @@ function alertasGestLact(doc) {
   return out;
 }
 
+const ALERTAS_IDADE = [
+  // [nivel, condFn(anos), raizes, msg, soSistemico]
+  ['danger', a => a < 18, ['ciprofloxacin', 'levofloxacin', 'norfloxacin', 'moxifloxacin'], 'Idade (< 18 anos): fluoroquinolonas são contraindicadas em menores de 18 anos (risco de artropatia/lesão de cartilagem).', true],
+  ['danger', a => a < 8, ['doxiciclin', 'tetraciclin', 'minociclin', 'limeciclin'], 'Idade (< 8 anos): tetraciclinas são contraindicadas em menores de 8 anos (manchamento dentário e hipoplasia de esmalte).', true],
+  ['danger', a => a < 12, ['nimesulid'], 'Idade (< 12 anos): nimesulida é contraindicada em menores de 12 anos (risco de hepatotoxicidade grave).', true],
+  ['danger', a => a < 12, ['codein', 'tylex', 'paco', 'tramadol'], 'Idade (< 12 anos): codeína e tramadol são contraindicados em menores de 12 anos (risco de depressão respiratória grave).', true],
+  ['danger', a => a < 12, ['aas', 'acido acetilsalicil', 'aspirin'], 'Idade (< 12 anos): AAS é contraindicado em quadros febris/virais na infância (risco de síndrome de Reye).', true],
+  ['danger', a => a < 5, ['ivermectin'], 'Idade (< 5 anos): ivermectina é contraindicada em menores de 5 anos (ou peso < 15 kg).', true],
+  ['danger', a => a < 2, ['prometazin'], 'Idade (< 2 anos): prometazina é contraindicada em menores de 2 anos (risco de depressão respiratória fatal).', true],
+  ['danger', a => a < 2, ['loperamid'], 'Idade (< 2 anos): loperamida é contraindicada em menores de 2 anos (risco de íleo paralítico e depressão do SNC).', true],
+  ['danger', a => a < 1, ['metoclopramid', 'plasil'], 'Idade (< 1 ano): metoclopramida é contraindicada em menores de 1 ano (alto risco de distonia/reações extrapiramidais).', true],
+  ['danger', a => a < 1, ['albendazol', 'mebendazol'], 'Idade (< 1 ano): albendazol e mebendazol são contraindicados em menores de 1 ano.', true],
+  ['danger', a => a < 0.5, ['ibuprofen'], 'Idade (< 6 meses): ibuprofeno é contraindicado em menores de 6 meses.', true],
+  ['danger', a => a < 0.25, ['dipiron', 'metamizol'], 'Idade (< 3 meses): dipirona é contraindicada em menores de 3 meses (ou peso < 5 kg).', true],
+  ['danger', a => a < 0.17, ['sulfametoxazol', 'bactrim'], 'Idade (< 2 meses): sulfametoxazol + trimetoprima é contraindicado em menores de 2 meses (risco de kernicterus).', true],
+  ['warn', a => a >= 1 && a < 2, ['albendazol', 'mebendazol'], 'Idade (1–2 anos): avaliar risco-benefício e ajustar dose de albendazol/mebendazol.', true],
+  ['warn', a => a < 2, ['dexclorfeniramin', 'hidroxizin', 'loratadin', 'cetirizin'], 'Idade (< 2 anos): confirmar indicação e faixa etária mínima para anti-histamínico.', true],
+  ['warn', a => a < 1, ['bromoprid'], 'Idade (< 1 ano): cautela com bromoprida pelo risco de efeitos extrapiramidais.', true],
+  ['warn', a => a < 12, ['diclofenac', 'cetoprofen', 'naproxen', 'meloxicam', 'piroxicam', 'tenoxicam', 'celecoxib', 'etoricoxib', 'cetorolac', 'indometacin', 'tandrilax'], 'Idade (< 12 anos): evitar AINEs sistêmicos não pediátricos — preferir paracetamol ou ibuprofeno (≥ 6 meses).', true],
+  ['warn', a => a >= 65, ['ibuprofen', 'diclofenac', 'nimesulid', 'cetoprofen', 'naproxen', 'meloxicam', 'piroxicam', 'tenoxicam', 'celecoxib', 'etoricoxib', 'cetorolac', 'indometacin', 'tandrilax'], 'Idoso (≥ 65 anos): evitar AINEs sistêmicos (risco GI, renal e cardiovascular — Critérios de Beers); se indispensável, menor dose/tempo com proteção gástrica.', true],
+  ['warn', a => a >= 65, ['clonazepam', 'diazepam', 'alprazolam', 'lorazepam', 'bromazepam', 'zolpidem'], 'Idoso (≥ 65 anos): benzodiazepínicos e hipnóticos Z aumentam risco de quedas, fraturas e delirium (Critérios de Beers).', true],
+  ['warn', a => a >= 65, ['prometazin', 'hidroxizin', 'dexclorfeniramin', 'amitriptilin', 'ciclobenzaprin', 'escopolamin', 'buscopan', 'dimenidrinat'], 'Idoso (≥ 65 anos): efeito anticolinérgico relevante (risco de confusão mental, retenção urinária e quedas).', true],
+  ['warn', a => a >= 65, ['nitrofurantoin'], 'Idoso (≥ 65 anos): conferir função renal antes de prescrever nitrofurantoína (evitar se ClCr < 30 mL/min).', true],
+  ['warn', a => a >= 65, ['metoclopramid', 'plasil'], 'Idoso (≥ 65 anos): risco aumentado de sintomas extrapiramidais e discinesia tardia.', true]
+];
+function alertaIdadeMed(m) {
+  const anos = idadeAtualAnos();
+  if (anos === null || !m) return [];
+  const item = { nome: m.n || m.nome || '', apresentacao: m.a || m.apresentacao || '', via: m.v || m.via || '' };
+  const nn = norm(item.nome);
+  const out = [];
+  for (const [nivel, cond, raizes, msg, soSist] of ALERTAS_IDADE) {
+    if (!cond(anos)) continue;
+    if (soSist && _ehTopico(item)) continue;
+    if (raizes.some(r => temRaiz(nn, r))) out.push([nivel, msg]);
+  }
+  return out;
+}
+function alertasIdade(doc) {
+  const out = [];
+  const anos = idadeAtualAnos();
+  if (anos === null) return out;
+  const its = itensValidos(doc);
+  for (const [nivel, cond, raizes, msg, soSist] of ALERTAS_IDADE) {
+    if (!cond(anos)) continue;
+    const base = soSist ? its.filter(i => !_ehTopico(i)) : its;
+    const hit = base.filter(i => raizes.some(r => temRaiz(norm(i.nome), r)));
+    if (hit.length) out.push([nivel, `${msg} (${hit.map(i => `<b>${esc(i.nome)}</b>`).join(', ')})`]);
+  }
+  return out;
+}
+
 function alertas(doc) {
   const a = [];
   const hosp = ehUsoHospitalar(doc);
@@ -5122,6 +5294,7 @@ function alertas(doc) {
   const ctrAlg = exameComContrasteAlergico(doc);
   if (ctrAlg.length) a.push(['danger', `Paciente com alergia a contraste/iodo registrada (<b>${esc(S.paciente.alergias)}</b>): exame com contraste solicitado (<b>${ctrAlg.map(esc).join(', ')}</b>).`]);
   alertasGestLact(doc).forEach(x => a.push(x));
+  alertasIdade(doc).forEach(x => a.push(x));
   const pesoKg = pesoAtualKg();
   if (pesoKg > 0 && docAceitaPesoPed(doc)) {
     const lblBtn = `Aplicar peso (${fmtN(pesoKg, 1)} kg) nas doses`;
@@ -5378,7 +5551,7 @@ function renderAlgResultados(q = '') {
   </button>`).join('');
 }
 function renderTopCond() {
-  const g = !!S.paciente.gestante, l = !!S.paciente.lactante, p = String(S.paciente.peso || '').trim();
+  const g = !!S.paciente.gestante, l = !!S.paciente.lactante, p = String(S.paciente.peso || '').trim(), idStr = idadeFormatada();
   const btn = $('#btn-cond'), sum = $('#cond-summary'), clr = $('#btn-cond-clear');
   const pg = $('#p-gest'), pl = $('#p-lact'), sg = $('#st-gest'), sl = $('#st-lact');
   if (pg) pg.setAttribute('aria-pressed', g ? 'true' : 'false');
@@ -5388,6 +5561,7 @@ function renderTopCond() {
   const partes = [];
   if (g) partes.push('Gestante');
   if (l) partes.push('Lactante');
+  if (idStr) partes.push(idStr);
   if (p) partes.push(p.toLowerCase().endsWith('kg') ? p : `${p} kg`);
   if (btn) {
     btn.classList.toggle('has-val', partes.length > 0);
@@ -5506,7 +5680,16 @@ function abrir(key, opts = {}) {
   cbFechar();
   if (S.img) S.img.pend = null;
   if (!key) { S.ativo = null; renderAll(); return; }
-  if (!S.drafts[key]) { const m = getModelo(key); if (!m) return; S.drafts[key] = { doc: clone(m), modeloId: m.id }; }
+  if (!S.drafts[key]) {
+    const m = getModelo(key); if (!m) return;
+    const docClone = clone(m);
+    let autoPoc = false;
+    if (localEhPoc() && suportaLayoutPoc(docClone) && !docClone.layoutPreOpLab && !docClone.layoutPoc) {
+      docClone.layoutPoc = true;
+      autoPoc = true;
+    }
+    S.drafts[key] = { doc: docClone, modeloId: m.id, autoPoc };
+  }
   S.ativo = key; S.calcAberta = false;
   if (S.paciente.peso) S.calc.peso = String(S.paciente.peso).replace(/\s*kg\s*$/i, '').trim();
   const m = getModelo(key);
@@ -5517,6 +5700,9 @@ function abrir(key, opts = {}) {
     if (!opts.semSalvar && mudouRec) save(false);
   }
   renderAll();
+  if (opts.fromUser && window.innerWidth <= 860 && typeof setMobTab === 'function') {
+    setMobTab('ed');
+  }
   if (opts.fromUser && S.aba === 'modelos' && suportaTextoRapido(S.drafts[key]?.doc)) {
     trocarAba('texto');
     return;
@@ -5526,10 +5712,12 @@ function abrir(key, opts = {}) {
 function novoDocumento(tipo, itens) {
   const key = uid('novo'), doc = novoDoc(tipo);
   if (itens) doc.itens = itens;
+  if (localEhPoc() && suportaLayoutPoc(doc) && !doc.layoutPreOpLab) doc.layoutPoc = true;
   S.drafts[key] = { doc, modeloId: null };
   S.ativo = key; S.calcAberta = false;
   if (S.img) S.img.pend = null;
   renderAll();
+  if (window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab('ed');
   if (!itens) setTimeout(() => $('[data-b="titulo"]')?.focus(), 30);
   return key;
 }
@@ -5578,7 +5766,8 @@ async function salvar() {
   db.modelos[idx] = atualizado;
   if (!save()) { db.modelos[idx] = prev; return; }
   d.doc = clone(atualizado);
-  invalidarBusca(); fillDatalists(); renderAll(); toast('Modelo atualizado');
+  d.autoPoc = false;
+  invalidarBusca(); fillDatalists(); renderAll(); flashSalvo();
 }
 async function salvarComoNovo() {
   const d = draft(); if (!d) return;
@@ -5598,7 +5787,7 @@ async function salvarComoNovo() {
   S.fila = S.fila.map(k => k === velho ? novo.id : k);
   S.drafts[novo.id] = { doc: clone(novo), modeloId: novo.id };
   S.ativo = novo.id;
-  invalidarBusca(); fillDatalists(); renderAll(); toast('Modelo salvo na biblioteca');
+  invalidarBusca(); fillDatalists(); renderAll(); flashSalvo();
 }
 async function descartar() {
   const d = draft(); if (!d) return;
@@ -5637,9 +5826,9 @@ function toggleFila(key) {
   renderSide(); renderFilaUI();
 }
 async function novaConsulta() {
-  const pend = S.fila.length || Object.keys(S.drafts).some(isDirty) || S.paciente.nome || S.paciente.alergias || S.paciente.peso || S.paciente.gestante || S.paciente.lactante;
+  const pend = S.fila.length || Object.keys(S.drafts).some(isDirty) || S.paciente.nome || S.paciente.alergias || S.paciente.peso || S.paciente.idade || S.paciente.gestante || S.paciente.lactante;
   if (pend && !await ask({ title: 'Iniciar nova consulta?', msg: 'Paciente, fila de impressão e edições não salvas desta consulta serão limpos. Seus modelos salvos não são afetados.', ok: 'Nova consulta' })) return;
-  S.paciente = { nome: '', alergias: '', data: hojeISO(), gestante: false, lactante: false, peso: '' }; S.verAlergicos = false; S.verContraindicados = false;
+  S.paciente = { nome: '', alergias: '', data: hojeISO(), gestante: false, lactante: false, peso: '', idade: '', idadeUn: 'anos' }; S.verAlergicos = false; S.verContraindicados = false;
   fecharTopPopovers(false);
   S.calc.peso = '';
   S.textoRapido = ''; S.trResultado = null;
@@ -5692,6 +5881,7 @@ function checarSegurancaImpressao(docs) {
       if (atb.length && !d.duasVias) add(d, `<b>${esc(atb[0].nome)}</b> é antimicrobiano e deve sair em 2 vias (RDC 471/2021).`);
     }
     alertasGestLact(d).forEach(([n, msg]) => add(d, msg, n === 'danger'));
+  alertasIdade(d).forEach(([n, msg]) => add(d, msg, n === 'danger'));
   }
   return { avisos, critico };
 }
@@ -5797,7 +5987,7 @@ function abrirPresc() {
     Object.assign(db.prescritor, { nome: $('#pr-nome').value.trim(), crm: $('#pr-crm').value.trim(), esp: $('#pr-esp').value.trim(), endereco: $('#pr-end').value.trim(), cidade: $('#pr-cid').value.trim(), telefone: $('#pr-tel').value.trim() });
     if (!save()) { Object.assign(db.prescritor, prev); return; }
     if (typeof window.renderDoc === 'function') window.renderDoc();
-    renderPreview(); renderAlerts(); toast('Dados do prescritor salvos');
+    renderPreview(); renderAlerts(); flashSalvo();
   });
 }
 
@@ -5908,7 +6098,8 @@ function initLocais() {
       const prev = db.localAtivoId;
       db.localAtivoId = row.dataset.id;
       if (!save()) { db.localAtivoId = prev; return; }
-      renderLocalSel(); renderPreview(); editarLocal(row.dataset.id); toast('Local de atendimento alterado');
+      aplicarAutoPocLocal();
+      renderLocalSel(); renderPreview(); seguro(renderEditor); editarLocal(row.dataset.id); toast('Local de atendimento alterado');
     } else if (act === 'loc-del' && row) {
       const l = db.locais.find(x => x.id === row.dataset.id);
       if (!l || db.locais.length <= 1) return;
@@ -5936,7 +6127,7 @@ function initLocais() {
       if (!save()) { db.locais.pop(); db.localAtivoId = prevAtivo; return; }
       LOC.id = n.id;
     }
-    renderLocalSel(); renderPreview(); editarLocal(LOC.id); toast('Local salvo');
+    renderLocalSel(); renderPreview(); seguro(renderEditor); editarLocal(LOC.id); flashSalvo();
   });
 }
 
@@ -6103,14 +6294,14 @@ function menuCfg(anchor) {
 function iniciarTutorial() {
   const passos = [
     { sel: '#doc-chip', titulo: '1. Cadastre seus dados médicos', texto: 'Informe seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas, carimbos e receitas de controle especial.' },
-    { sel: '#sel-local', titulo: '2. Local de atendimento', texto: 'Selecione a unidade ou hospital onde está atendendo; o cabeçalho/timbrado das folhas atualiza na hora.' },
-    { sel: '#p-nome', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
+    { sel: '.side-local .hsel', mob: 'side', titulo: '2. Local de atendimento', texto: 'Selecione a unidade ou hospital onde está atendendo; o cabeçalho/timbrado das folhas atualiza na hora.' },
+    { sel: '.pf-nome', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
     { sel: '#pf-alg', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
-    { sel: '#btn-cond', titulo: '5. Condições clínicas (Gestante, Lactante e Peso)', texto: 'Oculta prescrições contraindicadas na gestação/lactação, alerta riscos clínicos e calcula doses pediátricas por peso em 1 clique.' },
-    { sel: '#q', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio com Ctrl+K e filtre por Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
-    { sel: '[data-aba="texto"]', titulo: '7. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
-    { sel: 'aside.ed', titulo: '8. Editor clínico e formatação', texto: 'Ajuste doses, use a busca de medicamentos com alertas C1/ATB/Alergia, Desfazer/Refazer (Ctrl+Z), Formatação POC no topo e Formato de impressão no rodapé.' },
-    { sel: 'section.center', titulo: '9. Prévia fiel da folha A4', texto: 'Revise exatamente como sairá no papel, use Folha inteira para ver a página completa ou ative o conforto noturno no modo escuro.' },
+    { sel: '#btn-cond', titulo: '5. Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
+    { sel: '.side .search', mob: 'side', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio com Ctrl+K e filtre por Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
+    { sel: '#tab-texto', mob: 'side', titulo: '7. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
+    { sel: 'aside.ed', mob: 'ed', titulo: '8. Editor clínico e formatação', texto: 'Ajuste doses, use a busca de medicamentos com alertas C1/ATB/Alergia/Idade, Desfazer/Refazer (Ctrl+Z), Formatação POC e Formato de impressão no rodapé do editor.' },
+    { sel: 'section.center', mob: 'center', titulo: '9. Prévia fiel da folha A4', texto: 'Revise exatamente como sairá no papel, use Folha inteira para ver a página completa ou ative o conforto noturno no modo escuro.' },
     { sel: '#btn-print', titulo: '10. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir (Ctrl+P) — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final antes de imprimir.' }
   ];
   let idx = 0;
@@ -6128,6 +6319,7 @@ function iniciarTutorial() {
 
   function posicionar() {
     const p = passos[idx];
+    if (p.mob && window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab(p.mob);
     const alvo = document.querySelector(p.sel) || document.querySelector('.side-h');
     if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
     const r = alvo ? alvo.getBoundingClientRect() : { top: 80, left: 80, width: 200, height: 48, bottom: 128, right: 280 };
@@ -6192,12 +6384,48 @@ function toast(msg, kind = 'ok') {
   t.innerHTML = ic({ ok: 'check', warn: 'alert', err: 'alert', info: 'info' }[kind] || 'check') + `<span>${esc(msg)}</span>`;
   clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2800);
 }
+let _savePopTimer = 0;
+function flashSalvo(txt = 'Salvo!') {
+  document.getElementById('save-pop')?.remove();
+  clearTimeout(_savePopTimer);
+  const el = document.createElement('div');
+  el.id = 'save-pop';
+  el.className = 'save-pop';
+  el.setAttribute('role', 'status');
+  el.setAttribute('aria-live', 'polite');
+  el.innerHTML = `${ic('check')}<span>${esc(txt)}</span>`;
+  const dlgAberto = [...document.querySelectorAll('dialog[open]')].pop();
+  (dlgAberto || document.body).appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  _savePopTimer = setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 220);
+  }, 1500);
+}
+function setMobTab(tab) {
+  const app = $('#app'); if (!app) return;
+  app.dataset.mob = tab;
+  $$('.mob-tab').forEach(b => {
+    const on = b.dataset.mob === tab;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  if (tab === 'center') requestAnimationFrame(() => seguro(applyZoom));
+}
+function aplicarAutoPocLocal() {
+  if (!localEhPoc()) return;
+  const d = draft();
+  if (d && suportaLayoutPoc(d.doc) && !d.doc.layoutPreOpLab && !d.doc.layoutPoc && !d.manualPocOff) {
+    d.doc.layoutPoc = true;
+    d.autoPoc = true;
+  }
+}
 
 /* =============================================================================
    EVENTOS
    ============================================================================= */
 function bind() {
-  $$('[data-p]').forEach(el => el.addEventListener('input', () => {
+  const onPacField = el => {
     const k = el.dataset.p;
     S.paciente[k] = el.value;
     if (k === 'peso') {
@@ -6206,9 +6434,17 @@ function bind() {
       if (cp) { cp.value = S.calc.peso; updateCalcRes(); }
       renderTopCond();
       renderAlerts(); renderPreview();
+    } else if (k === 'idade' || k === 'idadeUn') {
+      renderTopCond();
+      renderSide(); renderAlerts(); renderPreview();
     }
     changed();
-  }));
+  };
+  $$('[data-p]').forEach(el => {
+    el.addEventListener('input', () => onPacField(el));
+    if (el.tagName === 'SELECT') el.addEventListener('change', () => onPacField(el));
+  });
+  $$('.mob-tab').forEach(b => b.addEventListener('click', () => setMobTab(b.dataset.mob)));
   $$('[data-flag]').forEach(btn => btn.addEventListener('click', () => {
     const k = btn.dataset.flag;
     S.paciente[k] = !S.paciente[k];
@@ -6227,10 +6463,12 @@ function bind() {
     }
   });
   $('#btn-cond-clear')?.addEventListener('click', () => {
-    S.paciente.gestante = false; S.paciente.lactante = false; S.paciente.peso = '';
+    S.paciente.gestante = false; S.paciente.lactante = false; S.paciente.peso = ''; S.paciente.idade = ''; S.paciente.idadeUn = 'anos';
     S.verContraindicados = false;
     S.calc.peso = '';
     const pp = $('#p-peso'); if (pp) pp.value = '';
+    const pi = $('#p-idade'); if (pi) pi.value = '';
+    const piu = $('#p-idade-un'); if (piu) piu.value = 'anos';
     const cp = $('#calc-peso'); if (cp) { cp.value = ''; updateCalcRes(); }
     renderTopCond();
     renderSide(); renderAlerts(); renderPreview();
@@ -6290,6 +6528,7 @@ function bind() {
     const prev = db.localAtivoId;
     db.localAtivoId = e.target.value;
     if (!save()) { db.localAtivoId = prev; renderLocalSel(); return; }
+    aplicarAutoPocLocal();
     renderPreview(); seguro(renderEditor); toast(`Cabeçalho: ${localAtivo().nome}`, 'info');
   };
   $('#btn-tema').onclick = () => { db.prefs.tema = document.documentElement.dataset.theme === 'dark' ? 'claro' : 'escuro'; save(false); applyTheme(); };
@@ -7384,7 +7623,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div class="poc-hdr" style="margin:-3.5mm -5mm 3.5mm;padding:2.5mm 4mm">
@@ -7407,17 +7646,17 @@ window._pinmedBoot = function boot() {
         </div>
         <h1 style="text-align:center;font-size:15.5pt;font-weight:700;letter-spacing:0.04em;margin:3mm 0 22mm">RISCO CIRÚRGICO</h1>
 
-        <div class="fit-box" style="flex:1;padding:0 12mm;font-size:12pt;line-height:2.45;text-align:left">
-          <div style="display:flex;align-items:baseline;gap:2mm"><span>O(A) Sr(a)</span><span style="flex:1;border-bottom:0.7pt solid #000;padding:0 3mm;font-weight:700">${esc(pac)}</span></div>
-          <div style="display:flex;align-items:baseline;gap:2mm"><span>CNS</span><span style="min-width:48mm;flex:1;border-bottom:0.7pt solid #000;padding:0 3mm;font-weight:700">${esc(doc.cns || '')}</span><span>, passou em</span></div>
+        <div class="fit-box" style="flex:1;padding:0 12mm;font-size:12pt;line-height:1.35;display:flex;flex-direction:column;gap:5.5mm;text-align:left">
+          <div style="display:flex;align-items:baseline;gap:2mm"><span>O(A) Sr(a)</span><span style="flex:1;border-bottom:0.7pt solid #000;padding:0 2mm 0.5mm;line-height:1.2;font-weight:700">${esc(pac)}</span></div>
+          <div style="display:flex;align-items:baseline;gap:2mm"><span>CNS</span><span style="min-width:48mm;flex:1;border-bottom:0.7pt solid #000;padding:0 2mm 0.5mm;line-height:1.2;font-weight:700">${esc(doc.cns || '')}</span><span>, passou em</span></div>
           <div>avaliação cardiológica pré-operatória, encontrando-se com o seu</div>
           <div style="display:flex;align-items:baseline;gap:2mm;flex-wrap:wrap">
             <b>Risco Cirúrgico</b>
-            <span style="min-width:28mm;border-bottom:0.7pt solid #000;padding:0 3mm;text-align:center;font-weight:700">${esc(doc.grauRisco || '')}</span>
+            <span style="min-width:28mm;border-bottom:0.7pt solid #000;padding:0 2mm 0.5mm;line-height:1.2;text-align:center;font-weight:700">${esc(doc.grauRisco || '')}</span>
             <span>para o procedimento proposto</span>
           </div>
-          <div style="display:flex;align-items:baseline;gap:1mm"><span>(</span><span style="min-width:58mm;flex:1;max-width:115mm;border-bottom:0.7pt solid #000;padding:0 3mm;font-weight:700">${esc(doc.procedimento || '')}</span><span>).</span></div>
-          ${doc.obsRisco ? `<div style="margin-top:6mm;line-height:1.5;font-size:10.5pt"><b>Observações:</b> ${esc(doc.obsRisco)}</div>` : ''}
+          <div style="display:flex;align-items:baseline;gap:1mm"><span>(</span><span style="min-width:58mm;flex:1;max-width:115mm;border-bottom:0.7pt solid #000;padding:0 2mm 0.5mm;line-height:1.2;font-weight:700">${esc(doc.procedimento || '')}</span><span>).</span></div>
+          ${doc.obsRisco ? `<div style="margin-top:4mm;line-height:1.5;font-size:10.5pt"><b>Observações:</b> ${esc(doc.obsRisco)}</div>` : ''}
         </div>
 
         <div style="border:1.8pt double #777;display:grid;grid-template-columns:42% 58%;height:22mm;margin-top:auto;font-family:Arial,sans-serif;font-size:9.5pt">
@@ -7442,7 +7681,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div class="poc-hdr-no-border" style="margin-bottom:1.5mm">
@@ -7498,7 +7737,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
     const linhaContato = orig
       ? 'Tel. 3216-2216 – e-mail: poc-oswaldocruz@hotmail.com'
       : [c.local.cidade || c.presc.cidade, c.presc.telefone ? 'Tel. ' + c.presc.telefone : ''].filter(Boolean).join(' · ');
@@ -7594,7 +7833,7 @@ window._pinmedBoot = function boot() {
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
     const listaEx = (doc.exames || []).filter(Boolean);
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div class="poc-hdr-no-border" style="margin-bottom:2mm">
@@ -7614,18 +7853,18 @@ window._pinmedBoot = function boot() {
         ${hdrHtml}
 
         <div style="border:0.9pt solid #000;flex:1;display:flex;flex-direction:column">
-          <div style="padding:2.5mm 3mm;font-size:9pt;font-weight:700;line-height:2.05;border-bottom:1.8pt solid #000">
-            <div style="display:flex;align-items:baseline"><span>1.NOME:</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm">${esc(pac)}</span></div>
-            <div style="display:flex;align-items:baseline">
-              <span>2.Nº DO REGISTRO/CNS/SUS</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm">${esc(doc.numRegistro || '')}</span>
-              <span style="margin-left:2mm">3.IDADE:</span><span style="width:22mm;border-bottom:0.6pt solid #000;padding:0 2mm">${esc(doc.idadePac || '')}</span>
+          <div style="padding:2.5mm 3mm;font-size:9pt;font-weight:700;line-height:1.35;display:flex;flex-direction:column;gap:2.4mm;border-bottom:1.8pt solid #000">
+            <div style="display:flex;align-items:baseline;gap:1.5mm"><span>1.NOME:</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2">${esc(pac)}</span></div>
+            <div style="display:flex;align-items:baseline;gap:1.5mm">
+              <span>2.Nº DO REGISTRO/CNS/SUS</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2">${esc(doc.numRegistro || '')}</span>
+              <span style="margin-left:2mm">3.IDADE:</span><span style="width:22mm;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2">${esc(doc.idadePac || idadeFormatada() || '')}</span>
             </div>
-            <div style="display:flex;align-items:baseline">
-              <span>4.CLINICA:</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm">${esc(doc.clinica || '')}</span>
-              <span style="margin-left:2mm">5.MATERIAL</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm">${esc(doc.material || '')}</span>
+            <div style="display:flex;align-items:baseline;gap:1.5mm">
+              <span>4.CLINICA:</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2">${esc(doc.clinica || '')}</span>
+              <span style="margin-left:2mm">5.MATERIAL</span><span style="flex:1;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2">${esc(doc.material || '')}</span>
             </div>
             <div>6.INDICAÇÃO CLÍNICA DO PEDIDO DO EXAME:</div>
-            <div style="text-align:center;min-height:6mm"><span style="display:inline-block;width:72%;border-bottom:0.6pt solid #000;font-weight:700">${esc(doc.indicacao || '')}</span></div>
+            <div style="text-align:center;min-height:5mm"><span style="display:inline-block;width:72%;border-bottom:0.6pt solid #000;padding:0 2mm 0.4mm;line-height:1.2;font-weight:700">${esc(doc.indicacao || '')}</span></div>
           </div>
 
           <div class="fit-box" style="flex:1;padding:2.5mm 4mm;display:flex;flex-direction:column">
@@ -7671,16 +7910,16 @@ window._pinmedBoot = function boot() {
 
   const _corpoEditorPrev = corpoEditor;
   corpoEditor = function (doc) {
-    const swCabOriginal = `<label class="switch"><input type="checkbox" data-b="usarCabOriginal"${doc.usarCabOriginal !== false ? ' checked' : ''}><span><b>Usar cabeçalho original da POC</b></span></label>`;
+    const ehPoc = localEhPoc();
+    const swCabOriginal = ehPoc ? '' : `<label class="switch"><input type="checkbox" data-b="usarCabOriginal"${doc.usarCabOriginal !== false ? ' checked' : ''}><span><b>Usar cabeçalho original da POC</b></span></label>`;
 
     if (doc.tipo === 'risco_cirurgico') {
-      return `<div class="grp poc-toggles"><div class="grp-h">Formatação POC</div>${swCabOriginal}</div>
-        <div class="grp"><div class="grp-h">Avaliação Pré-Operatória (POC / SESAU-RO)</div>
+      return `<div class="grp"><div class="grp-h">Avaliação Pré-Operatória (POC / SESAU-RO)</div>
           ${fld('CNS (Cartão SUS):', 'data-b="cns"', doc.cns, 'Em branco = linha para preencher')}
           ${fld('Risco Cirúrgico (Grau):', 'data-b="grauRisco"', doc.grauRisco, 'Ex.: Baixo / Grau I / Habitual')}
           ${fld('Procedimento Proposto:', 'data-b="procedimento"', doc.procedimento, 'Ex.: Colecistectomia videolaparoscópica')}
           ${area('Observações adicionais (opcional):', 'data-b="obsRisco"', doc.obsRisco, '', 3)}
-        </div>`;
+        </div>${swCabOriginal ? `<div class="grp poc-toggles"><div class="grp-h">Formatação POC</div>${swCabOriginal}</div>` : ''}`;
     }
 
     let pocBox = '';
@@ -7697,7 +7936,7 @@ window._pinmedBoot = function boot() {
       }
       pocBox = `<div class="grp poc-toggles"><div class="grp-h">Formatação POC</div>${inner}</div>`;
     }
-    return pocBox + _corpoEditorPrev(doc);
+    return _corpoEditorPrev(doc) + pocBox;
   };
 })();
 
@@ -8047,7 +8286,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = doc.respEncaminhamento || [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div style="margin-bottom:3mm">
@@ -8153,7 +8392,7 @@ window._pinmedBoot = function boot() {
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
     const listaEx = (doc.exames || []).filter(Boolean);
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
     const padCls = isHalf ? 'half poc-half fit-host' : 'preop-lab-page fit-host';
     const fBase = isHalf ? '9.5pt' : '13pt';
 
@@ -8227,7 +8466,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
     const linhaContato = orig
       ? 'Tel. 3216-2216 – e-mail: poc-oswaldocruz@hotmail.com'
       : [c.local.cidade || c.presc.cidade, c.presc.telefone ? 'Tel. ' + c.presc.telefone : ''].filter(Boolean).join(' · ');
@@ -8321,7 +8560,7 @@ window._pinmedBoot = function boot() {
     const pac = c.pac.nome || '';
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:1.5mm;margin-bottom:1.2mm">
@@ -8374,7 +8613,7 @@ window._pinmedBoot = function boot() {
     const pNome = limpoP(c.presc.nome), pCrm = limpoP(c.presc.crm);
     const medStr = [pNome, pCrm].filter(Boolean).join(' - ');
     const listaEx = (doc.exames || []).filter(Boolean);
-    const orig = doc.usarCabOriginal !== false;
+    const orig = localEhPoc() || doc.usarCabOriginal !== false;
 
     const hdrHtml = orig
       ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:1.5mm;margin-bottom:1.5mm">
@@ -8547,12 +8786,13 @@ window._pinmedBoot = function boot() {
     const d = draft(), sc = $('#pv-scroll');
     const isLand = d && (isSplit(d.doc) || (d.doc.meiaFolha && ['receita', 'especial', 'exame', 'preop_exame'].includes(d.doc.tipo)));
     const baseW = isLand ? 1122.5 : 793.7, baseH = isLand ? 793.7 : 1122.5;
-    const zW = (sc.clientWidth - 48) / baseW;
+    const padX = window.innerWidth <= 860 ? 18 : 48;
+    const zW = Math.max(200, sc.clientWidth - padX) / baseW;
     if (db.prefs.zoomMode === 'page') {
-      const zH = (sc.clientHeight - 56) / baseH;
-      return Math.max(.35, Math.min(1.2, Math.min(zW, zH)));
+      const zH = Math.max(200, sc.clientHeight - 56) / baseH;
+      return Math.max(.25, Math.min(1.2, Math.min(zW, zH)));
     }
-    return Math.max(.4, Math.min(1.2, zW));
+    return Math.max(.28, Math.min(1.2, zW));
   };
 
   // Janela da Fila: avisa que a impressão pode ser otimizada em meia folha
@@ -8570,7 +8810,7 @@ window._pinmedBoot = function boot() {
   // =========================================================================
   const _corpoEditorAnt = corpoEditor;
   corpoEditor = function (doc) {
-    const swCabOriginal = `<div class="grp poc-toggles"><div class="grp-h">Formatação POC</div><label class="switch"><input type="checkbox" data-b="usarCabOriginal"${doc.usarCabOriginal !== false ? ' checked' : ''}><span><b>Usar cabeçalho original da POC</b></span></label></div>`;
+    const swCabOriginal = localEhPoc() ? '' : `<div class="grp poc-toggles"><div class="grp-h">Formatação POC</div><label class="switch"><input type="checkbox" data-b="usarCabOriginal"${doc.usarCabOriginal !== false ? ' checked' : ''}><span><b>Usar cabeçalho original da POC</b></span></label></div>`;
 
     const controlesMeiaFolha = (permiteDuasVias = true) => {
       const atual = isSplit(doc) ? 'duas' : doc.meiaFolha ? 'meia' : 'inteira';
@@ -8584,8 +8824,7 @@ window._pinmedBoot = function boot() {
 
     // EDITOR 1: SOLICITAÇÃO DE CIRURGIA (PRÉ-OP POC)
     if (doc.tipo === 'solicitacao_cirurgia') {
-      return `${swCabOriginal}
-        <div class="grp"><div class="grp-h">Cabeçalho e Identificação do Paciente</div>
+      return `<div class="grp"><div class="grp-h">Cabeçalho e Identificação do Paciente</div>
           ${fld('Equipe / Setor no cabeçalho:', 'data-b="equipeCab"', doc.equipeCab, 'Ex.: Equipe Cirúrgica')}
           <div class="row c3">
             ${fld('Data de Nasc.:', 'data-b="dnPac"', doc.dnPac, 'DD/MM/AAAA')}
@@ -8656,13 +8895,12 @@ window._pinmedBoot = function boot() {
           </div>
           ${area('Observações de Marcação:', 'data-b="obsMarcacao"', doc.obsMarcacao, '', 3)}
           ${fld('Médico Solicitante (opcional — vazio usa Prescritor):', 'data-b="medSolicitante"', doc.medSolicitante)}
-        </div>`;
+        </div>${swCabOriginal}`;
     }
 
     // EDITOR 2 E 3: SOLICITAÇÃO DE EXAME PRÉ-OPERATÓRIO (ELETROCARDIOGRAMA / RX DE TÓRAX)
     if (doc.tipo === 'preop_exame') {
-      return `${swCabOriginal}
-        <div class="grp"><div class="grp-h">Dados Clínicos e Exame Pré-Operatório</div>
+      return `<div class="grp"><div class="grp-h">Dados Clínicos e Exame Pré-Operatório</div>
           ${fld('Equipe / Setor no cabeçalho:', 'data-b="equipeCab"', doc.equipeCab, 'Ex.: Setor / Equipe')}
           <div class="row c3">
             ${fld('Data de Nasc.:', 'data-b="dnPac"', doc.dnPac, 'DD/MM/AAAA')}
@@ -8690,6 +8928,7 @@ window._pinmedBoot = function boot() {
           ${fld('Exame Solicitado (destaque central):', 'data-b="examePrincipal"', doc.examePrincipal, 'Ex.: ELETROCARDIOGRAMA ou RX DE TORAX AP/P')}
           ${fld('Complemento do Exame (opcional):', 'data-b="subExame"', doc.subExame, 'Ex.: COM LAUDO')}
         </div>
+        ${swCabOriginal}
         ${controlesMeiaFolha(true)}`;
     }
 
@@ -8723,7 +8962,11 @@ window._pinmedBoot = function boot() {
         if (b === 'layoutRegulacaoJp2' && e.target.checked) d.doc.layoutFicha = false;
         if (b === 'layoutFicha' && e.target.checked) d.doc.layoutRegulacaoJp2 = false;
         if (b === 'layoutPreOpLab' && e.target.checked) d.doc.layoutPoc = false;
-        if (b === 'layoutPoc' && e.target.checked) d.doc.layoutPreOpLab = false;
+        if (b === 'layoutPoc') {
+          d.autoPoc = false;
+          d.manualPocOff = !e.target.checked;
+          if (e.target.checked) d.doc.layoutPreOpLab = false;
+        }
       }
       renderEditor();
       changed({ forcarSide: true });
