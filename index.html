@@ -1254,8 +1254,34 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-tab{color:#415870}
   html:not([data-theme=dark]) .mob-tab.on{background:rgba(11,111,199,.14);color:#0b5fa8;box-shadow:inset 0 0 0 1px rgba(11,111,199,.24)}
 }
+/* Sistema de Cadeado / Acesso Restrito PinMed */
+#pinmed-lock{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:16px;background:rgba(8,20,38,.58);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);transition:opacity .22s ease}
+#pinmed-lock.hidden{display:none!important}
+#pinmed-lock.out{opacity:0;pointer-events:none}
+body.pm-locked .app{pointer-events:none;user-select:none}
+.lock-card{width:min(368px,calc(100vw - 28px));border-radius:22px;overflow:hidden;background:var(--surface);color:var(--text);border:1px solid rgba(255,255,255,.16);box-shadow:0 28px 72px -14px rgba(4,12,26,.65);animation:pop .2s ease-out}
+.lock-card.shake{animation:pm-lock-shake .34s ease}
+@keyframes pm-lock-shake{0%,100%{transform:translateX(0)}22%{transform:translateX(-8px)}45%{transform:translateX(7px)}70%{transform:translateX(-5px)}88%{transform:translateX(3px)}}
+.lock-head{background:linear-gradient(145deg,#0c2340 0%,#123764 100%);padding:22px 22px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#fff}
+.lock-brand{display:flex;align-items:center;gap:11px}
+.lock-brand svg{width:42px;height:42px;flex:none}
+.lock-brand span{font-size:20px;font-weight:750;letter-spacing:-.02em;line-height:1.05;color:#fff}
+.lock-brand span b{color:#5eb0ff;font-weight:750}
+.lock-brand span small{display:block;font-size:9.8px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:#9bb2cc;margin-top:4px}
+.lock-badge{width:38px;height:38px;border-radius:12px;background:rgba(94,176,255,.16);border:1px solid rgba(94,176,255,.32);color:#7ec2ff;display:grid;place-items:center;flex:none}
+.lock-badge svg.i{width:19px;height:19px}
+.lock-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.lock-sub{margin:0;font-size:12.8px;color:var(--text-2);line-height:1.45}
+.lock-fld{display:flex;flex-direction:column;gap:5px}
+.lock-fld label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.lock-fld .in{height:44px;border-radius:11px;font-size:15px;font-weight:600;padding:0 13px}
+.lock-fld .in-pin{text-align:center;letter-spacing:.55em;padding-left:calc(13px + .55em);font-size:20px;font-weight:750;font-variant-numeric:tabular-nums}
+.lock-err{display:flex;align-items:center;gap:7px;padding:9px 11px;border-radius:10px;background:var(--danger-soft);border:1px solid var(--danger-line);color:var(--danger);font-size:12.5px;font-weight:600}
+.lock-err.hidden{display:none}
+.lock-btn{height:44px;border-radius:12px;font-size:14px;font-weight:700;width:100%;margin-top:2px}
 @media print{
-  .app,.mob-bottom-stack,.mob-nav,.mob-rx-dock,.mob-act-bar,.fila-pop,#tour-bg,#tour-spot,#tour-card,#save-pop{display:none!important}
+  .app,.mob-bottom-stack,.mob-nav,.mob-rx-dock,.mob-act-bar,.fila-pop,#tour-bg,#tour-spot,#tour-card,#save-pop,#pinmed-lock{display:none!important}
+  body.pm-locked #print-root{display:none!important}
 }
 </style>
 </head>
@@ -1309,6 +1335,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6.5A2.5 2.5 0 0 0 4 21.5 2.5 2.5 0 0 0 6.5 24"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></symbol>
     <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
   </defs>
 </svg>
 
@@ -1472,6 +1499,40 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
     </nav>
   </div>
   <div class="fila-pop hidden" id="pop-fila-ed" role="dialog" aria-label="Fila de impressão"></div>
+</div>
+
+<div id="pinmed-lock" class="hidden" role="dialog" aria-modal="true" aria-labelledby="lock-title">
+  <form class="lock-card" id="f-lock" autocomplete="off" novalidate>
+    <div class="lock-head">
+      <div class="lock-brand">
+        <svg viewBox="6 6 36 39" fill="none" aria-hidden="true">
+          <defs><linearGradient id="pm-pin-lk" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e88e5"/><stop offset="55%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#e0f7fa"/></linearGradient></defs>
+          <path d="M24 43.2L22 36.2h4L24 43.2z" fill="#e0f7fa"/>
+          <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin-lk)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M24 27.4c0 3.4 2.4 5.2 5.4 4.8 3.6-.5 6.4-3.7 6.8-7.8" stroke="url(#pm-pin-lk)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="19.6" cy="10.2" r="2.3" fill="#4fc3f7"/><circle cx="28.4" cy="10.2" r="2.3" fill="#4fc3f7"/>
+          <circle cx="24" cy="20.2" r="5.6" fill="#0c2340" stroke="url(#pm-pin-lk)" stroke-width="2.2"/>
+          <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#4fc3f7" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span id="lock-title">Pin<b>Med</b><small>Acesso autorizado</small></span>
+      </div>
+      <span class="lock-badge" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg></span>
+    </div>
+    <div class="lock-body">
+      <p class="lock-sub">Informe seu nome e a senha numérica de 4 dígitos para desbloquear o PinMed.</p>
+      <div class="lock-fld">
+        <label for="lock-user">Nome (somente letras)</label>
+        <input class="in" id="lock-user" type="text" placeholder="Ex.: Teste" autocomplete="username" autocapitalize="words" spellcheck="false" required>
+      </div>
+      <div class="lock-fld">
+        <label for="lock-pin">Senha (4 números)</label>
+        <input class="in in-pin" id="lock-pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="••••" autocomplete="current-password" required>
+      </div>
+      <div class="lock-err hidden" id="lock-err" role="alert"></div>
+      <button type="submit" class="btn btn-primary lock-btn"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span>Desbloquear</span></button>
+    </div>
+  </form>
 </div>
 
 <div id="print-root" aria-hidden="true"></div>
@@ -6756,7 +6817,8 @@ function menuCfg(anchor) {
     ...(window.PINMED_EXE ? [{ icon: 'download', label: 'Abrir ao conectar o pen drive', run: configurarAutoPenDrive }] : []),
     '-',
     { icon: 'info', label: 'Tutorial guiado', run: iniciarTutorial },
-    { icon: 'keyboard', label: 'Atalhos do teclado', kbd: '?', run: abrirAjuda }
+    { icon: 'keyboard', label: 'Atalhos do teclado', kbd: '?', run: abrirAjuda },
+    { icon: 'lock', label: 'Bloquear acesso', run: () => window.bloquearPinMed?.() }
   ];
   const jaInstalado = window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator.standalone;
   if (!window.PINMED_EXE && !jaInstalado) {
@@ -7694,6 +7756,7 @@ function bind() {
   });
   $('#pv-scroll').addEventListener('scroll', () => closeMenu(false), { passive: true });
   document.addEventListener('keydown', e => {
+    if (document.body.classList.contains('pm-locked')) return;
     const mod = e.ctrlKey || e.metaKey, k = e.key.toLowerCase(), aberto = $('dialog[open]');
     if (mod && e.shiftKey && k === 'p') { e.preventDefault(); if (!aberto) { S.ativo ? imprimir([S.ativo]) : toast('Abra um documento para imprimir', 'warn'); } }
     else if (mod && k === 'p') { e.preventDefault(); if (!aberto) imprimirPrincipal(); }
@@ -10659,6 +10722,145 @@ window._pinmedBoot = function boot() {
   const _rs = renderSide;
   renderSide = function () { _rs(); try { renderDoc(); } catch (e) { } };
   window._pinmedBoot();
+})();
+</script>
+
+<script>
+/* =============================================================================
+   SISTEMA DE CADEADO / ACESSO AUTORIZADO (PinMed)
+   - Pede login ao abrir o app (mantém desbloqueado enquanto a aba ficar aberta).
+   - Nome: somente letras | Senha: somente 4 dígitos numéricos.
+   - Para adicionar novos acessos, inclua o hash SHA-256 de "pinmed-v1:<nome_sem_acento_minusculo>:<4digitos>" abaixo.
+   ============================================================================= */
+(function () {
+  const SESSION_KEY = 'pinmed_auth_v1';
+  const PINMED_ACESSOS_AUTORIZADOS = new Set([
+    '3d92c65baaef6d0724102dcd5ba99ef959608bc59681d897898acc9b9e7ff606' // Teste
+  ]);
+
+  // SHA-256 puro síncrono (funciona 100% offline em https://, http:// e file://)
+  function sha256(str) {
+    const bytes = new TextEncoder().encode(str);
+    const K = [
+      0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+      0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+      0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+      0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+      0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+      0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+      0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+      0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+    ];
+    let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    const len = bytes.length, bitLen = len * 8;
+    const total = ((len + 9 + 63) >> 6) << 6;
+    const buf = new Uint8Array(total);
+    buf.set(bytes);
+    buf[len] = 0x80;
+    const dv = new DataView(buf.buffer);
+    dv.setUint32(total - 8, Math.floor(bitLen / 0x100000000), false);
+    dv.setUint32(total - 4, bitLen >>> 0, false);
+    const W = new Uint32Array(64);
+    const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+    for (let off = 0; off < total; off += 64) {
+      for (let i = 0; i < 16; i++) W[i] = dv.getUint32(off + i * 4, false);
+      for (let i = 16; i < 64; i++) {
+        const s0 = rotr(W[i - 15], 7) ^ rotr(W[i - 15], 18) ^ (W[i - 15] >>> 3);
+        const s1 = rotr(W[i - 2], 17) ^ rotr(W[i - 2], 19) ^ (W[i - 2] >>> 10);
+        W[i] = (W[i - 16] + s0 + W[i - 7] + s1) >>> 0;
+      }
+      let [a, b, c, d, e, f, g, h] = H;
+      for (let i = 0; i < 64; i++) {
+        const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+        const ch = (e & f) ^ (~e & g);
+        const t1 = (h + S1 + ch + K[i] + W[i]) >>> 0;
+        const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+        const maj = (a & b) ^ (a & c) ^ (b & c);
+        const t2 = (S0 + maj) >>> 0;
+        h = g; g = f; f = e; e = (d + t1) >>> 0;
+        d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+      }
+      H = [(H[0]+a)>>>0,(H[1]+b)>>>0,(H[2]+c)>>>0,(H[3]+d)>>>0,(H[4]+e)>>>0,(H[5]+f)>>>0,(H[6]+g)>>>0,(H[7]+h)>>>0];
+    }
+    return H.map(x => x.toString(16).padStart(8, '0')).join('');
+  }
+
+  const overlay = document.getElementById('pinmed-lock');
+  const form = document.getElementById('f-lock');
+  const card = form;
+  const inUser = document.getElementById('lock-user');
+  const inPin = document.getElementById('lock-pin');
+  const errBox = document.getElementById('lock-err');
+  const appEl = document.getElementById('app');
+  if (!overlay || !form || !inUser || !inPin) return;
+
+  const limparNome = v => String(v || '').replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, '');
+  const limparPin = v => String(v || '').replace(/\D/g, '').slice(0, 4);
+  const normUser = v => limparNome(v).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  inUser.addEventListener('input', () => {
+    const limpo = limparNome(inUser.value);
+    if (inUser.value !== limpo) inUser.value = limpo;
+    errBox?.classList.add('hidden');
+  });
+  inPin.addEventListener('input', () => {
+    const limpo = limparPin(inPin.value);
+    if (inPin.value !== limpo) inPin.value = limpo;
+    errBox?.classList.add('hidden');
+  });
+
+  function mostrarErro(msg) {
+    if (errBox) {
+      errBox.innerHTML = `${ic('alert')}<span>${esc(msg)}</span>`;
+      errBox.classList.remove('hidden');
+    }
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+  }
+
+  function travar() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {}
+    document.body.classList.add('pm-locked');
+    appEl?.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('hidden', 'out');
+    inUser.value = '';
+    inPin.value = '';
+    errBox?.classList.add('hidden');
+    setTimeout(() => inUser.focus(), 40);
+  }
+
+  function destravar(hash) {
+    try { sessionStorage.setItem(SESSION_KEY, hash); } catch (_) {}
+    document.body.classList.remove('pm-locked');
+    appEl?.removeAttribute('aria-hidden');
+    overlay.classList.add('out');
+    setTimeout(() => overlay.classList.add('hidden'), 220);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const u = normUser(inUser.value);
+    const p = limparPin(inPin.value);
+    if (!u) { mostrarErro('Informe o nome (somente letras).'); inUser.focus(); return; }
+    if (p.length !== 4) { mostrarErro('A senha deve conter exatamente 4 números.'); inPin.focus(); return; }
+    const hash = sha256(`pinmed-v1:${u}:${p}`);
+    if (PINMED_ACESSOS_AUTORIZADOS.has(hash)) {
+      destravar(hash);
+      toast('Acesso liberado');
+    } else {
+      mostrarErro('Nome ou senha incorretos.');
+      inPin.value = '';
+      inPin.focus();
+    }
+  });
+
+  window.bloquearPinMed = travar;
+  window._pinmedHashAcesso = (nome, pin) => sha256(`pinmed-v1:${normUser(nome)}:${limparPin(pin)}`);
+
+  let sessaoOk = false;
+  try { sessaoOk = PINMED_ACESSOS_AUTORIZADOS.has(sessionStorage.getItem(SESSION_KEY) || ''); } catch (_) {}
+  if (!sessaoOk) travar();
 })();
 </script>
 </body>
