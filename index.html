@@ -646,8 +646,9 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 .side-brand .brand span b{color:#5eb0ff;font-weight:700}
 .side-brand .brand span small{display:block;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9bb2cc;margin-top:4px}
 .side-h{padding:4px 12px 10px;gap:8px;border-bottom:1px solid var(--line)}
-.side-filters{display:flex;flex-direction:column;gap:8px;overflow:hidden;max-height:140px;opacity:1;transform:translateY(0);transition:max-height .24s cubic-bezier(.22,1,.36,1),opacity .18s ease,transform .24s cubic-bezier(.22,1,.36,1),margin .24s ease}
-.side.filters-hide .side-filters{max-height:0;opacity:0;transform:translateY(-10px);margin-top:-8px;pointer-events:none}
+.side-filters{display:grid;grid-template-rows:1fr;opacity:1;transform:translateY(0);transition:grid-template-rows .36s cubic-bezier(.22,1,.36,1),opacity .26s ease,transform .36s cubic-bezier(.22,1,.36,1),margin .36s cubic-bezier(.22,1,.36,1)}
+.side-filters-in{min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:8px}
+.side.filters-hide .side-filters{grid-template-rows:0fr;opacity:0;transform:translateY(-6px);margin-top:-8px;pointer-events:none}
 .side .seg{background:rgba(255,255,255,.06);border-radius:10px;padding:3px}
 .side .seg button{color:#bccbdd;font-weight:600;border-radius:8px;font-size:12px;padding:6px 4px}
 .side .seg button.on{background:#fff;color:var(--navy);box-shadow:none}
@@ -893,6 +894,10 @@ textarea.in{padding:10px 12px;line-height:1.55}
 /* ---------- Editor em cartões ---------- */
 .ed{background:var(--surface-2);border-left:1px solid var(--line)}
 .ed-h{background:var(--surface);padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+.ed-h-wrap{display:grid;grid-template-rows:1fr;opacity:1;transform:translateY(0);flex:none;transition:grid-template-rows .36s cubic-bezier(.22,1,.36,1),opacity .26s ease,transform .36s cubic-bezier(.22,1,.36,1)}
+.ed-h-wrap>.ed-h{min-height:0;overflow:hidden}
+.ed.title-hide .ed-h-wrap{grid-template-rows:0fr;opacity:0;transform:translateY(-6px);pointer-events:none}
+.ed.title-hide .ed-h{border-bottom-color:transparent;padding-top:0;padding-bottom:0}
 .ed-top select.in{max-width:180px;overflow:hidden;text-overflow:ellipsis}
 .in-title{font-size:17px;font-weight:650;height:42px;background:var(--surface-2);border-color:transparent}
 .in-title:hover{border-color:var(--line-strong)}
@@ -1151,9 +1156,9 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-rx-split{background:rgba(12,35,64,.16)}
   html:not([data-theme=dark]) .mob-rx-x{color:#5b6b7f}
 
-  /* Rodapé de ações flutuante em vidro (igual ao dock de receitas), com 3 botões de tamanho igual no Editor e na Prévia */
+  /* Barra de ação flutuante em vidro, levemente acima da barra carrossel, com 3 botões de tamanho igual */
   .ed,.center{position:relative}
-  .ed-foot,.pv-foot{position:absolute;left:10px;right:10px;bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:60;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
+  .ed-foot,.pv-foot{position:absolute;left:10px;right:10px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:82;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
   .ed-foot .btn,.pv-foot .btn{width:100%;height:38px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:700;gap:5px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:none}
   .ed-foot .btn-secondary,.pv-foot .btn-secondary{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);color:#eef5ff}
   .ed-foot .btn-fila-view.has-q,.pv-foot .btn-fila-view.has-q{background:rgba(35,137,232,.36);border-color:rgba(125,184,240,.46);color:#ffffff}
@@ -1166,7 +1171,7 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
   html:not([data-theme=dark]) .ed-foot .btn-fila-view .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view .count{background:rgba(12,35,64,.1);color:#1d3550}
   html:not([data-theme=dark]) .ed-foot .btn-fila-view.has-q .count,html:not([data-theme=dark]) .pv-foot .btn-fila-view.has-q .count{background:#0b6fc7;color:#ffffff}
-  .fila-pop{left:10px;right:10px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:auto;max-height:56dvh}
+  .fila-pop{left:10px;right:10px;bottom:calc(136px + env(safe-area-inset-bottom,0px));width:auto;max-height:56dvh}
 
   #btn-side{display:none}
   .pv-bar{height:44px;padding:0 8px;gap:6px}
@@ -1420,9 +1425,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
           <kbd id="q-kbd" aria-hidden="true">Ctrl K</kbd>
         </div>
         <div class="side-filters" id="side-filters">
-          <div class="seg" role="tablist" aria-label="Navegação da biblioteca"><button type="button" id="tab-modelos" data-tab="modelos" class="on" role="tab" aria-selected="true" aria-controls="side-list" tabindex="0">Modelos</button><button type="button" id="tab-meds" data-tab="meds" role="tab" aria-selected="false" aria-controls="side-list" tabindex="-1">Medicamentos</button></div>
-          <div class="ctx-pills" id="ctx-pills" role="group" aria-label="Filtros rápidos"></div>
-          <div class="chips" id="chips" role="group" aria-label="Categorias de documentos"></div>
+          <div class="side-filters-in">
+            <div class="seg" role="tablist" aria-label="Navegação da biblioteca"><button type="button" id="tab-modelos" data-tab="modelos" class="on" role="tab" aria-selected="true" aria-controls="side-list" tabindex="0">Modelos</button><button type="button" id="tab-meds" data-tab="meds" role="tab" aria-selected="false" aria-controls="side-list" tabindex="-1">Medicamentos</button></div>
+            <div class="ctx-pills" id="ctx-pills" role="group" aria-label="Filtros rápidos"></div>
+            <div class="chips" id="chips" role="group" aria-label="Categorias de documentos"></div>
+          </div>
         </div>
       </div>
       <div class="side-list" id="side-list" role="tabpanel" aria-labelledby="tab-modelos"></div>
@@ -5261,8 +5268,9 @@ function renderEditor() {
   const ed = $('#ed'), d = draft();
   if (!d) { ed.innerHTML = `<div class="empty-st" style="margin:auto">${ic('pill')}<b>Nada para editar</b><p>Abra um modelo ou crie um documento novo.</p></div>`; return; }
   const scroll = $('#ed-body')?.scrollTop || 0, doc = d.doc, tv = tipoVisual(doc);
+  ed.classList.remove('title-hide');
   ed.innerHTML = `
-    <div class="ed-h">
+    <div class="ed-h-wrap"><div class="ed-h">
       <div class="ed-top">
         <select class="in in-sm" data-act="tipo" title="Tipo de documento" aria-label="Tipo de documento">${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}"${tv === k ? ' selected' : ''}>${v.label}</option>`).join('')}</select>
         <span class="sp"></span><span id="ed-status" style="display:flex;align-items:center;gap:4px"></span>
@@ -5270,10 +5278,25 @@ function renderEditor() {
       <input class="in in-title" data-b="titulo" value="${esc(doc.titulo)}" placeholder="Nome do modelo (ex.: Sinusite aguda)" aria-label="Nome do modelo">
       <input class="in in-grp" data-b="grupo" list="dl-grupos" value="${esc(doc.grupo)}" placeholder="+ Grupo na biblioteca (ex.: Respiratório)" aria-label="Grupo na biblioteca">
       <div class="ed-hint" id="ed-hint"></div>
-    </div>
+    </div></div>
     <div class="ed-body" id="ed-body"><div class="alerts" id="ed-alerts" role="alert" aria-live="polite"></div>${corpoEditor(doc)}</div>
     <div class="ed-foot" id="ed-foot"></div>`;
-  $('#ed-body').scrollTop = scroll;
+  const edBody = $('#ed-body');
+  edBody.scrollTop = scroll;
+  let lastEdST = scroll, edCool = 0;
+  edBody.addEventListener('scroll', () => {
+    const now = Date.now(), st = edBody.scrollTop;
+    if (st < 16) { ed.classList.remove('title-hide'); lastEdST = st; return; }
+    if (now < edCool) { lastEdST = st; return; }
+    const diff = st - lastEdST;
+    if (diff > 20 && st > 48) {
+      if (!ed.classList.contains('title-hide')) { ed.classList.add('title-hide'); edCool = now + 380; }
+      lastEdST = st;
+    } else if (diff < -20) {
+      if (ed.classList.contains('title-hide')) { ed.classList.remove('title-hide'); edCool = now + 380; }
+      lastEdST = st;
+    }
+  }, { passive: true });
   renderStatus(); renderAlerts(); renderFoot();
   if (S.calcAberta) updateCalcRes();
 }
