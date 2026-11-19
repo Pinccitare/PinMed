@@ -7144,15 +7144,26 @@ function bind() {
   document.addEventListener('mousedown', e => {
     if (menuEl && !menuEl.contains(e.target) && !menuAnchor?.contains(e.target)) closeMenu(false);
     if (_cbAtivo && !_cbAtivo.input.closest('.cb-wrap')?.contains(e.target)) cbFechar();
-    const pc = $('#pop-cond'), pa = $('#pop-alg');
+    const pc = $('#pop-cond'), pa = $('#pop-alg'), pp = $('#pop-pac');
     if (pc && !pc.classList.contains('hidden') && !pc.contains(e.target) && !$('#btn-cond')?.contains(e.target)) {
       pc.classList.add('hidden'); $('#btn-cond')?.setAttribute('aria-expanded', 'false');
     }
     if (pa && !pa.classList.contains('hidden') && !pa.contains(e.target) && !$('#pf-alg')?.contains(e.target)) {
       pa.classList.add('hidden'); $('#pf-alg')?.setAttribute('aria-expanded', 'false');
     }
+    if (pp && !pp.classList.contains('hidden') && !pp.contains(e.target) && !$('#btn-mob-pac')?.contains(e.target)) {
+      pp.classList.add('hidden'); $('#btn-mob-pac')?.setAttribute('aria-expanded', 'false');
+    }
   });
-  window.addEventListener('resize', () => { closeMenu(false); cbFechar(); fecharTopPopovers(false); });
+  let _lastWinW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const wMudou = Math.abs(window.innerWidth - _lastWinW) > 10;
+    _lastWinW = window.innerWidth;
+    if (!wMudou) return; // Evita fechar pop-ups quando o teclado virtual do celular abre
+    closeMenu(false); cbFechar();
+    if (!document.activeElement?.closest('.top-pop')) fecharTopPopovers(false);
+    renderTopAlg();
+  });
   $('#pv-scroll').addEventListener('scroll', () => closeMenu(false), { passive: true });
   document.addEventListener('keydown', e => {
     const mod = e.ctrlKey || e.metaKey, k = e.key.toLowerCase(), aberto = $('dialog[open]');
@@ -7175,7 +7186,7 @@ function bind() {
     else if (((mod && e.shiftKey && k === 'z') || (mod && k === 'y')) && !aberto && !isTyping(e.target)) { e.preventDefault(); refazer(); }
     else if (mod && e.key === 'Enter') { e.preventDefault(); if (!aberto) toggleFila(S.ativo); }
     else if (e.key === 'Escape' && menuEl) { e.preventDefault(); closeMenu(true); }
-    else if (e.key === 'Escape' && (!$('#pop-cond')?.classList.contains('hidden') || !$('#pop-alg')?.classList.contains('hidden'))) { e.preventDefault(); fecharTopPopovers(true); }
+    else if (e.key === 'Escape' && (!$('#pop-cond')?.classList.contains('hidden') || !$('#pop-alg')?.classList.contains('hidden') || !$('#pop-pac')?.classList.contains('hidden'))) { e.preventDefault(); fecharTopPopovers(true); }
     else if (e.key === 'Escape' && document.activeElement?.classList.contains('tip')) { e.preventDefault(); document.activeElement.blur(); }
     else if (e.key === '?' && !isTyping(e.target) && !aberto) abrirAjuda();
   });
