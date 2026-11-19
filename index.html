@@ -1122,6 +1122,55 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .mob-tab.on{background:rgba(255,255,255,.22);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.36),0 2px 10px rgba(0,0,0,.18)}
   .mob-tab:active{transform:scale(.95)}
   .toast{bottom:78px;max-width:calc(100vw - 24px)}
+
+  /* Modo claro invertido e limpo no celular (especialmente em Modelos e barra de vidro) */
+  html:not([data-theme=dark]) .side{
+    --bg:#f4f7fb; --surface:#ffffff; --surface-2:#edf2f8; --surface-3:#e4ecf5;
+    --line:#dce4ee; --line-strong:#c6d3e3;
+    --text:#0f1c2e; --text-2:#3a4f66; --text-3:#62778e;
+    --brand:#0b6fc7; --brand-soft:#e8f3ff; --brand-line:#9cc8f5;
+    background:#f4f7fb; color:#0f1c2e; color-scheme:light
+  }
+  html:not([data-theme=dark]) .side .search{background:#ffffff;border-color:#7bb8f2;box-shadow:0 2px 8px -4px rgba(11,111,199,.18)}
+  html:not([data-theme=dark]) .side .search:focus-within{background:#ffffff;border-color:#0b6fc7;box-shadow:0 0 0 3px rgba(11,111,199,.16)}
+  html:not([data-theme=dark]) .side .search>svg.i{color:#5e748c}
+  html:not([data-theme=dark]) .side .search input{color:#0f1c2e}
+  html:not([data-theme=dark]) .side .search input::placeholder{color:#6d8299}
+  html:not([data-theme=dark]) .search-sep{background:#dce4ee}
+  html:not([data-theme=dark]) .search-mic{color:#0b6fc7}
+  html:not([data-theme=dark]) .search-mic:hover{background:rgba(11,111,199,.1);color:#084e8e}
+  html:not([data-theme=dark]) .side .seg{background:#e5edf6}
+  html:not([data-theme=dark]) .side .seg button{color:#465b73}
+  html:not([data-theme=dark]) .side .seg button.on{background:#ffffff;color:#0b5fa8;box-shadow:0 1px 3px rgba(15,28,46,.1)}
+  html:not([data-theme=dark]) .side .ctx-pill,
+  html:not([data-theme=dark]) .side .chip{background:#ffffff;color:#33485e;border:1px solid #d7e2ee}
+  html:not([data-theme=dark]) .side .ctx-pill.on,
+  html:not([data-theme=dark]) .side .chip.on{background:#0b6fc7;color:#ffffff;border-color:#0b6fc7}
+  html:not([data-theme=dark]) .side .sec-h,
+  html:not([data-theme=dark]) .side .sec-t,
+  html:not([data-theme=dark]) .side .grp-t{color:#3b5169}
+  html:not([data-theme=dark]) .side .sec-t .n,
+  html:not([data-theme=dark]) .side .grp-t .n{background:#e3ecf6;color:#274059}
+  html:not([data-theme=dark]) .side .sec-h .lnk{color:#0b6fc7}
+  html:not([data-theme=dark]) .side .grp-b{border-left-color:#d4e0ec}
+  html:not([data-theme=dark]) .side .mi{margin-bottom:4px;border:1px solid #e2eaf3;background:#ffffff}
+  html:not([data-theme=dark]) .side .mi-main{background:#ffffff;color:#0f1c2e}
+  html:not([data-theme=dark]) .side .mi.on{border-color:#9bc6f2}
+  html:not([data-theme=dark]) .side .mi.on .mi-main{background:#ebf4ff}
+  html:not([data-theme=dark]) .side .mi-ic{background:#edf4fc}
+  html:not([data-theme=dark]) .side .mi-t{color:#0f1c2e}
+  html:not([data-theme=dark]) .side .mi-s{color:#5a6f85}
+  html:not([data-theme=dark]) .side .mi:not(.sel-item) .mi-a [data-act="fav"]{color:#90a4ba}
+  html:not([data-theme=dark]) .side .mi:not(.sel-item) .mi-a [data-act="fav"].fav-on{color:#d99a00}
+  html:not([data-theme=dark]) .side .sel-sec{background:#eaf3ff;border-color:#b7d6f7}
+  html:not([data-theme=dark]) .side .sel-sec .sec-h{color:#0b5fa8}
+  html:not([data-theme=dark]) .side .sel-print-btn{background:#0b6fc7;color:#ffffff}
+  html:not([data-theme=dark]) .side .md{background:#ffffff;border:1px solid #e2eaf3;border-radius:10px;margin-bottom:4px}
+  html:not([data-theme=dark]) .side .empty-st b{color:#0f1c2e}
+  html:not([data-theme=dark]) .mob-nav{background:linear-gradient(180deg,rgba(255,255,255,.78) 0%,rgba(238,245,252,.86) 100%);border:1px solid rgba(12,35,64,.12);box-shadow:0 12px 32px -6px rgba(12,35,64,.22),inset 0 1px 0 rgba(255,255,255,.95)}
+  html:not([data-theme=dark]) .mob-sep{background:rgba(12,35,64,.14)}
+  html:not([data-theme=dark]) .mob-tab{color:#415870}
+  html:not([data-theme=dark]) .mob-tab.on{background:rgba(11,111,199,.14);color:#0b5fa8;box-shadow:inset 0 0 0 1px rgba(11,111,199,.24)}
 }
 </style>
 </head>
