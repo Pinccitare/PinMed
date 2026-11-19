@@ -1,0 +1,193 @@
+PinMed — Documentos médicos offline
+===================================
+
+COMO ABRIR
+- Dê dois cliques em index.html. Abre no navegador (Chrome ou Edge recomendados).
+- Não precisa de internet. Nada é enviado para fora do computador.
+
+INSTALAR COMO APLICATIVO — PWA (opcional)
+- A opção "Instalar como aplicativo" só fica disponível no Chrome ou no Edge quando o PinMed é
+  aberto por HTTP ou HTTPS (não aparece ao abrir o arquivo diretamente como file://).
+- Na pasta do PinMed, rode uma vez no terminal:
+      python -m http.server 8080
+- Abra http://localhost:8080, clique em Configurações (engrenagem) > "Instalar como aplicativo"
+  (ou no ícone de instalação na barra de endereços).
+- Depois de instalado, o PinMed abre pelo ícone da área de trabalho/menu iniciar mesmo sem
+  internet e sem o servidor ligado.
+- Atalhos rápidos no ícone instalado (botão direito na barra de tarefas ou toque longo no
+  celular/tablet): Nova receita, Controle especial, Pedido de exames e Exame de imagem.
+
+ONDE FICAM OS DADOS
+- Modelos, locais, dados do prescritor e preferências ficam salvos no próprio navegador deste
+  computador (localStorage).
+- Limpar os dados de navegação apaga tudo. Faça backup periódico em:
+  Configurações > Backup e restauração.
+- O arquivo de backup (.json) também serve para levar seus modelos e locais a outro computador.
+- Se você usava a versão anterior neste mesmo navegador, seus modelos são importados sozinhos.
+
+TELA E LOCAIS DE ATENDIMENTO
+- Barra lateral esquerda: marca PinMed, seletor de Local de atendimento (cabeçalho das folhas),
+  biblioteca de Modelos, Catálogo de medicamentos e aba Texto rápido.
+- 5 locais já vêm pré-cadastrados e prontos para uso:
+    1. Policlínica Oswaldo Cruz (POC)
+    2. Hospital de Base Dr. Ary Pinheiro (HBAP)
+    3. CEMETRON
+    4. Hospital Universitário de Porto Velho (HU-PVH)
+    5. Ji-Paraná
+  Você pode editar esses locais ou cadastrar novos em Configurações > Locais e cabeçalhos.
+- Barra superior: Paciente, botão interativo Alergias (com busca em tempo real por medicação ou
+  classe farmacológica em pop-up), menu Condições (reunindo Gestante, Lactante e Peso em kg),
+  Data, Médico, Fila de impressão e botão Imprimir.
+- Clique no nome do médico (canto superior direito) para cadastrar nome, CRM, UF e especialidade.
+
+IMPRESSÃO
+- Use Chrome ou Edge e papel A4. Na janela de impressão: margens "Nenhuma" e escala 100%.
+- Dica de impressora: muitas impressoras físicas não imprimem os 4–5 mm extremos da borda do
+  papel. Em formulários institucionais densos (como FHEMERON, SESAU-RO, POC, APAC e pacote
+  pré-operatório), caso algum canto fique rente à borda na sua impressora, ajuste a escala para
+  96%–98% ou configure margens mínimas (4–5 mm) na caixa de impressão.
+- Controle especial e receita de antimicrobiano saem com a folha A4 deitada (paisagem),
+  partida ao meio: 1ª via à esquerda, 2ª via à direita. Recorte na linha tracejada.
+  Na mesma fila, essas folhas giram sozinhas; as demais saem em retrato.
+- Otimizar a impressão: ao imprimir 2 ou mais receitas ou pedidos de exame juntos (pela fila),
+  o PinMed pergunta "Otimizar a impressão?". Em "Otimizar", eles saem 2 por folha A4 deitada,
+  lado a lado, como a receita dupla. Em "Não, imprimir direto", cada um sai no formato próprio.
+  Documentos de folha inteira (risco cirúrgico, solicitação de cirurgia, regulação, FHEMERON)
+  permanecem no tamanho original.
+- Orientação do papel: se todas as folhas da impressão forem deitadas, o papel sai em paisagem.
+  Se misturar folhas em pé e deitadas, as deitadas aparecem giradas na prévia; no papel saem
+  corretas.
+
+SELECIONADOS PARA IMPRESSÃO (FILA)
+- Clicar no nome de um modelo apenas abre o documento para visualizar e editar.
+- Para separar para imprimir em lote, clique no ícone de camadas ao lado do modelo (aparece ao
+  passar o mouse), clique em "Adicionar à fila" no editor ou use Ctrl+Enter.
+- Os itens aparecem em "Selecionados para impressão", no topo da barra lateral, na ordem em que
+  foram adicionados. O X remove um item; "Limpar" esvazia a fila. O botão Imprimir do topo
+  imprime todos os documentos selecionados de uma vez.
+
+FORMATO DE IMPRESSÃO E MODELOS INSTITUCIONAIS
+- No editor, escolha em uma linha: Inteira, 2 vias ou Meia folha (passe o mouse no "?" para ver
+  a explicação).
+- Pacote Pré-Operatório (5 folhas): reúne em um único fluxo as folhas institucionais de preparo
+  cirúrgico (avaliação/risco cirúrgico, solicitações e termos), já formatadas para impressão A4.
+- Requisição de Hemocomponentes (FHEMERON, 2 páginas): formulário frente e verso fiel ao padrão
+  da FHEMERON, com prévia multipágina e preenchimento compatível com a aba Texto rápido.
+- Ficha de Encaminhamento (SESAU-RO): ficha padronizada de referência/encaminhamento institucional.
+- Modelos da Policlínica Oswaldo Cruz (POC): no editor lateral de receitas, controle especial e
+  exames laboratoriais, o cartão agrupado "Formatação POC" oferece os interruptores "Usar
+  formatação POC" e "Usar cabeçalho original da POC" sempre acessíveis, acima de "Formato de
+  impressão" (que fica como último bloco do editor).
+
+EXAMES DE IMAGEM
+- Tipo dedicado "Exame de imagem" (Novo documento > Exame de imagem), sem misturar com exames
+  laboratoriais de sangue.
+- Montador no editor: escolha Raio-X, Ultrassom, Tomografia, Ressonância ou Outros e clique na
+  região desejada. Regiões com ↔ pedem o lado: Direito, Esquerdo ou Ambos. Inclui coluna cervical,
+  torácica, lombar, lombossacra, sacro e cóccix e coluna total, além de contraste (com ou sem)
+  em tomografia e ressonância.
+- Modelos de exame antigos que continham apenas exames de imagem são reconhecidos automaticamente.
+- No editor, o seletor de tipo permite alternar entre "Exames" (laboratório) e "Exame de imagem".
+
+APAC E TOMOGRAFIA
+- "APAC — Laudo para Solicitação/Autorização de Procedimento Ambulatorial" e
+  "Tomografia — Solicitação de Assistência Especializada" ficam no grupo "Regulação e APAC".
+- O nome do paciente vem do campo do topo; nome, CRM e data vêm do cadastro do médico.
+- Ambos contam com o montador de exames: na APAC o exame preenche o procedimento principal (ou o
+  próximo secundário vazio); na Tomografia preenche "Assistência especializada solicitada".
+- Os códigos SIGTAP não vêm preenchidos automaticamente: confira e digite o código correto.
+
+TEXTO RÁPIDO
+- Aba "Texto rápido" na coluna da esquerda: ao clicar para abrir documentos estruturados compatíveis
+  (Hemocomponentes, Encaminhamento, Risco Cirúrgico, APAC ou Assistência Especializada), o PinMed
+  muda automaticamente para a aba "Texto rápido" para que você já cole a evolução clínica e clique
+  em "Preencher documento".
+- O PinMed identifica nome, idade, sexo, DN, CNS, prontuário, leito, peso, tipo sanguíneo,
+  HD/CID, Hb, Ht, plaquetas, INR/TAP, TTPA, fibrinogênio, medicações em uso, exame físico,
+  exames, conduta, especialidade de destino e alergias.
+- Funciona melhor com seções identificadas: "HDA:", "Exame físico:", "Medicações em uso:",
+  "Exames:", "HD:", "Conduta:".
+- Campos não encontrados permanecem em branco, e o resumo abaixo do botão lista o que foi
+  preenchido. Tudo roda localmente; o texto nunca sai do computador. Confira antes de imprimir.
+
+CALCULADORA PEDIÁTRICA, PROTOCOLOS E BUSCA MULTI-TERMO
+- Menu "Condições" na barra superior (Gestante, Lactante e Peso em kg): informe o peso do paciente
+  para calcular doses pediátricas diretamente no fluxo de prescrição (com arredondamento prático
+  por apresentação/volume e checagem de dose máxima) e marque Gestante ou Lactante para ocultar
+  modelos contraindicados na biblioteca (com aviso e botão "Mostrar") e ativar alertas obstétricos
+  por idade gestacional/trimestre.
+- Filtros rápidos na barra lateral: utilize Favoritos, Ambulatorial, Pediatria e Urgência / PS
+  para isolar instantaneamente o contexto desejado.
+- Busca multi-termo: na barra de busca (Ctrl+K), digite várias palavras em qualquer ordem
+  (ex.: "pediatria amox" ou "urgencia dor") — o PinMed encontra modelos que combinem todos os
+  termos, ignorando acentos e maiúsculas.
+
+ALERTAS CLÍNICOS, ALERGIAS E CONFERÊNCIA PRÉ-IMPRESSÃO
+- Alergias e reação cruzada: informe alergias no campo "Alergias" (separadas por vírgula).
+  Modelos contendo o fármaco ou sua classe são ocultados da lista com aviso no topo (ex.:
+  penicilina engloba amoxicilina/ampicilina; "AINE" engloba ibuprofeno, diclofenaco, nimesulida,
+  cetoprofeno etc.). Se um documento contiver item conflitante, o PinMed alerta antes de abrir
+  ou imprimir.
+- Interações medicamentosas: o editor verifica combinações relevantes entre os fármacos da
+  receita (ex.: associações de risco ou potencialização de toxicidade) e sinaliza no painel.
+- Gestante e Lactante: quando ativados no topo, fármacos com restrição ou contraindicação na
+  gestação ou amamentação recebem alerta visual imediato.
+- Duplicidade terapêutica: o editor avisa quando há dois medicamentos da mesma classe na mesma
+  receita (ex.: dipirona e paracetamol ou dois AINEs juntos).
+- Controle especial (Portaria 344/98 — listas C1, A e B) e antimicrobianos (RDC 471/2021): o
+  PinMed orienta automaticamente o tipo de receituário, validade, retenção de via e limites
+  regulatórios aplicáveis.
+- Conferência pré-impressão: antes de mandar para o papel, alertas críticos pendentes (como
+  alergia, interação grave, contraindicação na gestação/lactação ou dados obrigatórios ausentes)
+  são apresentados para revisão do prescritor.
+- "Nova consulta" limpa paciente, alergias, peso e marcadores clínicos de uma só vez.
+
+APARÊNCIA, DESFAZER/REFAZER E ATALHOS DE TECLADO
+- Modo escuro / claro: alterne o tema da interface no controle de aparência para reduzir o
+  cansaço visual em plantões noturnos.
+- Conforto noturno do papel: suaviza o brilho da folha na prévia central em tela sem alterar a
+  impressão real (que sai sempre limpa em fundo branco e texto preto).
+- Desfazer e Refazer: use Ctrl+Z para desfazer e Ctrl+Shift+Z para refazer edições no documento
+  aberto.
+- Principais atalhos de teclado:
+    Ctrl+P        Imprimir a fila (ou a folha aberta)
+    Ctrl+Shift+P  Imprimir somente o documento aberto
+    Ctrl+K        Buscar modelos e medicamentos na biblioteca
+    Alt+P         Focar direto no campo do paciente
+    Ctrl+B        Mostrar ou ocultar a barra lateral da biblioteca
+    Ctrl+S        Salvar alterações no modelo
+    Ctrl+Enter    Adicionar ou remover o documento da fila de impressão
+    Ctrl+Z        Desfazer edição no documento
+    Ctrl+Shift+Z  Refazer edição no documento (ou Ctrl+Y)
+    Alt+0 / + / - Redefinir, aumentar ou diminuir o zoom da prévia
+    Enter         Na busca: abrir o primeiro resultado
+    Esc           Fechar janelas e menus abertos
+    ?             Mostrar o quadro de atalhos do teclado
+
+CABEÇALHO COM IMAGEM
+- Configurações > Locais e cabeçalhos > clique ou arraste a imagem do cabeçalho.
+- Imagem larga (timbrado) é detectada automaticamente e preenche o topo da folha de ponta a
+  ponta; imagem quadrada vira logo ao lado do nome. Você pode alternar o modo na própria janela.
+- Muitas impressoras não imprimem os 4–5 mm das bordas do papel; deixe uma pequena margem branca
+  nas laterais do timbrado.
+
+ATUALIZAR A VERSÃO INSTALADA
+- Substitua os arquivos atualizados na pasta do PinMed e, no arquivo sw.js, aumente o número em
+  CACHE = 'pinmed-vNN' (ex.: 'pinmed-v24', 'pinmed-v25').
+- Nas cópias instaladas como PWA, o PinMed baixa a atualização em segundo plano e exibe um aviso
+  discreto ("Nova versão do PinMed disponível" com o botão "Atualizar agora") para você aplicar
+  no momento oportuno, sem interromper uma consulta em andamento.
+
+MODELOS E CATÁLOGO
+- 284 modelos prontos (236 ambulatoriais, 23 protocolos de pediatria e 25 de urgência/PS —
+  incluindo queixas comuns, doenças crônicas, exames laboratoriais e de imagem, encaminhamentos,
+  atestados, hemocomponentes, pré-operatório e APAC), 159 medicamentos no catálogo e 15 presets na
+  calculadora pediátrica.
+- Os modelos foram revisados para evitar duplicidade terapêutica desnecessária.
+- Ao digitar um medicamento no editor, as sugestões do catálogo preenchem apresentação, quantidade
+  e posologia automaticamente.
+
+AVISO
+Posologias dos modelos, catálogo, calculadora pediátrica e alertas clínicos/regulatórios servem
+como apoio e ponto de partida. Eles não substituem a bula oficial, protocolos locais nem o
+julgamento clínico do médico prescritor. Revise sempre os documentos antes de entregar ao paciente.

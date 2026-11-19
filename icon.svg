@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="pm-pin" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e88e5"/>
+      <stop offset="55%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#e0f7fa"/>
+    </linearGradient>
+    <linearGradient id="pm-tip" x1="24" y1="36" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#e0f7fa"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="46" height="46" rx="11" fill="#0c2340"/>
+  <path d="M24 43.2L22 36.2h4L24 43.2z" fill="url(#pm-tip)"/>
+  <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M24 27.4c0 3.4 2.4 5.2 5.4 4.8 3.6-.5 6.4-3.7 6.8-7.8" stroke="url(#pm-pin)" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="19.6" cy="10.2" r="2.3" fill="#4fc3f7"/>
+  <circle cx="28.4" cy="10.2" r="2.3" fill="#4fc3f7"/>
+  <circle cx="24" cy="20.2" r="5.6" fill="#0c2340" stroke="url(#pm-pin)" stroke-width="2.2"/>
+  <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#4fc3f7" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "id": "./",
+  "name": "PinMed — Documentos Médicos",
+  "short_name": "PinMed",
+  "description": "Gerador offline de documentos médicos: receitas, controle especial, exames laboratoriais e de imagem, encaminhamentos, atestados, hemocomponentes, pré-operatório e APAC.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f5f9",
+  "theme_color": "#0c2340",
+  "categories": ["medical", "productivity", "utilities"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nova receita",
+      "short_name": "Receita",
+      "description": "Criar nova receita médica simples",
+      "url": "./index.html?novo=receita",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Controle especial",
+      "short_name": "Especial",
+      "description": "Criar receita de controle especial em duas vias",
+      "url": "./index.html?novo=especial",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Pedido de exames",
+      "short_name": "Exames",
+      "description": "Criar novo pedido de exames laboratoriais",
+      "url": "./index.html?novo=exame",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Exame de imagem",
+      "short_name": "Imagem",
+      "description": "Criar novo pedido de exames de imagem",
+      "url": "./index.html?novo=exame_imagem",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
