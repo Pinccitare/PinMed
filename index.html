@@ -953,10 +953,14 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 /* ajustes de cabeçalho e barra lateral */
 .side-local{padding:0 12px 10px;display:flex;flex-direction:column;gap:5px}
 .side-local-l{font-size:10px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:#9bb2cc;padding-left:2px}
-.side .hsel{max-width:none;width:100%;height:38px;border-radius:10px;background:rgba(255,255,255,.07);border-color:transparent;color:#f1f6fc}
-.side .hsel:hover{background:rgba(255,255,255,.1)}
-.side .hsel>svg.i{color:#8fc7ff}
-.side .hsel select{max-width:none;flex:1;color:#f1f6fc}
+.side .hsel{position:relative;max-width:none;width:100%;height:38px;border-radius:10px;padding:0 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#f1f6fc;transition:background .15s,border-color .15s,box-shadow .15s}
+.side .hsel:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.18)}
+.side .hsel:focus-within{background:rgba(255,255,255,.12);border-color:var(--brand-line);box-shadow:var(--focus)}
+.side .hsel>svg.i{color:#8fc7ff;flex:none}
+.side .hsel::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.7px solid #9bb2cc;border-bottom:1.7px solid #9bb2cc;transform:translateY(-65%) rotate(45deg);pointer-events:none;transition:border-color .15s}
+.side .hsel:hover::after,.side .hsel:focus-within::after{border-color:#eef4fb}
+.side .hsel select{appearance:none;-webkit-appearance:none;max-width:none;flex:1;color:#f1f6fc;padding-right:22px;outline:none!important;box-shadow:none!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side .hsel select:focus,.side .hsel select:focus-visible{outline:none!important;box-shadow:none!important}
 .side .hsel select option{color:#0f1c2e;background:#fff}
 [data-theme=dark] .side .hsel select option{background:var(--navy-2);color:#f1f6fc}
 #btn-fila .lbl-wide{display:none}
@@ -986,37 +990,69 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .save-pop.show{opacity:1;transform:translate(-50%,0) scale(1)}
 .save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
 
-/* Navegação inferior exclusiva para celulares (mantém 3 colunas no desktop) */
-.mob-nav{display:none}
+/* Navegação inferior e carrossel exclusivos para celulares (mantém 3 colunas no desktop) */
+.mob-nav,.mob-only{display:none}
 @media (max-width:860px){
+  .mob-only{display:inline-flex}
   .app,.app.no-side{display:flex!important;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}
-  .top{flex:none;height:auto;flex-wrap:wrap;padding:8px 10px;gap:6px}
+  .top{flex:none;height:auto;flex-wrap:wrap;padding:6px 10px;gap:6px;z-index:30}
   .top>.brand{display:flex!important;order:1;font-size:15px}
-  .top>.brand svg{width:26px;height:26px}
-  .top-r{order:2;margin-left:auto;gap:4px}
+  .top>.brand svg{width:25px;height:25px}
+  .mob-pac-toggle{order:2;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-2);font-size:12px;font-weight:650;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mob-pac-toggle.has-val{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+  .mob-pac-toggle.has-alg{background:var(--danger-soft);border-color:var(--danger-line);color:var(--danger)}
+  .app[data-mob="side"] .mob-pac-toggle{display:none}
+  .top-r{order:3;margin-left:auto;gap:4px}
   .top-r .vsep{display:none}
   .top-r #btn-print span{display:none}
-  .top-r #btn-print{padding:0 10px;height:34px}
-  .top-r #btn-fila{height:34px;padding:0 8px}
-  .pac{order:3;flex:1 1 100%;max-width:none;flex-wrap:wrap;gap:6px}
-  .pf{height:40px;padding:0 9px}
-  .pf-nome{flex:1 1 100%;min-width:0}
-  .pf-alg-wrap{flex:1 1 42%;min-width:120px}
-  .pf-cond-wrap{flex:1 1 36%;min-width:110px}
-  .pf-cond-btn{min-width:0;max-width:none}
-  .pf-data{flex:0 0 126px}
-  .top-pop,.top-pop.pop-alg{position:fixed;left:10px;right:10px;top:116px;width:auto;max-width:none;max-height:calc(100dvh - 180px);overflow-y:auto;z-index:120}
-  .main{display:flex!important;flex:1 1 0;min-height:0;overflow:hidden}
-  .side,.center,.ed{display:none!important;flex:1 1 100%;width:100%;max-width:none;min-width:0;min-height:0;border:0}
-  .app[data-mob="side"] .side,.app[data-mob="center"] .center,.app[data-mob="ed"] .ed{display:flex!important}
-  .side-brand{display:none}
-  .side-local{padding-top:10px}
+  .top-r #btn-print{padding:0 9px;height:32px}
+  .top-r #btn-fila{height:32px;padding:0 7px}
+  .top-r .ib{width:32px;height:32px}
+  .top-r .doc-chip{height:32px;padding:0 2px}
+  .top-r .doc-av{width:28px;height:28px;font-size:11px}
+
+  /* Barra de paciente compacta em pílulas com pop-up no celular */
+  .pac{order:4;flex:1 1 100%;max-width:none;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;padding:2px 0 1px}
+  .pac::-webkit-scrollbar{display:none}
+  .app[data-mob="ed"]:not(.mob-pac-open) .pac,
+  .app[data-mob="center"]:not(.mob-pac-open) .pac{display:none}
+  .pf-nome,.pf-data,#btn-nova{display:none!important}
+  .pf-pop-wrap{flex:0 0 auto}
+  .pf-alg-wrap,.pf-cond-wrap{flex:0 0 auto;min-width:0}
+  .pf-btn,.mob-pill-btn{height:34px;padding:0 10px;border-radius:999px;flex-direction:row;align-items:center;gap:5px;min-width:0;max-width:165px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-size:12px;font-weight:600;white-space:nowrap}
+  .pf-btn .pf-l{display:none}
+  .pf-btn .pf-v{font-size:12px;font-weight:600}
+  .mob-pill-btn.has-val{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand)}
+  .mob-pill-btn svg.i{width:13px;height:13px;flex:none}
+  .top-pop,.top-pop.pop-alg{position:fixed;left:10px;right:10px;top:96px;width:auto;max-width:none;max-height:calc(100dvh - 168px);overflow-y:auto;z-index:120}
+
+  /* Carrossel real 3 painéis: Modelos (1) · Editor (2) · Prévia (3) */
+  .main{display:flex!important;flex:1 1 0;width:300vw;min-height:0;overflow:visible;will-change:transform;transition:transform .26s cubic-bezier(.22,1,.36,1)}
+  .main.dragging{transition:none}
+  .app[data-mob="side"] .main{transform:translate3d(0,0,0)}
+  .app[data-mob="ed"] .main{transform:translate3d(-100vw,0,0)}
+  .app[data-mob="center"] .main{transform:translate3d(-200vw,0,0)}
+  .side,.center,.ed{display:flex!important;flex:0 0 100vw;width:100vw;max-width:100vw;min-width:0;min-height:0;border:0}
+  .side{order:1}
+  .ed{order:2}
+  .center{order:3}
+
+  /* Modelos limpo e fluido no celular */
+  .side-brand,.side-local,.side .sel-vazio,.side kbd{display:none!important}
+  .side-h{padding:8px 10px 8px;gap:7px}
+  .side-list{padding:4px 8px 14px}
+  .side .mi-main{padding:9px 10px}
+  .side .mi-t{font-size:13.5px}
+  .side .grp-t{padding:9px 8px;font-size:13px}
+  .side-f{padding:8px 10px 10px}
+  .side-f .btn{height:38px}
+
   #btn-side{display:none}
-  .pv-bar{height:48px;padding:0 8px;gap:6px}
-  .pv-title h2{font-size:13.5px}
-  .zoom{height:32px}
+  .pv-bar{height:44px;padding:0 8px;gap:6px}
+  .pv-title h2{font-size:13px}
+  .zoom{height:30px}
   .zoom .zoom-fit{display:none}
-  .pv-scroll{padding:12px 8px 28px}
+  .pv-scroll{padding:10px 8px 24px}
   .ed-h{padding:10px 12px}
   .ed-body{padding:10px 12px 20px}
   .ed-foot{padding:10px 12px}
@@ -1026,11 +1062,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .dlg-h{padding:16px 16px 10px}
   .dlg-b{padding:4px 16px 16px}
   .dlg-f{padding:12px 16px}
-  .mob-nav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:4px;height:58px;padding:4px 8px calc(4px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);z-index:40}
-  .mob-tab{flex:1;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:10px;color:var(--text-3);font-size:11px;font-weight:650;transition:background .14s,color .14s}
+  .mob-nav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:4px;height:56px;padding:4px 8px calc(4px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);z-index:40}
+  .mob-tab{flex:1;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:10px;color:var(--text-3);font-size:11px;font-weight:650;transition:background .14s,color .14s}
   .mob-tab svg.i{width:18px;height:18px}
   .mob-tab.on{background:var(--brand-soft);color:var(--brand)}
-  .toast{bottom:70px;max-width:calc(100vw - 24px)}
+  .toast{bottom:68px;max-width:calc(100vw - 24px)}
 }
 </style>
 </head>
@@ -1104,7 +1140,24 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
       <span>Pin<b>Med</b></span>
     </div>
 
+    <button type="button" class="mob-pac-toggle mob-only" id="btn-mob-pac-toggle" aria-expanded="false" title="Mostrar ou ocultar dados do paciente"><span id="mob-pac-toggle-lbl">Paciente ▾</span></button>
+
     <div class="pac" role="group" aria-label="Dados do paciente">
+      <div class="pf-pop-wrap mob-only">
+        <button type="button" class="mob-pill-btn" id="btn-mob-pac" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-pac"><span id="mob-pac-lbl">Paciente</span></button>
+        <div class="top-pop hidden" id="pop-pac" role="dialog" aria-label="Dados do paciente">
+          <div class="top-pop-h"><b>Paciente e consulta</b><button type="button" class="top-pop-clr" id="btn-mob-nova">Nova consulta</button></div>
+          <div class="cond-peso"><label for="p-nome-mob">Nome completo</label><input class="in" id="p-nome-mob" placeholder="Nome completo do paciente" autocomplete="off" spellcheck="false"></div>
+          <div class="cond-peso"><label for="p-data-mob">Data da consulta</label><input class="in" id="p-data-mob" type="date"></div>
+        </div>
+      </div>
+      <div class="pf-pop-wrap mob-only">
+        <button type="button" class="mob-pill-btn" id="btn-mob-local" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-local"><svg class="i" aria-hidden="true"><use href="#i-building"/></svg><span id="mob-local-lbl">Local</span></button>
+        <div class="top-pop hidden" id="pop-local" role="dialog" aria-label="Local de atendimento">
+          <div class="top-pop-h"><b>Local de atendimento</b></div>
+          <div class="alg-res" id="mob-local-list" role="listbox" aria-label="Locais de atendimento"></div>
+        </div>
+      </div>
       <label class="pf pf-nome"><span class="pf-l">Paciente</span><input id="p-nome" data-p="nome" placeholder="Nome completo — sai em todos os documentos" autocomplete="off" spellcheck="false"></label>
       <div class="pf-pop-wrap pf-alg-wrap">
         <button type="button" class="pf pf-btn pf-alg-btn" id="pf-alg" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-alg" title="Clique para buscar medicações ou classes alérgicas">
@@ -1183,13 +1236,13 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
       </div>
       </div>
       <div class="side-h">
-        <div class="seg" role="tablist" aria-label="Navegação da biblioteca"><button type="button" id="tab-modelos" data-tab="modelos" class="on" role="tab" aria-selected="true" aria-controls="side-list" tabindex="0">Modelos</button><button type="button" id="tab-meds" data-tab="meds" role="tab" aria-selected="false" aria-controls="side-list" tabindex="-1">Medicamentos</button></div>
         <div class="search">
           <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
           <input id="q" placeholder="Buscar…" autocomplete="off" spellcheck="false" aria-label="Buscar na biblioteca">
           <button type="button" class="ib ib-sm search-clear hidden" id="q-clear" title="Limpar busca" aria-label="Limpar busca"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
           <kbd id="q-kbd" aria-hidden="true">Ctrl K</kbd>
         </div>
+        <div class="seg" role="tablist" aria-label="Navegação da biblioteca"><button type="button" id="tab-modelos" data-tab="modelos" class="on" role="tab" aria-selected="true" aria-controls="side-list" tabindex="0">Modelos</button><button type="button" id="tab-meds" data-tab="meds" role="tab" aria-selected="false" aria-controls="side-list" tabindex="-1">Medicamentos</button></div>
         <div class="ctx-pills" id="ctx-pills" role="group" aria-label="Filtros rápidos"></div>
         <div class="chips" id="chips" role="group" aria-label="Categorias de documentos"></div>
       </div>
@@ -1217,8 +1270,8 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   </div>
   <nav class="mob-nav" id="mob-nav" aria-label="Navegação mobile">
     <button type="button" class="mob-tab on" data-mob="side" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg><span>Modelos</span></button>
-    <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
     <button type="button" class="mob-tab" data-mob="ed" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-clip"/></svg><span>Editor</span></button>
+    <button type="button" class="mob-tab" data-mob="center" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg><span>Prévia</span></button>
   </nav>
 </div>
 
@@ -4079,9 +4132,9 @@ function save(alterou = true) {
   }
 }
 const getModelo = id => db.modelos.find(m => m.id === id);
+const localAtivo = () => (db && Array.isArray(db.locais) && db.locais.length) ? (db.locais.find(l => l.id === db.localAtivoId) || db.locais[0]) : LOCAIS_PADRAO[0];
 const localEhPoc = () => { const l = localAtivo(); return !!l && (l.id === 'loc-poc-sesau-ro' || /oswaldo cruz|\bpoc\b/i.test(l.nome || '')); };
 const suportaLayoutPoc = doc => !!doc && (doc.tipo === 'receita' || doc.tipo === 'especial' || (doc.tipo === 'exame' && !doc.imagem));
-const localAtivo = () => db.locais.find(l => l.id === db.localAtivoId) || db.locais[0];
 const backupPendente = () => !!db.alteradoEm && (!db.ultimoBackup || db.alteradoEm > db.ultimoBackup) && (!db.ultimoBackup || Date.now() - db.ultimoBackup > 7 * 864e5);
 
 /* ---------- Estado da consulta ---------- */
@@ -4570,10 +4623,14 @@ function renderSide() {
   };
 
   if (termos.length) {
-    // Em busca ativa: mostra inclusive itens já na fila (com pill "Na fila #N")
+    // Em busca ativa: prioriza Modelos, mas também exibe Medicamentos encontrados abaixo
     const r = modelos.filter(m => (cat === 'todos' || tipoVisual(m) === cat) && casaContexto(m, ctxF) && casaBusca(S.drafts[m.id]?.doc || m, termos)).sort(porUso);
-    html += r.length ? secao(`${r.length} resultado${r.length > 1 ? 's' : ''}`, 'search', r.map(m => mostra(m, true)))
-      : (novos.length ? '' : `<div class="empty-st">${ic('search')}<b>Nada encontrado</b><p>Tente outro termo — ou busque na aba Medicamentos.</p><button type="button" class="btn btn-secondary btn-sm" data-act="novo">${ic('plus')} Novo documento</button></div>`);
+    const medsHit = buscarMedsFiltrados(termos);
+    if (r.length) html += secao(`Modelos (${r.length})`, 'search', r.map(m => mostra(m, true)));
+    if (medsHit.length) html += secao(`Medicamentos (${medsHit.length})`, 'pill', medsHit.slice(0, 20).map(renderMedBtnHTML));
+    if (!r.length && !medsHit.length && !novos.length) {
+      html += `<div class="empty-st">${ic('search')}<b>Nada encontrado</b><p>Tente outro termo ou crie um novo documento.</p><button type="button" class="btn btn-secondary btn-sm" data-act="novo">${ic('plus')} Novo documento</button></div>`;
+    }
   } else if (cat !== 'todos' || ctxF) {
     const r = modelos.filter(naoSel).filter(m => (cat === 'todos' || tipoVisual(m) === cat) && casaContexto(m, ctxF)).sort(porNome);
     const lblCtx = ctxF === 'fav' ? 'Favoritos' : ctxF === 'amb' ? 'Ambulatorial' : ctxF === 'ped' ? 'Pediatria' : ctxF === 'ps' ? 'Urgência / PS' : '';
@@ -4600,6 +4657,27 @@ function renderSide() {
   setHTML($('#side-list'), html);
   _sideSig = _calcSideSig();
 }
+function buscarMedsFiltrados(termos) {
+  const idAnos = idadeAtualAnos();
+  const base = CATALOGO.map((m, i) => ({ m, i })).filter(({ m }) => {
+    if (!termos.length) return true;
+    const h = normBusca(`${m.n} ${m.a} ${m.c} ${m.t}`);
+    return termos.every(t => h.includes(t));
+  });
+  return (idAnos !== null && !S.verContraindicados)
+    ? base.filter(({ m }) => !alertaIdadeMed(m).some(([nv]) => nv === 'danger'))
+    : base;
+}
+function renderMedBtnHTML({ m, i }) {
+  const aId = alertaIdadeMed(m);
+  const idDanger = aId.find(([nv]) => nv === 'danger');
+  const idWarn = aId.find(([nv]) => nv === 'warn');
+  const idTag = idDanger
+    ? `<span class="tg tg-alg" title="${esc(idDanger[1])}">Idade</span>`
+    : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
+  const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
+  return `<button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>`;
+}
 function renderMeds() {
   $('#chips').classList.add('hidden');
   $('#ctx-pills')?.classList.add('hidden');
@@ -4614,30 +4692,36 @@ function renderMeds() {
     ? base.filter(({ m }) => !alertaIdadeMed(m).some(([nv]) => nv === 'danger'))
     : base;
   const ocultosIdade = base.length - lista.length;
-  const d = draft(), alvo = d && (d.doc.tipo === 'receita' || d.doc.tipo === 'especial') ? `“${esc(d.doc.titulo || 'documento atual')}”` : 'uma receita nova';
-  let html = `<div class="side-hint">Clique para incluir em ${alvo}. Medicamentos de controle especial abrem no receituário próprio.</div>`;
+  let html = '';
   if (idAnos !== null && (ocultosIdade || S.verContraindicados)) {
     html += S.verContraindicados
       ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os medicamentos, inclusive os contraindicados para ${esc(idadeFormatada())}.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Ocultar</button></div>`
       : `<div class="alg-note">${ic('alert')}<p><b>${ocultosIdade} medicamento${ocultosIdade > 1 ? 's ocultados' : ' ocultado'}</b> por restrição de idade (${esc(idadeFormatada())}).</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Mostrar</button></div>`;
   }
-  if (!lista.length) html += `<div class="empty-st">${ic('pill')}<b>Nenhum medicamento encontrado</b><p>Você pode digitar qualquer medicamento direto no editor.</p></div>`;
   const grupos = new Map();
   lista.forEach(x => { if (!grupos.has(x.m.c)) grupos.set(x.m.c, []); grupos.get(x.m.c).push(x); });
-  grupos.forEach((itens, g) => {
-    const aberto = !!termos.length || db.prefs.abertos.includes('med:' + g);
-    html += `<button type="button" class="grp-t" data-grp="med:${esc(g)}" aria-expanded="${aberto}">${ic('chev')}${esc(g)}<span class="n">${itens.length}</span></button>`;
-    if (aberto) html += `<div class="grp-b">${itens.map(({ m, i }) => {
-      const aId = alertaIdadeMed(m);
-      const idDanger = aId.find(([nv]) => nv === 'danger');
-      const idWarn = aId.find(([nv]) => nv === 'warn');
-      const idTag = idDanger
-        ? `<span class="tg tg-alg" title="${esc(idDanger[1])}">Idade</span>`
-        : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
-      const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
-      return `<button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>`;
-    }).join('')}</div>`;
-  });
+  if (termos.length && lista.length) {
+    html += secao(`Medicamentos (${lista.length})`, 'pill', lista.map(renderMedBtnHTML));
+  } else {
+    grupos.forEach((itens, g) => {
+      const aberto = !!termos.length || db.prefs.abertos.includes('med:' + g);
+      html += `<button type="button" class="grp-t" data-grp="med:${esc(g)}" aria-expanded="${aberto}">${ic('chev')}${esc(g)}<span class="n">${itens.length}</span></button>`;
+      if (aberto) html += `<div class="grp-b">${itens.map(renderMedBtnHTML).join('')}</div>`;
+    });
+  }
+  // Com busca ativa na aba Medicamentos, também mostra Modelos encontrados abaixo (priorizando Medicamentos)
+  let modHitCount = 0;
+  if (termos.length) {
+    const porUso = (a, b) => (b.usos || 0) - (a.usos || 0) || a.titulo.localeCompare(b.titulo, 'pt-BR');
+    const modHit = modelosVisiveis().filter(m => casaBusca(S.drafts[m.id]?.doc || m, termos)).sort(porUso);
+    modHitCount = modHit.length;
+    if (modHit.length) {
+      html += secao(`Modelos (${modHit.length})`, 'book', modHit.map(m => itemHTML(m.id, S.drafts[m.id]?.doc || m, false, true)));
+    }
+  }
+  if (!lista.length && !modHitCount) {
+    html += `<div class="empty-st">${ic('pill')}<b>Nenhum resultado encontrado</b><p>Você pode digitar qualquer medicamento direto no editor.</p></div>`;
+  }
   setHTML($('#side-list'), html);
 }
 function trocarAba(aba) {
@@ -5458,7 +5542,19 @@ function cbSelecionar(m) {
   }
   changed({ forcarSide: true });
 }
-function renderLocalSel() { $('#sel-local').innerHTML = db.locais.map(l => `<option value="${esc(l.id)}"${l.id === db.localAtivoId ? ' selected' : ''}>${esc(l.nome)}</option>`).join(''); }
+function renderLocalSel() {
+  $('#sel-local').innerHTML = db.locais.map(l => `<option value="${esc(l.id)}"${l.id === db.localAtivoId ? ' selected' : ''}>${esc(l.nome)}</option>`).join('');
+  const ativo = localAtivo();
+  const ml = $('#mob-local-lbl');
+  if (ml && ativo) ml.textContent = ativo.nome.split(/[-–—(]/)[0].trim().slice(0, 18) || 'Local';
+  const list = $('#mob-local-list');
+  if (list) {
+    list.innerHTML = db.locais.map(l => `<button type="button" class="alg-opt" role="option" data-mob-loc="${esc(l.id)}"${l.id === db.localAtivoId ? ' style="background:var(--brand-soft)"' : ''}>
+      <span class="alg-opt-tx"><b>${esc(l.nome)}</b>${l.subtitulo ? `<small>${esc(l.subtitulo)}</small>` : ''}</span>
+      ${l.id === db.localAtivoId ? '<span class="tg tg-cls">Ativo</span>' : ''}
+    </button>`).join('');
+  }
+}
 const CLASSES_ALERGIA_NOMES = [
   ['Penicilinas / Beta-lactâmicos', 'penicilina'],
   ['Cefalosporinas', 'cefalosporina'],
@@ -5515,6 +5611,7 @@ function renderTopAlg() {
     chips.innerHTML = lista.map((item, i) => `<span class="alg-chip">${esc(item)}<button type="button" data-alg-rm="${i}" aria-label="Remover alergia ${esc(item)}">×</button></span>`).join('');
   }
   renderAlgResultados($('#alg-search')?.value || '');
+  renderMobPacUI();
 }
 function renderAlgResultados(q = '') {
   const box = $('#alg-results'); if (!box) return;
@@ -5572,18 +5669,42 @@ function renderTopCond() {
     sum.classList.toggle('ph', !partes.length);
   }
   if (clr) clr.classList.toggle('hidden', !partes.length);
+  renderMobPacUI();
+}
+function renderMobPacUI() {
+  const nome = (S.paciente.nome || '').trim();
+  const temAlg = listaAlergiasAtual().length > 0;
+  const temCond = !!(S.paciente.gestante || S.paciente.lactante || String(S.paciente.peso || '').trim() || idadeAtualAnos() !== null);
+  const bPac = $('#btn-mob-pac'), lPac = $('#mob-pac-lbl');
+  if (bPac) bPac.classList.toggle('has-val', !!nome);
+  if (lPac) lPac.textContent = nome ? nome.split(/\s+/).slice(0, 2).join(' ') : 'Paciente';
+  const tog = $('#btn-mob-pac-toggle'), togL = $('#mob-pac-toggle-lbl');
+  if (tog) {
+    tog.classList.toggle('has-alg', temAlg);
+    tog.classList.toggle('has-val', !temAlg && (!!nome || temCond));
+  }
+  if (togL) {
+    const aberto = $('#app')?.classList.contains('mob-pac-open');
+    const txt = nome ? nome.split(/\s+/)[0] : (temAlg ? 'Alergia' : 'Paciente');
+    togL.textContent = `${txt} ${aberto ? '▴' : '▾'}`;
+  }
+  const nm = $('#p-nome-mob'); if (nm && nm.value !== (S.paciente.nome || '')) nm.value = S.paciente.nome || '';
+  const dm = $('#p-data-mob'); if (dm && dm.value !== (S.paciente.data || '')) dm.value = S.paciente.data || '';
 }
 function fecharTopPopovers(retornarFoco = false) {
-  const pc = $('#pop-cond'), pa = $('#pop-alg');
-  if (pc && !pc.classList.contains('hidden')) {
-    pc.classList.add('hidden');
-    $('#btn-cond')?.setAttribute('aria-expanded', 'false');
-    if (retornarFoco) $('#btn-cond')?.focus();
-  }
-  if (pa && !pa.classList.contains('hidden')) {
-    pa.classList.add('hidden');
-    $('#pf-alg')?.setAttribute('aria-expanded', 'false');
-    if (retornarFoco) $('#pf-alg')?.focus();
+  const pares = [
+    ['#pop-cond', '#btn-cond'],
+    ['#pop-alg', '#pf-alg'],
+    ['#pop-pac', '#btn-mob-pac'],
+    ['#pop-local', '#btn-mob-local']
+  ];
+  for (const [popSel, btnSel] of pares) {
+    const pop = $(popSel);
+    if (pop && !pop.classList.contains('hidden')) {
+      pop.classList.add('hidden');
+      $(btnSel)?.setAttribute('aria-expanded', 'false');
+      if (retornarFoco) $(btnSel)?.focus();
+    }
   }
 }
 function fillPaciente() {
@@ -5594,6 +5715,7 @@ function fillPaciente() {
   if (S.paciente.peso) S.calc.peso = String(S.paciente.peso).replace(/\s*kg\s*$/i, '').trim();
   renderTopCond();
   renderTopAlg();
+  renderMobPacUI();
 }
 function applyTheme() {
   let t = db.prefs.tema;
@@ -6405,19 +6527,40 @@ function flashSalvo(txt = 'Salvo!') {
 function setMobTab(tab) {
   const app = $('#app'); if (!app) return;
   app.dataset.mob = tab;
+  if (tab !== 'side') {
+    app.classList.remove('mob-pac-open');
+    $('#btn-mob-pac-toggle')?.setAttribute('aria-expanded', 'false');
+  }
+  fecharTopPopovers(false);
   $$('.mob-tab').forEach(b => {
     const on = b.dataset.mob === tab;
     b.classList.toggle('on', on);
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
+  renderMobPacUI();
   if (tab === 'center') requestAnimationFrame(() => seguro(applyZoom));
 }
 function aplicarAutoPocLocal() {
-  if (!localEhPoc()) return;
+  const ehPoc = localEhPoc();
   const d = draft();
-  if (d && suportaLayoutPoc(d.doc) && !d.doc.layoutPreOpLab && !d.doc.layoutPoc && !d.manualPocOff) {
-    d.doc.layoutPoc = true;
-    d.autoPoc = true;
+  if (ehPoc) {
+    if (d && suportaLayoutPoc(d.doc) && !d.doc.layoutPreOpLab && !d.doc.layoutPoc && !d.manualPocOff) {
+      d.doc.layoutPoc = true;
+      d.autoPoc = true;
+    }
+  } else {
+    Object.values(S.drafts).forEach(dr => {
+      if (!dr || !dr.doc || !suportaLayoutPoc(dr.doc)) return;
+      if (dr.autoPoc) {
+        dr.doc.layoutPoc = false;
+        dr.autoPoc = false;
+      }
+      dr.manualPocOff = false;
+    });
+    if (d && suportaLayoutPoc(d.doc) && d.doc.layoutPoc && !d.manualPocOn) {
+      d.doc.layoutPoc = false;
+      d.autoPoc = false;
+    }
   }
 }
 
@@ -6441,10 +6584,102 @@ function bind() {
     changed();
   };
   $$('[data-p]').forEach(el => {
-    el.addEventListener('input', () => onPacField(el));
-    if (el.tagName === 'SELECT') el.addEventListener('change', () => onPacField(el));
+    el.addEventListener('input', () => { onPacField(el); renderMobPacUI(); });
+    if (el.tagName === 'SELECT') el.addEventListener('change', () => { onPacField(el); renderMobPacUI(); });
   });
   $$('.mob-tab').forEach(b => b.addEventListener('click', () => setMobTab(b.dataset.mob)));
+  $('#btn-mob-pac-toggle')?.addEventListener('click', () => {
+    const app = $('#app'); if (!app) return;
+    const abrirBar = !app.classList.contains('mob-pac-open');
+    app.classList.toggle('mob-pac-open', abrirBar);
+    $('#btn-mob-pac-toggle')?.setAttribute('aria-expanded', abrirBar ? 'true' : 'false');
+    if (!abrirBar) fecharTopPopovers(false);
+    renderMobPacUI();
+  });
+  $('#btn-mob-pac')?.addEventListener('click', () => {
+    const pop = $('#pop-pac'); if (!pop) return;
+    const abrirPop = pop.classList.contains('hidden');
+    fecharTopPopovers(false); closeMenu(false);
+    if (abrirPop) {
+      renderMobPacUI();
+      pop.classList.remove('hidden');
+      $('#btn-mob-pac')?.setAttribute('aria-expanded', 'true');
+      setTimeout(() => $('#p-nome-mob')?.focus(), 10);
+    }
+  });
+  $('#btn-mob-local')?.addEventListener('click', () => {
+    const pop = $('#pop-local'); if (!pop) return;
+    const abrirPop = pop.classList.contains('hidden');
+    fecharTopPopovers(false); closeMenu(false);
+    if (abrirPop) {
+      renderLocalSel();
+      pop.classList.remove('hidden');
+      $('#btn-mob-local')?.setAttribute('aria-expanded', 'true');
+    }
+  });
+  $('#mob-local-list')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-mob-loc]'); if (!b) return;
+    const prev = db.localAtivoId;
+    db.localAtivoId = b.dataset.mobLoc;
+    if (!save()) { db.localAtivoId = prev; return; }
+    aplicarAutoPocLocal();
+    renderLocalSel(); renderPreview(); seguro(renderEditor);
+    fecharTopPopovers(false);
+    toast(`Cabeçalho: ${localAtivo().nome}`, 'info');
+  });
+  $('#p-nome-mob')?.addEventListener('input', e => {
+    S.paciente.nome = e.target.value;
+    const pn = $('#p-nome'); if (pn) pn.value = S.paciente.nome;
+    renderMobPacUI(); changed();
+  });
+  $('#p-data-mob')?.addEventListener('change', e => {
+    S.paciente.data = e.target.value || hojeISO();
+    const pd = $('#p-data'); if (pd) pd.value = S.paciente.data;
+    e.target.value = S.paciente.data;
+    changed();
+  });
+  $('#btn-mob-nova')?.addEventListener('click', () => { fecharTopPopovers(false); novaConsulta(); });
+  // Swipe horizontal (carrossel mobile: Modelos <-> Editor <-> Prévia)
+  const mainEl = $('.main');
+  if (mainEl) {
+    const mobOrdem = ['side', 'ed', 'center'];
+    let sx = 0, sy = 0, ativoSwipe = false, travado = false;
+    mainEl.addEventListener('touchstart', e => {
+      if (window.innerWidth > 860 || e.touches.length !== 1) return;
+      const t = e.target;
+      if (t.closest('input,textarea,select,.chips,.ctx-pills,.zoom')) return;
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+      ativoSwipe = true; travado = false;
+    }, { passive: true });
+    mainEl.addEventListener('touchmove', e => {
+      if (!ativoSwipe || window.innerWidth > 860) return;
+      const dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+      if (!travado) {
+        if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
+        if (Math.abs(dy) > Math.abs(dx) * 1.15) { ativoSwipe = false; return; }
+        travado = true;
+        mainEl.classList.add('dragging');
+      }
+      const idx = Math.max(0, mobOrdem.indexOf($('#app')?.dataset.mob || 'side'));
+      const base = -idx * window.innerWidth;
+      const minX = -2 * window.innerWidth, maxX = 0;
+      const nx = Math.max(minX, Math.min(maxX, base + dx));
+      mainEl.style.transform = `translate3d(${nx}px,0,0)`;
+    }, { passive: true });
+    const endSwipe = e => {
+      if (!ativoSwipe) return;
+      ativoSwipe = false;
+      mainEl.classList.remove('dragging');
+      mainEl.style.transform = '';
+      if (!travado || window.innerWidth > 860) return;
+      const dx = (e.changedTouches?.[0]?.clientX ?? sx) - sx;
+      const idx = Math.max(0, mobOrdem.indexOf($('#app')?.dataset.mob || 'side'));
+      if (dx < -55 && idx < mobOrdem.length - 1) setMobTab(mobOrdem[idx + 1]);
+      else if (dx > 55 && idx > 0) setMobTab(mobOrdem[idx - 1]);
+    };
+    mainEl.addEventListener('touchend', endSwipe, { passive: true });
+    mainEl.addEventListener('touchcancel', endSwipe, { passive: true });
+  }
   $$('[data-flag]').forEach(btn => btn.addEventListener('click', () => {
     const k = btn.dataset.flag;
     S.paciente[k] = !S.paciente[k];
@@ -6620,12 +6855,20 @@ function bind() {
     if (grpAll) return toggleTodosGrupos(grpAll.dataset.v, (grpAll.dataset.grps || '').split('\n').filter(Boolean));
     const sec = e.target.closest('.sec-t[data-sec]'); if (sec) return toggleSecao(sec.dataset.sec);
     const g = e.target.closest('.grp-t'); if (g) return toggleGrupo(g.dataset.grp);
-    const md = e.target.closest('.md'); if (md) return addMed(+md.dataset.med);
+    const md = e.target.closest('.md');
+    if (md) {
+      addMed(+md.dataset.med);
+      if (S.aba === 'modelos') trocarAba('meds');
+      return;
+    }
     const it = e.target.closest('.mi'); if (!it) return;
     const act = e.target.closest('[data-act]')?.dataset.act, k = it.dataset.key;
     if (act === 'fav') toggleFav(k);
     else if (act === 'fila') toggleFila(k);
-    else abrir(k, { fromUser: true });  // clicar só abre para ver/editar; para imprimir use o botão de fila do item
+    else {
+      if (S.aba === 'meds') trocarAba('modelos');
+      abrir(k, { fromUser: true });  // clicar só abre para ver/editar; para imprimir use o botão de fila do item
+    }
   });
   lista.addEventListener('keydown', e => {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
@@ -8965,6 +9208,7 @@ window._pinmedBoot = function boot() {
         if (b === 'layoutPoc') {
           d.autoPoc = false;
           d.manualPocOff = !e.target.checked;
+          d.manualPocOn = !!e.target.checked;
           if (e.target.checked) d.doc.layoutPreOpLab = false;
         }
       }
