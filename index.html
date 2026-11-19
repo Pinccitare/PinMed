@@ -1011,20 +1011,18 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .top-r .doc-chip{height:32px;padding:0 2px}
   .top-r .doc-av{width:28px;height:28px;font-size:11px}
 
-  /* Barra de paciente compacta em pílulas com pop-up no celular */
-  .pac{order:4;flex:1 1 100%;max-width:none;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;padding:2px 0 1px}
-  .pac::-webkit-scrollbar{display:none}
+  /* Barra de paciente compacta em 3 pílulas alinhadas (sem rolar para o lado) */
+  .pac{order:4;flex:1 1 100%;max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:2px 0 1px;overflow:visible}
   .app[data-mob="ed"]:not(.mob-pac-open) .pac,
   .app[data-mob="center"]:not(.mob-pac-open) .pac{display:none}
   .pf-nome,.pf-data,#btn-nova{display:none!important}
-  .pf-pop-wrap{flex:0 0 auto}
-  .pf-alg-wrap,.pf-cond-wrap{flex:0 0 auto;min-width:0}
-  .pf-btn,.mob-pill-btn{height:34px;padding:0 10px;border-radius:999px;flex-direction:row;align-items:center;gap:5px;min-width:0;max-width:165px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-size:12px;font-weight:600;white-space:nowrap}
+  .pf-pop-wrap,.pf-alg-wrap,.pf-cond-wrap{flex:none;min-width:0;width:100%}
+  .pf-btn,.mob-pill-btn{width:100%;height:34px;padding:0 9px;border-radius:999px;flex-direction:row;align-items:center;justify-content:center;gap:5px;min-width:0;max-width:none;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .pf-btn .pf-l{display:none}
-  .pf-btn .pf-v{font-size:12px;font-weight:600}
+  .pf-btn .pf-v{font-size:12px;font-weight:600;justify-content:center}
   .mob-pill-btn.has-val{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand)}
   .mob-pill-btn svg.i{width:13px;height:13px;flex:none}
-  .top-pop,.top-pop.pop-alg{position:fixed;left:10px;right:10px;top:96px;width:auto;max-width:none;max-height:calc(100dvh - 168px);overflow-y:auto;z-index:120}
+  .top-pop,.top-pop.pop-alg{position:fixed;left:10px;right:10px;top:54px;width:auto;max-width:none;max-height:calc(100dvh - 76px);overflow-y:auto;z-index:220;box-shadow:0 20px 50px rgba(6,16,30,.42)}
 
   /* Carrossel real 3 painéis: Modelos (1) · Editor (2) · Prévia (3) */
   .main{display:flex!important;flex:1 1 0;width:300vw;min-height:0;overflow:visible;will-change:transform;transition:transform .26s cubic-bezier(.22,1,.36,1)}
@@ -1040,11 +1038,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   /* Modelos limpo e fluido no celular */
   .side-brand,.side-local,.side .sel-vazio,.side kbd{display:none!important}
   .side-h{padding:8px 10px 8px;gap:7px}
-  .side-list{padding:4px 8px 14px}
+  .side-list{padding:4px 8px 86px}
   .side .mi-main{padding:9px 10px}
   .side .mi-t{font-size:13.5px}
   .side .grp-t{padding:9px 8px;font-size:13px}
-  .side-f{padding:8px 10px 10px}
+  .side-f{padding:8px 10px calc(74px + env(safe-area-inset-bottom,0px))}
   .side-f .btn{height:38px}
 
   #btn-side{display:none}
@@ -1052,21 +1050,24 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .pv-title h2{font-size:13px}
   .zoom{height:30px}
   .zoom .zoom-fit{display:none}
-  .pv-scroll{padding:10px 8px 24px}
+  .pv-scroll{padding:10px 8px calc(86px + env(safe-area-inset-bottom,0px))}
   .ed-h{padding:10px 12px}
-  .ed-body{padding:10px 12px 20px}
-  .ed-foot{padding:10px 12px}
+  .ed-body{padding:10px 12px 24px}
+  .ed-foot{padding:10px 12px calc(74px + env(safe-area-inset-bottom,0px))}
   .ed-foot .btn{height:42px;font-size:13px;padding:0 12px}
   #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
   dialog.dlg{width:calc(100vw - 16px);max-height:calc(100dvh - 24px);border-radius:14px}
   .dlg-h{padding:16px 16px 10px}
   .dlg-b{padding:4px 16px 16px}
   .dlg-f{padding:12px 16px}
-  .mob-nav{display:flex;flex:none;align-items:center;justify-content:space-around;gap:4px;height:56px;padding:4px 8px calc(4px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line);z-index:40}
-  .mob-tab{flex:1;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:10px;color:var(--text-3);font-size:11px;font-weight:650;transition:background .14s,color .14s}
-  .mob-tab svg.i{width:18px;height:18px}
-  .mob-tab.on{background:var(--brand-soft);color:var(--brand)}
-  .toast{bottom:68px;max-width:calc(100vw - 24px)}
+
+  /* Pílula flutuante inferior na paleta azul-marinho do PinMed */
+  .mob-nav{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;gap:4px;height:52px;padding:5px;border-radius:999px;background:rgba(12,35,64,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(94,176,255,.26);box-shadow:0 12px 32px -6px rgba(6,16,30,.58),inset 0 1px 0 rgba(255,255,255,.08);z-index:80}
+  .mob-tab{height:42px;min-width:92px;padding:0 14px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;border-radius:999px;color:#a9c2de;font-size:12px;font-weight:650;transition:background .16s ease,color .16s ease,transform .12s ease}
+  .mob-tab svg.i{width:17px;height:17px;flex:none}
+  .mob-tab.on{background:rgba(94,176,255,.24);color:#ffffff;box-shadow:inset 0 0 0 1px rgba(94,176,255,.42)}
+  .mob-tab:active{transform:scale(.96)}
+  .toast{bottom:76px;max-width:calc(100vw - 24px)}
 }
 </style>
 </head>
@@ -1149,13 +1150,6 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
           <div class="top-pop-h"><b>Paciente e consulta</b><button type="button" class="top-pop-clr" id="btn-mob-nova">Nova consulta</button></div>
           <div class="cond-peso"><label for="p-nome-mob">Nome completo</label><input class="in" id="p-nome-mob" placeholder="Nome completo do paciente" autocomplete="off" spellcheck="false"></div>
           <div class="cond-peso"><label for="p-data-mob">Data da consulta</label><input class="in" id="p-data-mob" type="date"></div>
-        </div>
-      </div>
-      <div class="pf-pop-wrap mob-only">
-        <button type="button" class="mob-pill-btn" id="btn-mob-local" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-local"><svg class="i" aria-hidden="true"><use href="#i-building"/></svg><span id="mob-local-lbl">Local</span></button>
-        <div class="top-pop hidden" id="pop-local" role="dialog" aria-label="Local de atendimento">
-          <div class="top-pop-h"><b>Local de atendimento</b></div>
-          <div class="alg-res" id="mob-local-list" role="listbox" aria-label="Locais de atendimento"></div>
         </div>
       </div>
       <label class="pf pf-nome"><span class="pf-l">Paciente</span><input id="p-nome" data-p="nome" placeholder="Nome completo — sai em todos os documentos" autocomplete="off" spellcheck="false"></label>
@@ -5602,7 +5596,10 @@ function renderTopAlg() {
   const btn = $('#pf-alg'), sum = $('#alg-summary'), chips = $('#alg-chips'), clr = $('#alg-clear-all');
   if (btn) btn.classList.toggle('has-val', lista.length > 0);
   if (sum) {
-    sum.textContent = lista.length ? lista.join(', ') : 'Nenhuma · clique para buscar';
+    const isMob = window.innerWidth <= 860;
+    sum.textContent = lista.length
+      ? (isMob ? (lista.length === 1 ? lista[0] : `Alergias (${lista.length})`) : lista.join(', '))
+      : (isMob ? 'Alergias' : 'Nenhuma · clique para buscar');
     sum.classList.toggle('ph', !lista.length);
   }
   if (clr) clr.classList.toggle('hidden', !lista.length);
@@ -6410,24 +6407,46 @@ function menuCfg(anchor) {
     { icon: 'info', label: 'Tutorial guiado', run: iniciarTutorial },
     { icon: 'keyboard', label: 'Atalhos do teclado', kbd: '?', run: abrirAjuda }
   ];
-  if (installPrompt && !window.PINMED_EXE) itens.push({ icon: 'download', label: 'Instalar como aplicativo', run: async () => { installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; } });
+  const jaInstalado = window.matchMedia?.('(display-mode: standalone)')?.matches || window.navigator.standalone;
+  if (!window.PINMED_EXE && !jaInstalado) {
+    itens.push({
+      icon: 'download',
+      label: 'Baixar / Instalar aplicativo',
+      run: async () => {
+        if (installPrompt) {
+          installPrompt.prompt();
+          await installPrompt.userChoice;
+          installPrompt = null;
+        } else {
+          await ask({
+            title: 'Instalar o PinMed no aparelho',
+            msg: '<b>Android (Chrome):</b> toque no menu <b>⋮</b> do navegador e escolha <b>Adicionar à tela inicial / Instalar app</b>.<br><br><b>iPhone (Safari):</b> toque em <b>Compartilhar</b> (ícone de seta para cima) e escolha <b>Adicionar à Tela de Início</b>.<br><br><b>Computador:</b> clique no ícone de instalação na barra de endereços do navegador.',
+            ok: 'Entendi',
+            cancel: ''
+          });
+        }
+      }
+    });
+  }
   menu(anchor, itens, `<div class="m-foot">${ic('ok')}${statusOfflineTxt()}</div>`);
 }
 function iniciarTutorial() {
   const passos = [
-    { sel: '#doc-chip', titulo: '1. Cadastre seus dados médicos', texto: 'Informe seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas, carimbos e receitas de controle especial.' },
-    { sel: '.side-local .hsel', mob: 'side', titulo: '2. Local de atendimento', texto: 'Selecione a unidade ou hospital onde está atendendo; o cabeçalho/timbrado das folhas atualiza na hora.' },
-    { sel: '.pf-nome', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
-    { sel: '#pf-alg', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
-    { sel: '#btn-cond', titulo: '5. Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
-    { sel: '.side .search', mob: 'side', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio com Ctrl+K e filtre por Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
+    { sel: '#doc-chip', mob: 'side', titulo: '1. Cadastre seus dados médicos', texto: 'Informe seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas, carimbos e receitas de controle especial.' },
+    { sel: '.side-local .hsel', selMob: '#btn-cfg', mob: 'side', titulo: '2. Local de atendimento e Download', texto: 'Selecione a unidade ou hospital onde está atendendo (no celular, acesse em Configurações ⚙ → Locais e cabeçalhos). Em Configurações você também encontra o botão Baixar / Instalar aplicativo para usar offline.' },
+    { sel: '.pf-nome', selMob: '#btn-mob-pac', mob: 'side', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
+    { sel: '#pf-alg', mob: 'side', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
+    { sel: '#btn-cond', mob: 'side', titulo: '5. Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
+    { sel: '.side .search', mob: 'side', titulo: '6. Biblioteca, busca rápida e filtros', texto: 'Busque por doença, CID ou remédio e filtre por Modelos, Medicamentos, Ambulatorial, Pediatria, Urgência/PS ou Favoritos.' },
     { sel: '#tab-texto', mob: 'side', titulo: '7. Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
-    { sel: 'aside.ed', mob: 'ed', titulo: '8. Editor clínico e formatação', texto: 'Ajuste doses, use a busca de medicamentos com alertas C1/ATB/Alergia/Idade, Desfazer/Refazer (Ctrl+Z), Formatação POC e Formato de impressão no rodapé do editor.' },
-    { sel: 'section.center', mob: 'center', titulo: '9. Prévia fiel da folha A4', texto: 'Revise exatamente como sairá no papel, use Folha inteira para ver a página completa ou ative o conforto noturno no modo escuro.' },
-    { sel: '#btn-print', titulo: '10. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir (Ctrl+P) — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final antes de imprimir.' }
+    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: '8. Editor clínico e formatação', texto: 'Deslize para o lado ou toque em Editor para ajustar doses, ver alertas clínicos, Formatação POC e Formato de impressão no rodapé.' },
+    { sel: 'section.center', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: '9. Prévia fiel da folha A4', texto: 'Deslize novamente ou toque em Prévia para conferir exatamente como sairá no papel antes de imprimir ou gerar PDF.' },
+    { sel: '#btn-print', mob: 'center', titulo: '10. Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final.' },
+    { sel: '#btn-cfg', mob: 'side', titulo: '11. Configurações, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, faz backup dos seus modelos, acessa este tutorial e instala/baixa o PinMed como aplicativo.' }
   ];
-  let idx = 0;
+  let idx = 0, _tPos = 0;
   const fechar = () => {
+    clearTimeout(_tPos);
     ['tour-bg', 'tour-spot', 'tour-card'].forEach(id => document.getElementById(id)?.remove());
     window.removeEventListener('resize', posicionar);
     window.removeEventListener('keydown', onKey);
@@ -6439,29 +6458,34 @@ function iniciarTutorial() {
   document.body.append(bg, spot, card);
   bg.addEventListener('click', fechar);
 
-  function posicionar() {
+  function aplicarCaixa() {
     const p = passos[idx];
-    if (p.mob && window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab(p.mob);
-    const alvo = document.querySelector(p.sel) || document.querySelector('.side-h');
-    if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-    const r = alvo ? alvo.getBoundingClientRect() : { top: 80, left: 80, width: 200, height: 48, bottom: 128, right: 280 };
-    const pad = 6;
-    const st = Math.max(4, r.top - pad), sl = Math.max(4, r.left - pad);
-    const sw = Math.min(window.innerWidth - sl - 4, r.width + pad * 2);
-    const sh = Math.min(window.innerHeight - st - 4, r.height + pad * 2);
-    spot.style.top = st + 'px'; spot.style.left = sl + 'px';
-    spot.style.width = sw + 'px'; spot.style.height = sh + 'px';
+    const isMob = window.innerWidth <= 860;
+    const sel = (isMob && p.selMob) ? p.selMob : p.sel;
+    let alvo = document.querySelector(sel);
+    if (!alvo || alvo.getBoundingClientRect().width < 4) alvo = document.querySelector('.top') || document.querySelector('.side-h');
+    if (alvo && !isMob) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    const r = alvo ? alvo.getBoundingClientRect() : { top: 64, left: 16, width: Math.min(260, window.innerWidth - 32), height: 44 };
+    const pad = isMob ? 4 : 6;
+    const sl = Math.max(4, Math.min(window.innerWidth - 28, r.left - pad));
+    const st = Math.max(4, Math.min(window.innerHeight - 28, r.top - pad));
+    const sw = Math.max(24, Math.min(window.innerWidth - sl - 4, r.width + pad * 2));
+    const sh = Math.max(24, Math.min(window.innerHeight - st - 4, r.height + pad * 2));
+    spot.style.top = Math.round(st) + 'px'; spot.style.left = Math.round(sl) + 'px';
+    spot.style.width = Math.round(sw) + 'px'; spot.style.height = Math.round(sh) + 'px';
     bg.style.background = 'transparent';
 
-    const cw = card.offsetWidth || 360, ch = card.offsetHeight || 190, gap = 14, m = 12;
+    const cw = Math.min(card.offsetWidth || 340, window.innerWidth - 20);
+    const ch = card.offsetHeight || 190;
+    const gap = 12, m = 10;
     let top, left;
     if (st + sh + gap + ch <= window.innerHeight - m) {
       top = st + sh + gap; left = Math.min(Math.max(m, sl), window.innerWidth - cw - m);
     } else if (st - gap - ch >= m) {
       top = st - gap - ch; left = Math.min(Math.max(m, sl), window.innerWidth - cw - m);
-    } else if (sl + sw + gap + cw <= window.innerWidth - m) {
+    } else if (!isMob && sl + sw + gap + cw <= window.innerWidth - m) {
       left = sl + sw + gap; top = Math.min(Math.max(m, st), window.innerHeight - ch - m);
-    } else if (sl - gap - cw >= m) {
+    } else if (!isMob && sl - gap - cw >= m) {
       left = sl - gap - cw; top = Math.min(Math.max(m, st), window.innerHeight - ch - m);
     } else {
       top = Math.max(m, Math.min(window.innerHeight - ch - m, (window.innerHeight - ch) / 2));
@@ -6469,6 +6493,18 @@ function iniciarTutorial() {
     }
     card.style.top = Math.round(top) + 'px';
     card.style.left = Math.round(left) + 'px';
+  }
+
+  function posicionar() {
+    const p = passos[idx];
+    const isMob = window.innerWidth <= 860;
+    clearTimeout(_tPos);
+    if (isMob && p.mob && typeof setMobTab === 'function' && $('#app')?.dataset.mob !== p.mob) {
+      setMobTab(p.mob);
+      _tPos = setTimeout(aplicarCaixa, 290);
+      return;
+    }
+    aplicarCaixa();
   }
 
   function renderPasso() {
