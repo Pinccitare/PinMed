@@ -619,7 +619,7 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 ::selection{background:color-mix(in srgb,var(--brand) 22%,transparent)}
 
 /* ---------- Estrutura: 3 colunas interativas (aside.side, section.center, aside.ed) ---------- */
-.app{grid-template-columns:284px minmax(0,1fr) 420px;grid-template-rows:64px minmax(0,1fr);grid-template-areas:"side top top" "side center ed"}
+.app{grid-template-columns:284px minmax(0,1fr) 420px;grid-template-rows:54px minmax(0,1fr);grid-template-areas:"top top top" "side center ed"}
 .main{display:contents}
 .top{grid-area:top} .side{grid-area:side} .center{grid-area:center} .ed{grid-area:ed}
 .app.no-side{grid-template-columns:minmax(0,1fr) 420px;grid-template-areas:"top top" "center ed"}
@@ -627,17 +627,21 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 @media (max-width:1280px){.app{grid-template-columns:248px minmax(0,1fr) 352px}.app.no-side{grid-template-columns:minmax(0,1fr) 352px}}
 @media (max-width:1120px){.app{grid-template-columns:232px minmax(0,1fr) 332px}.app.no-side{grid-template-columns:minmax(0,1fr) 332px}}
 
-/* ---------- Barra lateral azul-marinho ---------- */
+/* ---------- Barra lateral azul-marinho (20% mais clara no modo claro) ---------- */
 .side{
   --bg:var(--navy); --surface:rgba(255,255,255,.07); --surface-2:rgba(255,255,255,.045); --surface-3:rgba(255,255,255,.08);
-  --line:rgba(255,255,255,.09); --line-strong:rgba(255,255,255,.16);
-  --text:#f1f6fc; --text-2:#bccbdd; --text-3:#9bb2cc;
-  --brand:#5eb0ff; --brand-soft:rgba(94,176,255,.14); --brand-line:rgba(94,176,255,.38);
+  --line:rgba(255,255,255,.11); --line-strong:rgba(255,255,255,.2);
+  --text:#f1f6fc; --text-2:#cddced; --text-3:#a8c1db;
+  --brand:#5eb0ff; --brand-soft:rgba(94,176,255,.16); --brand-line:rgba(94,176,255,.42);
   --t-receita:#7cbcff; --t-especial:#f0ad66; --t-exame:#5fd6cc; --t-encaminhamento:#b6a1f5; --t-atestado:#61cf95; --t-livre:#a7b5c7;
   --t-hemocomponente:#ff7a8a; --t-risco_cirurgico:#5cc8df; --t-solicitacao_cirurgia:#6cb4ff; --t-preop_exame:#5cd6de;
   --t-exame_imagem:#5cb8f2; --t-sol_especializada:#f2b26d; --t-apac:#8bb8e8;
   --focus:0 0 0 3px rgba(94,176,255,.28);
   background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);border-right:0;color:var(--text);color-scheme:dark
+}
+html:not([data-theme=dark]) .side{
+  --navy:#1e4b82; --navy-2:#173c69;
+  background:linear-gradient(180deg,#1e4b82 0%,#173c69 100%)
 }
 .side-brand{display:flex;align-items:center;gap:11px;padding:16px 16px 12px}
 .side-brand .brand{width:auto;gap:11px}
@@ -744,24 +748,26 @@ body{font-size:13.3px;letter-spacing:.002em;font-feature-settings:normal;backgro
 .side ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);background-clip:padding-box}
 
 /* ---------- Cabeçalho ---------- */
-.top{background:var(--surface);border-bottom:1px solid var(--line);padding:0 18px;gap:12px}
-.top>.brand{display:none;width:auto;flex:none;gap:7px;font-size:16px}
-.top>.brand span{display:inline!important}
-.top>.brand svg{width:28px;height:28px}
-.app.no-side .top>.brand{display:flex}
-.pac{max-width:none;gap:8px;flex:1;min-width:0}
-.pf{height:44px;border-radius:10px;background:var(--surface-2);border-color:var(--line);padding:0 11px}
+.top{background:var(--surface);border-bottom:1px solid var(--line);padding:0 14px;gap:10px}
+.top>.brand{display:flex;width:auto;flex:none;gap:8px;font-size:17px;color:var(--text);align-items:center}
+.top>.brand span{display:inline!important;color:var(--text)}
+.top>.brand span b{color:var(--brand)}
+.top>.brand svg{width:30px;height:30px;flex:none}
+#btn-side-open{display:none}
+.app.no-side #btn-side-open{display:inline-grid}
+.pac{max-width:none;gap:7px;flex:1;min-width:0}
+.pf{height:36px;border-radius:10px;background:var(--surface-2);border-color:var(--line);padding:0 11px;justify-content:center}
 .pf:hover{border-color:var(--line-strong)}
 .pf:focus-within{background:var(--surface);outline:2px solid transparent}
-.pf-l{font-size:10px;font-weight:650;letter-spacing:.08em;color:var(--text-3)}
-.pf input{font-size:13.8px;font-weight:600;margin-top:1px}
-.pf-nome{flex:1 1 220px;min-width:160px}
+.pf-l{display:none}
+.pf input{font-size:13.5px;font-weight:600;margin-top:0}
+.pf-nome{flex:1 1 200px;min-width:140px}
 .pf-pop-wrap{position:relative;flex:0 1 auto;min-width:0}
-.pf-alg-wrap{flex:0 1 215px;min-width:130px}
+.pf-alg-wrap{flex:0 1 168px;min-width:105px}
 .pf-cond-wrap{flex:0 0 auto}
-.pf-btn{width:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;cursor:pointer;gap:1px}
+.pf-btn{width:100%;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;text-align:left;cursor:pointer;gap:6px}
 .pf-btn .pf-v{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:flex;align-items:center;gap:4px}
-.pf-btn .pf-v.ph{color:var(--text-3);font-weight:500}
+.pf-btn .pf-v.ph{color:var(--text-3);font-weight:550}
 .pf-alg-btn.has-val{border-color:var(--danger-line);background:var(--danger-soft)}
 .pf-alg-btn.has-val .pf-l,.pf-alg-btn.has-val .pf-v{color:var(--danger)}
 .pf-cond-btn{min-width:118px;max-width:210px}
@@ -876,45 +882,63 @@ textarea.in{padding:10px 12px;line-height:1.55}
 .side .fav-on,[data-theme=dark] .fav-on{color:#f5c042!important}
 
 /* ---------- Prévia ---------- */
-.center{background:var(--canvas)}
-.pv-bar{height:56px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--line);gap:8px}
-.pv-title h2{font-size:15px;font-weight:650;letter-spacing:-.005em}
-.fmt-badge{font-size:11px;font-weight:650;padding:2px 7px;border-radius:999px;background:var(--brand-soft);color:var(--brand)}
-.zoom{height:36px;border-radius:10px;border-color:var(--line);background:var(--surface-2)}
+.center{background:var(--canvas);position:relative}
+.pv-bar{display:none}
+.pv-zoom-float{position:absolute;right:16px;bottom:16px;z-index:25;display:inline-flex;align-items:center;gap:4px;padding:3px;border-radius:12px;background:var(--surface);border:1px solid var(--line-strong);box-shadow:0 10px 28px -8px rgba(8,20,40,.28)}
+.pv-zoom-float .zoom{height:32px;border:0;background:transparent;box-shadow:none}
 .zoom-v{min-width:44px;height:28px;border-radius:7px;padding:0 4px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--text-2);font-weight:600;display:inline-grid;place-items:center;transition:background .12s,color .12s}
 .zoom-v:hover{background:var(--surface-3);color:var(--text)}
 .ib-dim{display:none}
 [data-theme=dark] .ib-dim{display:inline-grid}
 [data-theme=dark] .ib-dim.on{background:var(--brand-soft);color:var(--brand)}
 [data-theme=dark].paper-dim #pv-stage .page{filter:brightness(.91) contrast(.98);outline:1px solid rgba(255,255,255,.12)}
-.pv-scroll{padding:34px 28px 64px;background-color:var(--canvas)}
+.pv-scroll{padding:24px 24px 74px;background-color:var(--canvas)}
 .pv-stage .page{box-shadow:var(--sh-page);border-radius:3px}
 .page-sep{font-size:11px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2);background:var(--surface);border:1px solid var(--line);padding:3px 12px;border-radius:999px;box-shadow:var(--sh-1);margin-bottom:-14px}
 
-/* ---------- Editor em cartões ---------- */
+/* ---------- Editor em cartões compactos e sanfonados ---------- */
 .ed{background:var(--surface-2);border-left:1px solid var(--line)}
-.ed-h{background:var(--surface);padding:14px 16px 12px;border-bottom:1px solid var(--line);transition:padding .48s cubic-bezier(.16,1,.3,1),border-color .36s ease}
+.ed-h{background:var(--surface);padding:8px 12px 8px;gap:5px;border-bottom:1px solid var(--line);transition:padding .48s cubic-bezier(.16,1,.3,1),border-color .36s ease}
 .ed-h-wrap{display:grid;grid-template-rows:1fr;opacity:1;transform:translateY(0);flex:none;transition:grid-template-rows .48s cubic-bezier(.16,1,.3,1),opacity .36s ease,transform .48s cubic-bezier(.16,1,.3,1)}
 .ed-h-wrap>.ed-h{min-height:0;overflow:hidden}
 .ed.title-hide .ed-h-wrap{grid-template-rows:0fr;opacity:0;transform:translateY(-8px);pointer-events:none}
 .ed.title-hide .ed-h{border-bottom-color:transparent;padding-top:0;padding-bottom:0}
-.ed-top select.in{max-width:180px;overflow:hidden;text-overflow:ellipsis}
-.in-title{font-size:17px;font-weight:650;height:42px;background:var(--surface-2);border-color:transparent}
+.ed-top select.in{max-width:170px;height:28px;font-size:12px;overflow:hidden;text-overflow:ellipsis}
+.in-title{font-size:13.8px;font-weight:650;height:32px;padding:0 9px;background:var(--surface-2);border-color:transparent}
 .in-title:hover{border-color:var(--line-strong)}
 .in-title:focus{background:var(--surface);border-color:var(--brand)}
-.in-grp{font-size:12px;color:var(--text-3);border-color:transparent;background:transparent}
-.ed-body{padding:16px 16px 28px;gap:12px}
+.in-grp{font-size:11.5px;height:26px;padding:0 8px;color:var(--text-3);border-color:transparent;background:transparent}
+.ed-body{padding:12px 14px 24px;gap:10px}
 .ed-body>.alerts{flex:none;position:static;margin:0;padding:0;background:transparent;max-height:none;overflow:visible}
 .ed-body>.alerts:empty{display:none;padding:0;margin:0}
-.ed-body>.grp,.ed-body>.fmt-imp,.ed-body>.fld,.ed-body>.row{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--sh-card)}
+.ed-body>.grp,.ed-body>.fmt-imp,.ed-body>.fld,.ed-body>.row,.ed-body>.acc-blk{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--sh-card)}
 .ed-body>.fmt-imp{margin:0}
 .ed-body>.switch{box-shadow:var(--sh-card)}
 .poc-toggles{display:flex;flex-direction:column;gap:6px}
 .poc-toggles .switch{border:0;padding:4px 2px;background:transparent;box-shadow:none;border-radius:8px}
 .grp-h,.fmt-h{font-size:10.5px;letter-spacing:.11em;font-weight:700;color:var(--text-2)}
 .grp-h .n{background:var(--brand-soft);color:var(--brand)}
-.ed-body .card{background:var(--surface-2);border-color:var(--line);box-shadow:none;border-radius:12px}
+.ed-body .card{background:var(--surface-2);border-color:var(--line);box-shadow:none;border-radius:11px;padding:0;gap:0;overflow:hidden}
 .ed-body .card .in{background:var(--surface)}
+.card-sum{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;text-align:left;color:var(--text);cursor:pointer;transition:background .12s}
+.card-sum:hover{background:var(--surface-3)}
+.card-sum-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.card-sum-tx b{font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-sum-tx small{font-size:11.2px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-sum .chev{width:14px;height:14px;color:var(--text-3);flex:none;transition:transform .24s cubic-bezier(.16,1,.3,1)}
+.card.open>.card-sum .chev,.acc-blk.open>.acc-sum .chev{transform:rotate(90deg)}
+.card-det,.acc-det{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s cubic-bezier(.16,1,.3,1)}
+.card.open>.card-det,.acc-blk.open>.acc-det{grid-template-rows:1fr}
+.card-det-in,.acc-det-in{min-height:0;overflow:hidden}
+.card-det-body{display:flex;flex-direction:column;gap:8px;padding:8px 10px 10px;border-top:1px solid var(--line)}
+.ed-body>.acc-blk{padding:0;overflow:hidden}
+.acc-sum{display:flex;align-items:center;gap:8px;width:100%;padding:11px 13px;text-align:left;color:var(--text);cursor:pointer;transition:background .12s}
+.acc-sum:hover{background:var(--surface-2)}
+.acc-sum-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.acc-sum-tx b{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--text-2)}
+.acc-sum-tx small{font-size:11.5px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc-sum .chev{width:14px;height:14px;color:var(--text-3);flex:none;transition:transform .24s cubic-bezier(.16,1,.3,1)}
+.acc-det-body{padding:0 12px 12px}
 #ed .row.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
 #ed .row.c4{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ed-foot{background:var(--surface);padding:14px 16px;box-shadow:0 -8px 20px -16px rgba(15,28,46,.35)}
@@ -966,8 +990,10 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 @keyframes pm-in{from{opacity:0;transform:translateY(5px)}}
 
 /* ajustes de cabeçalho e barra lateral */
-.side-local{padding:0 12px 10px;display:flex;flex-direction:column;gap:5px}
-.side-local-l{font-size:10px;font-weight:650;letter-spacing:.14em;text-transform:uppercase;color:#9bb2cc;padding-left:2px}
+.side-local{padding:10px 10px 8px;display:flex;flex-direction:row;align-items:center;gap:6px}
+.side-local .ib{width:34px;height:34px;flex:none;color:#c7d6e6;border-radius:9px}
+.side-local .ib:hover{background:rgba(255,255,255,.12);color:#fff}
+.side .ctx-pills,.side .chips{display:none!important}
 .side .hsel{position:relative;max-width:none;width:100%;height:38px;border-radius:10px;padding:0 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#f1f6fc;transition:background .15s,border-color .15s,box-shadow .15s}
 .side .hsel:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.18)}
 .side .hsel:focus-within{background:rgba(255,255,255,.12);border-color:var(--brand-line);box-shadow:var(--focus)}
@@ -1179,12 +1205,10 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   html:not([data-theme=dark]) .mob-act-bar .btn-fila-view.has-q .count{background:#0b6fc7;color:#ffffff}
   .fila-pop{left:10px;right:10px;bottom:calc(132px + env(safe-area-inset-bottom,0px));width:auto;max-height:54dvh;z-index:95}
 
-  #btn-side{display:none}
-  .pv-bar{height:44px;padding:0 8px;gap:6px}
-  .pv-title h2{font-size:13px}
-  .zoom{height:30px}
-  .zoom .zoom-fit{display:none}
-  .pv-scroll{padding:10px 8px calc(138px + env(safe-area-inset-bottom,0px))}
+  #btn-side,#btn-side-open{display:none!important}
+  .pv-zoom-float{right:10px;bottom:calc(134px + env(safe-area-inset-bottom,0px))}
+  .pv-zoom-float .zoom-fit{display:none}
+  .pv-scroll{padding:12px 8px calc(182px + env(safe-area-inset-bottom,0px))}
   .ed-h{padding:10px 12px}
   .ed-body{padding:10px 12px calc(138px + env(safe-area-inset-bottom,0px))}
   #ed .row.c3{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1342,17 +1366,17 @@ body.pm-locked .app{pointer-events:none;user-select:none}
 <div class="app" id="app" data-mob="side">
   <h1 class="sr-only">PinMed — Documentos médicos</h1>
   <header class="top">
+    <button type="button" class="ib" id="btn-side-open" title="Mostrar biblioteca (Ctrl+B)" aria-label="Mostrar biblioteca"><svg class="i" aria-hidden="true"><use href="#i-panel"/></svg></button>
     <div class="brand" title="PinMed">
-      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-        <defs><linearGradient id="pm-pin-t" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e88e5"/><stop offset="55%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#e0f7fa"/></linearGradient></defs>
-        <rect x="1" y="1" width="46" height="46" rx="11" fill="#0c2340"/>
-        <path d="M24 43.2L22 36.2h4L24 43.2z" fill="#e0f7fa"/>
-        <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin-t)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+      <svg viewBox="6 6 36 39" fill="none" aria-hidden="true">
+        <defs><linearGradient id="pm-pin-t" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0b6fc7"/><stop offset="58%" stop-color="#38a6f5"/><stop offset="100%" stop-color="#7cd4ff"/></linearGradient></defs>
+        <path d="M24 43.2L22 36.2h4L24 43.2z" fill="#38a6f5"/>
+        <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin-t)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
         <path d="M24 27.4c0 3.4 2.4 5.2 5.4 4.8 3.6-.5 6.4-3.7 6.8-7.8" stroke="url(#pm-pin-t)" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="19.6" cy="10.2" r="2.3" fill="#4fc3f7"/><circle cx="28.4" cy="10.2" r="2.3" fill="#4fc3f7"/>
-        <circle cx="24" cy="20.2" r="5.6" fill="#0c2340" stroke="url(#pm-pin-t)" stroke-width="2.2"/>
-        <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#4fc3f7" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="19.6" cy="10.2" r="2.3" fill="#0b6fc7"/><circle cx="28.4" cy="10.2" r="2.3" fill="#0b6fc7"/>
+        <circle cx="24" cy="20.2" r="5.6" fill="var(--surface)" stroke="url(#pm-pin-t)" stroke-width="2.2"/>
+        <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#0b6fc7" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
       <span>Pin<b>Med</b></span>
     </div>
@@ -1364,33 +1388,31 @@ body.pm-locked .app{pointer-events:none;user-select:none}
         <button type="button" class="mob-pill-btn" id="btn-mob-pac" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-pac"><span id="mob-pac-lbl">Paciente</span></button>
         <div class="top-pop hidden" id="pop-pac" role="dialog" aria-label="Dados do paciente">
           <div class="top-pop-h"><b>Paciente e consulta</b><button type="button" class="top-pop-clr" id="btn-mob-nova">Nova consulta</button></div>
-          <div class="cond-peso"><label for="p-nome-mob">Nome completo</label><input class="in" id="p-nome-mob" placeholder="Nome completo do paciente" autocomplete="off" spellcheck="false"></div>
+          <div class="cond-peso"><label for="p-nome-mob">Nome completo</label><input class="in" id="p-nome-mob" placeholder="Nome do paciente" autocomplete="off" spellcheck="false"></div>
           <div class="cond-peso"><label for="p-data-mob">Data da consulta</label><input class="in" id="p-data-mob" type="date"></div>
           <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
-      <label class="pf pf-nome"><span class="pf-l">Paciente</span><input id="p-nome" data-p="nome" placeholder="Nome completo — sai em todos os documentos" autocomplete="off" spellcheck="false"></label>
+      <label class="pf pf-nome"><input id="p-nome" data-p="nome" placeholder="Paciente" aria-label="Nome do paciente" autocomplete="off" spellcheck="false"></label>
       <div class="pf-pop-wrap pf-alg-wrap">
-        <button type="button" class="pf pf-btn pf-alg-btn" id="pf-alg" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-alg" title="Clique para buscar medicações ou classes alérgicas">
-          <span class="pf-l">Alergias</span>
-          <span class="pf-v ph" id="alg-summary">Nenhuma · clique para buscar</span>
+        <button type="button" class="pf pf-btn pf-alg-btn" id="pf-alg" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-alg" title="Alergias do paciente">
+          <span class="pf-v ph" id="alg-summary">Alergias</span>
         </button>
         <input type="hidden" id="p-alergias" data-p="alergias">
         <div class="top-pop pop-alg hidden" id="pop-alg" role="dialog" aria-label="Alergias do paciente">
-          <div class="top-pop-h"><b>Alergias do paciente</b><button type="button" class="top-pop-clr hidden" id="alg-clear-all">Limpar todas</button></div>
-          <input class="in" id="alg-search" placeholder="Buscar medicação ou classe no app..." autocomplete="off" spellcheck="false" aria-label="Buscar medicação ou classe para alergia">
+          <div class="top-pop-h"><b>Alergias</b><button type="button" class="top-pop-clr hidden" id="alg-clear-all">Limpar</button></div>
+          <input class="in" id="alg-search" placeholder="Buscar medicação ou classe..." autocomplete="off" spellcheck="false" aria-label="Buscar medicação ou classe para alergia">
           <div class="alg-chips hidden" id="alg-chips"></div>
           <div class="alg-res" id="alg-results" role="listbox" aria-label="Sugestões de medicações e classes"></div>
           <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
       <div class="pf-pop-wrap pf-cond-wrap">
-        <button type="button" class="pf pf-btn pf-cond-btn" id="btn-cond" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-cond" title="Gestante, Lactante, Idade e Peso (kg)">
-          <span class="pf-l">Condições</span>
+        <button type="button" class="pf pf-btn pf-cond-btn" id="btn-cond" aria-haspopup="dialog" aria-expanded="false" aria-controls="pop-cond" title="Gestante, Lactante, Idade e Peso">
           <span class="pf-v ph" id="cond-summary">Condições ▾</span>
         </button>
         <div class="top-pop hidden" id="pop-cond" role="dialog" aria-label="Condições clínicas do paciente">
-          <div class="top-pop-h"><b>Condições clínicas</b><button type="button" class="top-pop-clr hidden" id="btn-cond-clear">Limpar condições</button></div>
+          <div class="top-pop-h"><b>Condições clínicas</b><button type="button" class="top-pop-clr hidden" id="btn-cond-clear">Limpar</button></div>
           <button type="button" class="cond-row" id="p-gest" data-flag="gestante" aria-pressed="false"><span class="cond-dot" aria-hidden="true"></span><span>Gestante</span><span class="cond-st" id="st-gest">Não</span></button>
           <button type="button" class="cond-row" id="p-lact" data-flag="lactante" aria-pressed="false"><span class="cond-dot" aria-hidden="true"></span><span>Lactante</span><span class="cond-st" id="st-lact">Não</span></button>
           <div class="cond-row-grid">
@@ -1412,14 +1434,13 @@ body.pm-locked .app{pointer-events:none;user-select:none}
           <div class="top-pop-f"><button type="button" class="btn btn-primary btn-sm" data-pop-ok>OK</button></div>
         </div>
       </div>
-      <label class="pf pf-data"><span class="pf-l">Data</span><input id="p-data" data-p="data" type="date"></label>
+      <label class="pf pf-data"><input id="p-data" data-p="data" type="date" aria-label="Data da consulta"></label>
       <button type="button" class="ib" id="btn-nova" title="Nova consulta — limpa o paciente, a fila e as edições desta consulta" aria-label="Iniciar nova consulta"><svg class="i" aria-hidden="true"><use href="#i-refresh"/></svg></button>
     </div>
 
     <div class="top-r">
       <button type="button" class="ib" id="btn-tema" aria-label="Alternar tema claro ou escuro"></button>
-      <button type="button" class="ib" id="btn-cfg" title="Configurações" aria-label="Configurações" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-gear"/></svg><span class="dot hidden" id="cfg-dot"></span></button>
-      <button type="button" class="doc-chip" id="doc-chip" title="Dados do médico (aparecem nos documentos)" aria-label="Dados do prescritor"><span class="doc-av" id="doc-av" aria-hidden="true"></span><span class="doc-tx"><b id="doc-nome"></b><small id="doc-crm"></small></span></button>
+      <button type="button" class="ib" id="btn-cfg" title="Configurações e dados do médico" aria-label="Configurações" aria-haspopup="menu" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-gear"/></svg><span class="dot hidden" id="cfg-dot"></span></button>
       <span class="vsep" aria-hidden="true"></span>
       <button type="button" class="btn btn-secondary" id="btn-fila" aria-label="Abrir fila de impressão"><svg class="i" aria-hidden="true"><use href="#i-layers"/></svg><span class="lbl-wide">Fila</span><span class="count" id="fila-n">0</span></button>
       <button type="button" class="btn btn-primary" id="btn-print" title="Imprimir (Ctrl+P)"><svg class="i" aria-hidden="true"><use href="#i-print"/></svg><span id="print-lbl">Imprimir</span></button>
@@ -1428,25 +1449,11 @@ body.pm-locked .app{pointer-events:none;user-select:none}
 
   <div class="main">
     <aside class="side" aria-label="Biblioteca">
-      <div class="side-brand">
-<div class="brand" title="PinMed">
-        <svg viewBox="6 6 36 39" fill="none" aria-hidden="true">
-          <defs><linearGradient id="pm-pin-s" x1="12" y1="8" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1e88e5"/><stop offset="55%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#e0f7fa"/></linearGradient></defs>
-          <path d="M24 43.2L22 36.2h4L24 43.2z" fill="#e0f7fa"/>
-          <path d="M13.5 14.5C10.4 17.5 9.8 22.8 12.2 27.6c2.5 5 8.5 9.4 11.8 10.6 3.3-1.2 9.3-5.6 11.8-10.6 2.4-4.8 1.8-10.1-1.3-13.1" stroke="url(#pm-pin-s)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M19.2 10.2c-3.8 1-5 5.4-3.2 10.8 1.4 4.2 4.5 6.4 8 6.4s6.6-2.2 8-6.4c1.8-5.4.6-9.8-3.2-10.8" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M24 27.4c0 3.4 2.4 5.2 5.4 4.8 3.6-.5 6.4-3.7 6.8-7.8" stroke="url(#pm-pin-s)" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="19.6" cy="10.2" r="2.3" fill="#4fc3f7"/><circle cx="28.4" cy="10.2" r="2.3" fill="#4fc3f7"/>
-          <circle cx="24" cy="20.2" r="5.6" fill="#0c2340" stroke="url(#pm-pin-s)" stroke-width="2.2"/>
-          <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#4fc3f7" stroke-width="2.2" stroke-linecap="round"/>
-        </svg>
-        <span>Pin<b>Med</b><small>Documentos médicos</small></span>
-      </div>
-      </div>
-      <div class="side-local"><label class="side-local-l" for="sel-local">Local de atendimento</label>
-      <div class="hsel" title="Local de atendimento (cabeçalho das folhas)">
-        <svg class="i" aria-hidden="true"><use href="#i-building"/></svg><select id="sel-local" aria-label="Local de atendimento"></select>
-      </div>
+      <div class="side-local">
+        <div class="hsel" title="Local de atendimento">
+          <svg class="i" aria-hidden="true"><use href="#i-building"/></svg><select id="sel-local" aria-label="Local de atendimento"></select>
+        </div>
+        <button type="button" class="ib" id="btn-side" title="Recolher biblioteca (Ctrl+B)" aria-label="Recolher biblioteca" aria-expanded="true"><svg class="i" aria-hidden="true"><use href="#i-panel"/></svg></button>
       </div>
       <div class="side-h">
         <div class="search">
@@ -1470,19 +1477,17 @@ body.pm-locked .app{pointer-events:none;user-select:none}
     </aside>
 
     <section class="center" role="main" aria-label="Prévia do documento">
-      <div class="pv-bar">
-        <button type="button" class="ib" id="btn-side" title="Mostrar/ocultar biblioteca (Ctrl+B)" aria-label="Mostrar ou ocultar biblioteca" aria-expanded="true"><svg class="i" aria-hidden="true"><use href="#i-panel"/></svg></button>
-        <div class="pv-title" id="pv-title"></div>
+      <div class="strip hidden" id="strip" role="alert" aria-live="polite"></div>
+      <div class="pv-scroll" id="pv-scroll"><div class="pv-stage" id="pv-stage"></div></div>
+      <div class="pv-zoom-float" role="group" aria-label="Zoom da prévia">
         <button type="button" class="ib ib-dim" id="btn-dim" title="Conforto noturno no papel — suaviza o brilho da folha na tela (não afeta a impressão)" aria-label="Conforto noturno no papel" aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-contrast"/></svg></button>
-        <div class="zoom" role="group" aria-label="Zoom da prévia">
+        <div class="zoom">
           <button type="button" class="ib" id="z-out" title="Diminuir zoom (Alt+-)" aria-label="Diminuir zoom"><svg class="i" aria-hidden="true"><use href="#i-minus"/></svg></button>
           <button type="button" class="zoom-v" id="z-val" title="Redefinir zoom para 100% (Alt+0)" aria-label="Redefinir zoom para 100%">100%</button>
           <button type="button" class="ib" id="z-in" title="Aumentar zoom (Alt+=)" aria-label="Aumentar zoom"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
           <button type="button" class="zoom-fit" id="z-fit" title="Caber folha inteira na altura da tela" aria-pressed="false">Folha inteira</button>
         </div>
       </div>
-      <div class="strip hidden" id="strip" role="alert" aria-live="polite"></div>
-      <div class="pv-scroll" id="pv-scroll"><div class="pv-stage" id="pv-stage"></div></div>
     </section>
 
     <aside class="ed" id="ed" aria-label="Editor"></aside>
@@ -4406,7 +4411,8 @@ const S = {
   calcAberta: false, calc: { peso: '', preset: 'dipirona', dose: null, gpm: null }, calcRes: null,
   img: { mod: 'rx', contraste: 'sem', pend: null },
   undo: {}, redo: {}, textoRapido: '', trResultado: null,
-  rxSwipe: { simples: null, especial: null }
+  rxSwipe: { simples: null, especial: null },
+  edAbertos: new Set()
 };
 function idadeAtualAnos() {
   const raw = String(S.paciente?.idade || '').trim();
@@ -4793,10 +4799,11 @@ function itemHTML(key, doc, sel = false, emBusca = false) {
         : `<button type="button" class="ib ib-sm${qi >= 0 ? ' q-on' : ''}" data-act="fila" title="${qi >= 0 ? 'Remover da fila' : 'Selecionar para impressão'}" aria-label="${qi >= 0 ? 'Remover da fila: ' : 'Selecionar para impressão: '}${esc(limpo)}" aria-pressed="${qi >= 0 ? 'true' : 'false'}">${qi >= 0 ? `<span class="qn">${qi + 1}</span>` : ic('layers')}</button>`}
     </div></div>`;
 }
+const ABERTOS_SEC = new Set(); // Favoritos e Recentes sempre começam fechados e não abrem sozinhos
+const ABERTOS_GRP = new Set(); // Grupos da biblioteca sempre começam fechados ao abrir o app
 const secao = (titulo, icon, itens) => itens.length ? `<div class="sec-h">${icon ? ic(icon) : ''}${titulo}</div>${itens.join('')}` : '';
-function secAberta(id, qtd) {
-  if (Array.isArray(db.prefs.secFechadas)) return !db.prefs.secFechadas.includes(id);
-  return !(id === 'fav' && qtd > 5);
+function secAberta(id) {
+  return ABERTOS_SEC.has(id);
 }
 function secaoColapsavel(id, titulo, icon, itens) {
   if (!itens.length) return '';
@@ -4970,7 +4977,7 @@ function renderMeds() {
     html += secao(`Medicamentos (${lista.length})`, 'pill', lista.map(renderMedBtnHTML));
   } else {
     grupos.forEach((itens, g) => {
-      const aberto = !!termos.length || db.prefs.abertos.includes('med:' + g);
+      const aberto = !!termos.length || ABERTOS_GRP.has('med:' + g);
       html += `<button type="button" class="grp-t" data-grp="med:${esc(g)}" aria-expanded="${aberto}">${ic('chev')}${esc(g)}<span class="n">${itens.length}</span></button>`;
       if (aberto) html += `<div class="grp-b">${itens.map(renderMedBtnHTML).join('')}</div>`;
     });
@@ -5003,42 +5010,30 @@ function trocarAba(aba) {
   syncSearchClear();
   renderSide();
 }
-const FECHADOS = new Set();  // grupos fechados nesta sessão mesmo contendo o documento ativo
-const grupoAberto = (g, temAtivo) => db.prefs.abertos.includes(g) || (temAtivo && !FECHADOS.has(g));
+const grupoAberto = g => ABERTOS_GRP.has(g);
 function toggleGrupo(g) {
-  const a = db.prefs.abertos, btn = $(`.grp-t[data-grp="${CSS.escape(g)}"]`), aberto = btn?.getAttribute('aria-expanded') === 'true';
-  if (aberto) { const i = a.indexOf(g); if (i >= 0) a.splice(i, 1); FECHADOS.add(g); }
-  else { if (!a.includes(g)) a.push(g); FECHADOS.delete(g); }
-  save(false); renderSide();
+  if (ABERTOS_GRP.has(g)) ABERTOS_GRP.delete(g);
+  else ABERTOS_GRP.add(g);
+  renderSide();
   $(`.grp-t[data-grp="${CSS.escape(g)}"]`)?.focus();
 }
 function toggleSecao(id) {
-  const btn = $(`.sec-t[data-sec="${CSS.escape(id)}"]`), aberto = btn?.getAttribute('aria-expanded') === 'true';
-  if (!Array.isArray(db.prefs.secFechadas)) {
-    db.prefs.secFechadas = [];
-    $$('.sec-t[data-sec]').forEach(b => { if (b.getAttribute('aria-expanded') !== 'true') db.prefs.secFechadas.push(b.dataset.sec); });
-  }
-  const f = db.prefs.secFechadas;
-  if (aberto) { if (!f.includes(id)) f.push(id); }
-  else { const i = f.indexOf(id); if (i >= 0) f.splice(i, 1); }
-  save(false); renderSide();
+  if (ABERTOS_SEC.has(id)) ABERTOS_SEC.delete(id);
+  else ABERTOS_SEC.add(id);
+  renderSide();
   $(`.sec-t[data-sec="${CSS.escape(id)}"]`)?.focus();
 }
 function toggleTodosGrupos(modo, listaGrps) {
-  const a = db.prefs.abertos;
-  if (modo === 'close') {
-    listaGrps.forEach(g => { const i = a.indexOf(g); if (i >= 0) a.splice(i, 1); FECHADOS.add(g); });
-  } else {
-    listaGrps.forEach(g => { if (!a.includes(g)) a.push(g); FECHADOS.delete(g); });
-  }
-  save(false); renderSide();
+  if (modo === 'close') listaGrps.forEach(g => ABERTOS_GRP.delete(g));
+  else listaGrps.forEach(g => ABERTOS_GRP.add(g));
+  renderSide();
 }
 
 /* ---------- Prévia ---------- */
 function renderPreview() {
   const d = draft(), stage = $('#pv-stage');
   if (!d) {
-    setHTML($('#pv-title'), '<span class="muted">Nenhum documento aberto</span>');
+    const pvt = $('#pv-title'); if (pvt) setHTML(pvt, '<span class="muted">Nenhum documento aberto</span>');
     $('#strip').className = 'strip hidden';
     stage.style.zoom = 1;
     stage.innerHTML = `<div class="empty-st" style="width:420px;margin-top:12vh">${ic('file')}<b>Escolha um modelo na biblioteca</b><p>Ou crie um documento novo para começar.</p><button type="button" class="btn btn-primary btn-sm" data-act="novo">${ic('plus')} Novo documento</button></div>`;
@@ -5063,7 +5058,8 @@ function renderPreview() {
   const fmtIco = (split || halfSingle) ? 'landscape' : 'portrait';
   const fmtTxt = split ? 'A4 paisagem · 2 vias' : halfSingle ? 'Meia folha A4 deitada' : 'A4 retrato';
   const badgeFolhas = pages.length > 1 ? `<span class="fmt-badge">${pages.length} folhas</span>` : '';
-  setHTML($('#pv-title'), `<span class="badge t-${tv}">${ic(infoTipo.icon)}${infoTipo.label}</span><h2>${esc(doc.titulo || 'Sem título')}</h2><span class="fmt">${ic(fmtIco)}${fmtTxt}${badgeFolhas}</span>`);
+  const pvt = $('#pv-title');
+  if (pvt) setHTML(pvt, `<span class="badge t-${tv}">${ic(infoTipo.icon)}${infoTipo.label}</span><h2>${esc(doc.titulo || 'Sem título')}</h2><span class="fmt">${ic(fmtIco)}${fmtTxt}${badgeFolhas}</span>`);
   const s = $('#strip');
   if (!lvl) { s.className = 'strip hidden'; return; }
   s.className = 'strip ' + (lvl === 3 ? 'danger' : 'warn');
@@ -5122,21 +5118,31 @@ function tokenBar(alvo, comDias) {
 }
 function cardItem(it, i, n) {
   const numOrd = i + 1;
-  return `<div class="card" data-i="${i}">
-    <div class="card-h"><span class="num" aria-hidden="true">${numOrd}</span>
-      <select class="in in-sm" data-f="via" title="Via de administração" aria-label="Via de administração do item ${numOrd}">${Object.entries(VIAS).map(([k, v]) => `<option value="${k}"${it.via === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
-      <span class="sp"></span>
-      <button type="button" class="ib ib-sm" data-act="up" title="Mover para cima" aria-label="Mover item ${numOrd} para cima" ${i === 0 ? 'disabled' : ''}>${ic('up')}</button>
-      <button type="button" class="ib ib-sm" data-act="down" title="Mover para baixo" aria-label="Mover item ${numOrd} para baixo" ${i === n - 1 ? 'disabled' : ''}>${ic('down')}</button>
-      <button type="button" class="ib ib-sm danger" data-act="rm-item" title="Remover item" aria-label="Remover item ${numOrd}">${ic('trash')}</button>
-    </div>
-    <div class="cb-wrap">
-      <input class="in" data-f="nome" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb-list-${i}" aria-label="Medicamento do item ${numOrd}" value="${esc(it.nome)}" placeholder="Medicamento — digite para buscar sugestões" style="font-weight:600" autocomplete="off">
-      <div class="cb-list hidden" id="cb-list-${i}" role="listbox" aria-label="Sugestões de medicamentos"></div>
-    </div>
-    <div class="row c-item"><input class="in" data-f="apresentacao" aria-label="Apresentação do item ${numOrd}" value="${esc(it.apresentacao)}" placeholder="Apresentação (ex.: 500 mg comprimido)"><input class="in" data-f="qtd" aria-label="Quantidade do item ${numOrd}" value="${esc(it.qtd)}" placeholder="Quantidade"></div>
-    <textarea class="in" data-f="posologia" rows="2" aria-label="Posologia do item ${numOrd}" placeholder="Posologia (ex.: Tomar 1 comprimido via oral de 8/8 horas por 5 dias.)">${esc(it.posologia)}</textarea>
-    <input class="in" data-f="obs" aria-label="Observação do item ${numOrd}" value="${esc(it.obs)}" placeholder="Observação (opcional)">
+  const aberto = S.edAbertos.has('item-' + i);
+  const titResumo = (it.nome || '').trim() || `Medicamento ${numOrd} (em branco)`;
+  const subResumo = [it.apresentacao, it.qtd].filter(Boolean).join(' · ') || VIAS[it.via] || 'Clique para editar';
+  return `<div class="card${aberto ? ' open' : ''}" data-i="${i}">
+    <button type="button" class="card-sum" data-act="toggle-card" aria-expanded="${aberto ? 'true' : 'false'}">
+      <span class="num" aria-hidden="true">${numOrd}</span>
+      <span class="card-sum-tx"><b>${esc(titResumo)}</b><small>${esc(subResumo)}</small></span>
+      ${ic('chev', 'chev')}
+    </button>
+    <div class="card-det"><div class="card-det-in"><div class="card-det-body">
+      <div class="card-h">
+        <select class="in in-sm" data-f="via" title="Via de administração" aria-label="Via de administração do item ${numOrd}">${Object.entries(VIAS).map(([k, v]) => `<option value="${k}"${it.via === k ? ' selected' : ''}>${v}</option>`).join('')}</select>
+        <span class="sp"></span>
+        <button type="button" class="ib ib-sm" data-act="up" title="Mover para cima" aria-label="Mover item ${numOrd} para cima" ${i === 0 ? 'disabled' : ''}>${ic('up')}</button>
+        <button type="button" class="ib ib-sm" data-act="down" title="Mover para baixo" aria-label="Mover item ${numOrd} para baixo" ${i === n - 1 ? 'disabled' : ''}>${ic('down')}</button>
+        <button type="button" class="ib ib-sm danger" data-act="rm-item" title="Remover item" aria-label="Remover item ${numOrd}">${ic('trash')}</button>
+      </div>
+      <div class="cb-wrap">
+        <input class="in" data-f="nome" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cb-list-${i}" aria-label="Medicamento do item ${numOrd}" value="${esc(it.nome)}" placeholder="Medicamento — digite para buscar sugestões" style="font-weight:600" autocomplete="off">
+        <div class="cb-list hidden" id="cb-list-${i}" role="listbox" aria-label="Sugestões de medicamentos"></div>
+      </div>
+      <div class="row c-item"><input class="in" data-f="apresentacao" aria-label="Apresentação do item ${numOrd}" value="${esc(it.apresentacao)}" placeholder="Apresentação (ex.: 500 mg comprimido)"><input class="in" data-f="qtd" aria-label="Quantidade do item ${numOrd}" value="${esc(it.qtd)}" placeholder="Quantidade"></div>
+      <textarea class="in" data-f="posologia" rows="2" aria-label="Posologia do item ${numOrd}" placeholder="Posologia (ex.: Tomar 1 comprimido via oral de 8/8 horas por 5 dias.)">${esc(it.posologia)}</textarea>
+      <input class="in" data-f="obs" aria-label="Observação do item ${numOrd}" value="${esc(it.obs)}" placeholder="Observação (opcional)">
+    </div></div></div>
   </div>`;
 }
 function calcHTML() {
@@ -5310,7 +5316,18 @@ function corpoEditor(doc) {
       ${doc.itens.map((it, i) => cardItem(it, i, doc.itens.length)).join('')}
       <div class="btn-row"><button type="button" class="btn btn-secondary btn-sm" data-act="add-item">${ic('plus')} Adicionar</button><button type="button" class="btn btn-ghost btn-sm" data-act="catalogo">${ic('pill')} Do catálogo</button>${!S.calcAberta ? `<button type="button" class="btn ${destPed ? 'btn-ped' : 'btn-ghost'} btn-sm" data-act="calc">${ic('calc')} Dose pediátrica</button>` : ''}</div>
       ${S.calcAberta ? calcHTML() : ''}</div>`;
-    h += area('Orientações gerais', 'data-b="orientacoes"', doc.orientacoes, '• Hidratação, repouso, sinais de alarme para retorno…', 4);
+    const orientAberto = S.edAbertos.has('orient');
+    const orientTxt = (doc.orientacoes || '').trim();
+    const orientPrev = orientTxt ? orientTxt.split('\n')[0].slice(0, 56) : 'Clique para adicionar orientações';
+    h += `<div class="acc-blk${orientAberto ? ' open' : ''}" data-acc="orient">
+      <button type="button" class="acc-sum" data-act="toggle-acc" aria-expanded="${orientAberto ? 'true' : 'false'}">
+        <span class="acc-sum-tx"><b>Orientações gerais</b><small>${esc(orientPrev)}</small></span>
+        ${ic('chev', 'chev')}
+      </button>
+      <div class="acc-det"><div class="acc-det-in"><div class="acc-det-body">
+        <textarea class="in" data-b="orientacoes" rows="4" aria-label="Orientações gerais" placeholder="• Hidratação, repouso, sinais de alarme para retorno…">${esc(doc.orientacoes)}</textarea>
+      </div></div></div>
+    </div>`;
   } else if (t === 'exame') {
     const marc = x => exameMarcado(doc.exames, x);
     if (doc.imagem) h += imgBuilderHTML(doc); else h += `<div class="grp"><div class="grp-h">Adicionar com um clique</div><div class="qchips" id="qchips">${EXAMES_RAPIDOS.map(x => `<button type="button" class="chip${marc(x) ? ' added' : ''}" data-act="qex" data-v="${esc(x)}" aria-pressed="${marc(x) ? 'true' : 'false'}">${marc(x) ? ic('check') : ic('plus')}${esc(x)}</button>`).join('')}</div></div>`;
@@ -5992,7 +6009,7 @@ function renderTopAlg() {
     const isMob = window.innerWidth <= 860;
     sum.textContent = lista.length
       ? (isMob ? (lista.length === 1 ? lista[0] : `Alergias (${lista.length})`) : lista.join(', '))
-      : (isMob ? 'Alergias' : 'Nenhuma · clique para buscar');
+      : 'Alergias';
     sum.classList.toggle('ph', !lista.length);
   }
   if (clr) clr.classList.toggle('hidden', !lista.length);
@@ -6203,12 +6220,12 @@ function abrir(key, opts = {}) {
     S.drafts[key] = { doc: docClone, modeloId: m.id, autoPoc };
   }
   S.ativo = key; S.calcAberta = false;
+  S.edAbertos.clear();
   if (S.paciente.peso) S.calc.peso = String(S.paciente.peso).replace(/\s*kg\s*$/i, '').trim();
   const m = getModelo(key);
   if (m) {
     const mudouRec = db.recentes[0] !== key;
     registrarRecente(key);
-    if (m.grupo) FECHADOS.delete(m.grupo);
     if (!opts.semSalvar && mudouRec) save(false);
   }
   renderAll();
@@ -6845,7 +6862,7 @@ function menuCfg(anchor) {
 }
 function iniciarTutorial() {
   const passos = [
-    { sel: '#doc-chip', mob: 'side', titulo: '1. Cadastre seus dados médicos', texto: 'Informe seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas, carimbos e receitas de controle especial.' },
+    { sel: '#btn-cfg', mob: 'side', titulo: '1. Cadastre seus dados médicos', texto: 'Acesse Configurações (⚙) → Dados do prescritor para informar seu Nome, CRM e especialidade uma única vez para sair automaticamente nas assinaturas e receitas.' },
     { sel: '.side-local .hsel', selMob: '#btn-cfg', mob: 'side', titulo: '2. Local de atendimento e Download', texto: 'Selecione a unidade ou hospital onde está atendendo (no celular, acesse em Configurações ⚙ → Locais e cabeçalhos). Em Configurações você também encontra o botão Baixar / Instalar aplicativo para usar offline.' },
     { sel: '.pf-nome', selMob: '#btn-mob-pac', mob: 'side', titulo: '3. Nome do paciente', texto: 'Preencha o nome do paciente uma vez no topo para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
     { sel: '#pf-alg', mob: 'side', titulo: '4. Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
@@ -7415,12 +7432,14 @@ function bind() {
   $('#btn-fila').onclick = abrirFila;
   $('#btn-print').onclick = imprimirPrincipal;
   $('#btn-novo').onclick = e => menuNovo(e.currentTarget);
-  $('#btn-side').onclick = () => {
+  const toggleSide = () => {
     db.prefs.semBiblioteca = !db.prefs.semBiblioteca;
     $('#app').classList.toggle('no-side', db.prefs.semBiblioteca);
-    $('#btn-side').setAttribute('aria-expanded', db.prefs.semBiblioteca ? 'false' : 'true');
+    $('#btn-side')?.setAttribute('aria-expanded', db.prefs.semBiblioteca ? 'false' : 'true');
     save(false); applyZoom();
   };
+  $('#btn-side').onclick = toggleSide;
+  if ($('#btn-side-open')) $('#btn-side-open').onclick = toggleSide;
   $('#btn-dim').onclick = () => {
     db.prefs.paperDim = !db.prefs.paperDim;
     save(false); applyTheme();
@@ -7553,11 +7572,18 @@ function bind() {
         if (el.value !== clean) el.value = clean;
         $$('[data-act="dias"]', ed).forEach(b => b.classList.toggle('on', +b.dataset.v === +d.doc.dias));
       } else d.doc[k] = v;
+      if (k === 'orientacoes') {
+        const sm = el.closest('.acc-blk')?.querySelector('.acc-sum-tx small');
+        if (sm) sm.textContent = v.trim() ? v.trim().split('\n')[0].slice(0, 56) : 'Clique para adicionar orientações';
+      }
     } else if (el.dataset.f) {
       const card = el.closest('[data-i]'), idx = card ? +card.dataset.i : -1, item = d.doc.itens?.[idx];
       if (!item) return;
       pushUndo(S.ativo, el.tagName === 'SELECT');
       item[el.dataset.f] = v;
+      const sumB = card?.querySelector('.card-sum-tx b'), sumS = card?.querySelector('.card-sum-tx small');
+      if (sumB) sumB.textContent = (item.nome || '').trim() || `Medicamento ${idx + 1} (em branco)`;
+      if (sumS) sumS.textContent = [item.apresentacao, item.qtd].filter(Boolean).join(' · ') || VIAS[item.via] || 'Clique para editar';
       if (el.dataset.f === 'nome') {
         cbAbrir(el, false);
         const n = $('.grp-h .n', ed); if (n) n.textContent = itensValidos(d.doc).length;
@@ -7608,7 +7634,24 @@ function bind() {
     const d = draft(); if (!d) return;
     const act = b.dataset.act, card = b.closest('[data-i]'), i = card ? +card.dataset.i : -1, its = d.doc.itens;
     switch (act) {
-      case 'add-item': pushUndo(S.ativo, true); its.push(novoItem()); renderEditor(); changed({ forcarSide: true }); setTimeout(() => { const c = $$('.card', ed).pop(); c?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); $('[data-f="nome"]', c)?.focus(); }, 20); break;
+      case 'toggle-card': {
+        const keyC = 'item-' + i;
+        const abrirC = !S.edAbertos.has(keyC);
+        if (abrirC) S.edAbertos.add(keyC); else S.edAbertos.delete(keyC);
+        card?.classList.toggle('open', abrirC);
+        b.setAttribute('aria-expanded', abrirC ? 'true' : 'false');
+        return;
+      }
+      case 'toggle-acc': {
+        const blk = b.closest('.acc-blk');
+        const keyA = blk?.dataset.acc || 'orient';
+        const abrirA = !S.edAbertos.has(keyA);
+        if (abrirA) S.edAbertos.add(keyA); else S.edAbertos.delete(keyA);
+        blk?.classList.toggle('open', abrirA);
+        b.setAttribute('aria-expanded', abrirA ? 'true' : 'false');
+        return;
+      }
+      case 'add-item': pushUndo(S.ativo, true); its.push(novoItem()); S.edAbertos.add('item-' + (its.length - 1)); renderEditor(); changed({ forcarSide: true }); setTimeout(() => { const eb = $('#ed-body'); if (eb) eb.scrollTo({ top: eb.scrollHeight, behavior: 'smooth' }); const c = $$('.card', ed).pop(); $('[data-f="nome"]', c)?.focus({ preventScroll: true }); }, 40); break;
       case 'rm-item': if (i >= 0 && i < its.length) {
         pushUndo(S.ativo, true); its.splice(i, 1); if (!its.length) its.push(novoItem());
         const alvoIdx = Math.min(i, its.length - 1);
@@ -10709,16 +10752,17 @@ window._pinmedBoot = function boot() {
 /* Cabeçalho: médico logado (vem de Configurações > Dados do prescritor) + Boot único do PinMed */
 (function () {
   function renderDoc() {
+    const el = id => document.getElementById(id);
+    if (!el('doc-av') || !el('doc-nome') || !el('doc-crm')) return;
     const P = (db && db.prescritor) || {}, nome = limpoP(P.nome), crm = limpoP(P.crm);
     const ini = nome ? nome.replace(/^(dr|dra|dr\.|dra\.)\s+/i, '').split(/\s+/).filter(Boolean) : [];
     const av = ini.length ? (ini[0][0] + (ini.length > 1 ? ini[ini.length - 1][0] : '')).toUpperCase() : '+';
-    const el = id => document.getElementById(id);
     if (el('doc-av').textContent !== av) el('doc-av').textContent = av;
     el('doc-nome').textContent = nome || 'Cadastrar médico';
     el('doc-crm').textContent = crm || (nome ? (limpoP(P.esp) || '') : 'Nome e CRM nos documentos');
   }
   window.renderDoc = renderDoc;
-  document.getElementById('doc-chip').onclick = () => abrirPresc();
+  const dc = document.getElementById('doc-chip'); if (dc) dc.onclick = () => abrirPresc();
   const _rs = renderSide;
   renderSide = function () { _rs(); try { renderDoc(); } catch (e) { } };
   window._pinmedBoot();
