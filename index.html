@@ -1240,6 +1240,27 @@ html:not([data-theme=dark]) .side .md-fav.fav-on{color:#d99a00}
 .mob-rx-trash-pop{position:fixed;z-index:220;width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;background:#dc2626;color:#ffffff;border:1.5px solid rgba(255,255,255,.85);box-shadow:0 8px 20px -4px rgba(185,28,28,.55);animation:pop .14s ease-out;transform:translateX(-50%)}
 .mob-rx-trash-pop svg.i{width:14px;height:14px}
 .mob-rx-trash-pop:active{transform:translateX(-50%) scale(.9)}
+
+/* Pop-up centralizado de visualização rápida ao segurar no celular (medicamentos e modelos) */
+.mob-pv-ov{position:fixed;inset:0;z-index:260;display:grid;place-items:center;padding:18px 14px;background:rgba(10,22,38,.48);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:pop .14s ease-out}
+.mob-pv-ov.hidden{display:none!important}
+.mob-pv-card{width:min(380px,100%);max-height:82dvh;background:var(--surface);color:var(--text);border:1.5px solid var(--brand-line);border-radius:16px;box-shadow:0 24px 56px -12px rgba(6,16,30,.55);display:flex;flex-direction:column;overflow:hidden}
+[data-theme=dark] .mob-pv-card{background:#102033;border-color:#2d4f78}
+.mob-pv-h{display:flex;align-items:center;gap:8px;padding:11px 12px 10px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.mob-pv-h-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.mob-pv-h-tx b{font-size:13.5px;font-weight:750;line-height:1.25;color:var(--text)}
+.mob-pv-h-tx small{font-size:11px;color:var(--text-3)}
+.mob-pv-x{width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;color:var(--text-2);background:var(--surface-3);flex:none}
+.mob-pv-x svg.i{width:15px;height:15px}
+.mob-pv-b{flex:1;overflow-y:auto;padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}
+.mob-pv-rx-it{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);display:flex;flex-direction:column;gap:3px}
+.mob-pv-rx-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.mob-pv-rx-top b{font-size:12.8px;font-weight:700;color:var(--text)}
+.mob-pv-rx-via{font-size:9.8px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--brand);background:var(--brand-soft);padding:1px 6px;border-radius:5px;flex:none}
+.mob-pv-rx-sub{font-size:11.6px;color:var(--text-2);font-weight:600}
+.mob-pv-rx-pos{font-size:11.6px;color:var(--text-3);line-height:1.38}
+.mob-pv-sheet-wrap{width:100%;overflow:hidden;border-radius:10px;border:1px solid var(--line-strong);background:var(--canvas);padding:8px;display:flex;justify-content:center}
+.mob-pv-sheet{transform-origin:top center;pointer-events:none;user-select:none}
 .ed-foot{position:relative}
 .ed-foot .btn-fila-view,.mob-act-bar .btn-fila-view{flex:none;padding:0 11px;gap:6px}
 .ed-foot .btn-fila-view .count,.mob-act-bar .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
@@ -1571,7 +1592,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
         <circle cx="24" cy="20.2" r="5.6" fill="var(--surface)" stroke="url(#pm-pin-t)" stroke-width="2.2"/>
         <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#0b6fc7" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
-      <span class="brand-wrap"><span class="brand-name">Pin<b>Med</b></span><small class="brand-ver" id="brand-ver">v0.49 beta</small></span>
+      <span class="brand-wrap"><span class="brand-name">Pin<b>Med</b></span><small class="brand-ver" id="brand-ver">v0.50 beta</small></span>
     </div>
 
     <button type="button" class="mob-pac-toggle mob-only" id="btn-mob-pac-toggle" aria-expanded="false" title="Mostrar ou ocultar dados do paciente"><span id="mob-pac-toggle-lbl">Paciente ▾</span></button>
@@ -1705,6 +1726,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
   </div>
   <div class="fila-pop hidden" id="pop-fila-ed" role="dialog" aria-label="Fila de impressão"></div>
   <div class="med-pop-float hidden" id="med-pop-float" role="dialog" aria-label="Visualização rápida da medicação"></div>
+  <div class="mob-pv-ov hidden" id="mob-pv-ov" role="dialog" aria-modal="true" aria-label="Visualização rápida"></div>
 </div>
 
 <div id="pinmed-lock" class="hidden" role="dialog" aria-modal="true" aria-labelledby="lock-title">
@@ -5153,6 +5175,70 @@ function registrarRecenteMed(i) {
   db.recMeds = [k, ...db.recMeds.filter(x => x !== k)].slice(0, 6);
   save(false);
 }
+function fecharMobQuickView() {
+  const ov = $('#mob-pv-ov');
+  if (ov) { ov.classList.add('hidden'); ov.innerHTML = ''; }
+}
+function abrirMobQuickViewMed(i) {
+  const m = CATALOGO[i]; if (!m) return;
+  const ov = $('#mob-pv-ov'); if (!ov) return;
+  const aId = alertaIdadeMed(m);
+  const idDanger = aId.find(([nv]) => nv === 'danger');
+  const idWarn = aId.find(([nv]) => nv === 'warn');
+  const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
+  const ehEsp = medEhEspecial(m);
+  const ehAtbMed = !ehListaC1(m.n) && m.t !== 'C1' && (m.t === 'ATB' || ehAtb(m.n, m.a));
+  const viaLbl = VIAS[m.v] || 'Uso oral';
+  const tipoLbl = ehAtbMed ? 'Controle Especial · Antibiótico (2 vias)' : (ehEsp ? 'Controle Especial C1 · 2 vias' : 'Receita Simples');
+  const obsCompleta = [m.o, obsIdade ? `⚠ ${obsIdade}` : ''].filter(Boolean).join(' · ');
+  ov.innerHTML = `<div class="mob-pv-card">
+    <div class="mob-pv-h"><div class="mob-pv-h-tx"><b>${esc(m.n)}</b><small>${esc(tipoLbl)}</small></div><button type="button" class="mob-pv-x" data-mob-pv-close aria-label="Fechar">${ic('x')}</button></div>
+    <div class="mob-pv-b">
+      <div class="md-vp-h"><span class="md-vp-via">${esc(viaLbl)}</span><span class="md-vp-tipo">${esc(m.c || 'Medicamento')}</span></div>
+      <div class="md-vp-fld"><span class="md-vp-lbl">Medicamento</span><div class="md-vp-box bold">${esc(m.n)}</div></div>
+      <div class="md-vp-row">
+        <div class="md-vp-fld"><span class="md-vp-lbl">Apresentação</span><div class="md-vp-box">${esc(m.a || '—')}</div></div>
+        <div class="md-vp-fld"><span class="md-vp-lbl">Quantidade</span><div class="md-vp-box">${esc(m.q || '—')}</div></div>
+      </div>
+      <div class="md-vp-fld"><span class="md-vp-lbl">Posologia</span><div class="md-vp-box">${esc(m.p || '—')}</div></div>
+      ${obsCompleta ? `<div class="md-vp-fld"><span class="md-vp-lbl">Observação</span><div class="md-vp-box">${esc(obsCompleta)}</div></div>` : ''}
+    </div>
+  </div>`;
+  ov.classList.remove('hidden');
+}
+function abrirMobQuickViewMod(key) {
+  const doc = docDe(key); if (!doc) return;
+  const ov = $('#mob-pv-ov'); if (!ov) return;
+  const tv = tipoVisual(doc), infoTipo = TIPOS[tv] || TIPOS.receita;
+  const ehReceita = doc.tipo === 'receita' || doc.tipo === 'especial';
+  let bodyHTML = '';
+  if (ehReceita) {
+    const its = itensValidos(doc);
+    bodyHTML = its.length
+      ? its.map((it, idx) => `<div class="mob-pv-rx-it">
+          <div class="mob-pv-rx-top"><b>${idx + 1}. ${esc(it.nome)}</b><span class="mob-pv-rx-via">${esc(VIAS[it.via] || 'Uso oral')}</span></div>
+          ${(it.apresentacao || it.qtd) ? `<div class="mob-pv-rx-sub">${esc([it.apresentacao, it.qtd].filter(Boolean).join(' · '))}</div>` : ''}
+          ${it.posologia ? `<div class="mob-pv-rx-pos">${esc(it.posologia)}</div>` : ''}
+          ${it.obs ? `<div class="mob-pv-rx-pos" style="color:var(--warn)">${esc(it.obs)}</div>` : ''}
+        </div>`).join('')
+      : '<div class="muted" style="text-align:center;padding:12px">Receita sem medicações cadastradas.</div>';
+    if ((doc.orientacoes || '').trim()) {
+      bodyHTML += `<div class="md-vp-fld"><span class="md-vp-lbl">Orientações gerais</span><div class="md-vp-box">${esc(doc.orientacoes)}</div></div>`;
+    }
+  } else {
+    const pageHtml = paginaHTML(doc, ctx());
+    const land = isSplit(doc) || (doc.meiaFolha && ['receita', 'especial', 'exame', 'preop_exame'].includes(doc.tipo));
+    const baseW = land ? 1122.5 : 793.7;
+    const availW = Math.min(340, window.innerWidth - 64);
+    const z = Math.max(0.26, Math.min(0.46, availW / baseW));
+    bodyHTML = `<div class="mob-pv-sheet-wrap"><div class="mob-pv-sheet" style="zoom:${z}">${pageHtml}</div></div>`;
+  }
+  ov.innerHTML = `<div class="mob-pv-card">
+    <div class="mob-pv-h"><div class="mob-pv-h-tx"><b>${esc(doc.titulo || 'Sem título')}</b><small>${esc(infoTipo.label)}${doc.grupo ? ' · ' + esc(doc.grupo) : ''}</small></div><button type="button" class="mob-pv-x" data-mob-pv-close aria-label="Fechar">${ic('x')}</button></div>
+    <div class="mob-pv-b">${bodyHTML}</div>
+  </div>`;
+  ov.classList.remove('hidden');
+}
 function fecharMedViewPop() {
   S.medViewIdx = null;
   const pop = $('#med-pop-float');
@@ -6164,6 +6250,7 @@ function mesclarReceitasNiveis() {
   S.rxNiveis.simples = null;
   S.rxNiveis.especial = kE;
   abrir(kE);
+  if (window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab('ed');
   renderMobRxDock();
   toast('Receitas juntas em Controle Especial (dupla)');
 }
@@ -6621,7 +6708,7 @@ function abrir(key, opts = {}) {
     requestAnimationFrame(() => { const el = $(`.mi[data-key="${CSS.escape(key)}"]`); (el?.closest('.sel-sec') || el)?.scrollIntoView({ block: 'nearest' }); });
   }
 }
-function novoDocumento(tipo, itens) {
+function novoDocumento(tipo, itens, opts = {}) {
   const key = uid('novo'), doc = novoDoc(tipo);
   if (itens) doc.itens = itens;
   if (localEhPoc() && suportaLayoutPoc(doc) && !doc.layoutPreOpLab) doc.layoutPoc = true;
@@ -6630,7 +6717,7 @@ function novoDocumento(tipo, itens) {
   if (S.img) S.img.pend = null;
   renderAll();
   const isMob = window.innerWidth <= 860;
-  if (isMob && typeof setMobTab === 'function') setMobTab('ed');
+  if (isMob && !opts.semTrocarAba && typeof setMobTab === 'function') setMobTab('ed');
   if (!itens) setTimeout(() => { try { $('[data-b="titulo"]')?.focus({ preventScroll: true }); } catch (_) { $('[data-b="titulo"]')?.focus(); } }, isMob ? 300 : 30);
   return key;
 }
@@ -6690,7 +6777,7 @@ function addMed(i) {
     return;
   }
 
-  const key = novoDocumento(tipoAlvo, [item]);
+  const key = novoDocumento(tipoAlvo, [item], { semTrocarAba: true });
   const nd = S.drafts[key].doc;
   nd.titulo = ehEsp ? 'Receita de Controle Especial' : 'Receita';
   if (ehEsp) { nd.duasVias = true; nd.meiaFolha = false; }
@@ -7289,9 +7376,9 @@ function iniciarTutorial() {
     { sel: '#pf-alg', mob: 'side', titulo: 'Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
     { sel: '#btn-cond', mob: 'side', titulo: 'Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
     { sel: '.side .search', mob: 'side', titulo: 'Busca, Medicamentos e listas interligadas', texto: isMobInit
-      ? 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Toque em uma medicação para adicionar na receita aberta (antibióticos e C1 abrem em Controle Especial).'
+      ? 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Toque em várias medicações seguidas para montar a receita sem sair da lista, ou segure sobre qualquer medicação ou modelo para abrir uma visualização rápida.'
       : 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Clique na medicação para adicionar na receita aberta (antibióticos e C1 vão para Controle Especial) ou no ícone de olho para abrir o balão de visualização rápida.' },
-    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila) e Barra de Vidro', texto: 'Arraste um modelo ou medicação da esquerda para a direita para enviar direto à Fila (sem abrir o Editor). Se abrir Receita Simples e Controle Especial ao mesmo tempo, surge a barra inferior de vidro: alterne entre elas, role para o lado para Juntar em receita dupla ou segure sobre o tipo para exibir a lixeira de exclusão acima.' },
+    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila) e Barra de Vidro', texto: 'Arraste um modelo ou medicação da esquerda para a direita para enviar direto à Fila (sem abrir o Editor). Quando houver Receita Simples e Controle Especial, a barra inferior de vidro aparece: toque nela (ou em Juntar) para abrir direto no Editor, ou segure sobre o tipo para exibir a lixeira acima.' },
     { sel: '#tab-meds', mob: 'side', deskOnly: true, titulo: 'Receita Simples + Controle Especial (Barra de Vidro)', texto: 'Ao selecionar medicações de níveis diferentes (Receita Simples e Controle Especial/Antibiótico), surge a barra flutuante de vidro embaixo para alternar entre elas, clicar em Juntar (unificando em receita dupla com a controlada como item 1) ou passar o mouse sobre o número para remover (×) e voltar à receita anterior. Ao enviar para a Fila, ela sai da barra.' },
     { sel: '#tab-texto', mob: 'side', titulo: 'Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
     { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: 'Editor sanfonado e exclusão rápida', texto: isMobInit
@@ -7626,26 +7713,35 @@ function bind() {
       }
     }, { passive: true });
   }
-  let _swItemAtivo = false;
+  let _swItemAtivo = false, _mobHoldTimer = 0, _mobHoldFired = false;
   if (sideListEl) {
     let swBox = null, swMain = null, swAct = null, swKind = '', isx = 0, isy = 0, locked = false, firedVib = false, lastDx = 0;
+    const _cancelMobHold = () => { clearTimeout(_mobHoldTimer); _mobHoldTimer = 0; };
     sideListEl.addEventListener('touchstart', e => {
       if (window.innerWidth > 860 || e.touches.length !== 1) return;
+      _mobHoldFired = false;
+      _cancelMobHold();
       const mi = e.target.closest('.mi:not(.sel-item)');
       const mdw = !mi ? e.target.closest('.md-wrap') : null;
       if (mi) {
         if (e.target.closest('.mi-a')) return;
         swBox = mi; swMain = $('.mi-main', mi); swAct = $('.mi-a', mi); swKind = 'mi';
+        const kHold = mi.dataset.key;
+        if (kHold) _mobHoldTimer = setTimeout(() => { _mobHoldFired = true; swBox = null; navigator.vibrate?.(14); abrirMobQuickViewMod(kHold); }, 460);
       } else if (mdw) {
         if (e.target.closest('[data-med-fav],[data-med-view],.md-view-pop')) return;
         swBox = mdw; swMain = $('.md', mdw); swAct = null; swKind = 'md';
+        const mIdx = mdw.dataset.med;
+        if (mIdx !== undefined) _mobHoldTimer = setTimeout(() => { _mobHoldFired = true; swBox = null; navigator.vibrate?.(14); abrirMobQuickViewMed(+mIdx); }, 460);
       } else return;
       isx = e.touches[0].clientX; isy = e.touches[0].clientY;
       locked = false; firedVib = false; lastDx = 0; _swItemAtivo = false;
     }, { passive: true });
     sideListEl.addEventListener('touchmove', e => {
-      if (!swBox || window.innerWidth > 860) return;
+      if (window.innerWidth > 860) return;
       const dx = e.touches[0].clientX - isx, dy = e.touches[0].clientY - isy;
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) _cancelMobHold();
+      if (!swBox) return;
       if (!locked) {
         if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
         if (dx <= 0 || Math.abs(dy) > Math.abs(dx) * 1.15) { swBox = null; return; }
@@ -7660,6 +7756,7 @@ function bind() {
       if (pronto && !firedVib) { firedVib = true; navigator.vibrate?.(12); }
     }, { passive: true });
     const endMiSwipe = () => {
+      _cancelMobHold();
       if (!swBox) return;
       const alvo = swBox, disparar = locked && lastDx >= 74, tipo = swKind;
       const key = alvo.dataset.key, medIdx = alvo.dataset.med;
@@ -7675,6 +7772,9 @@ function bind() {
     sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
     sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
   }
+  $('#mob-pv-ov')?.addEventListener('click', e => {
+    if (e.target === $('#mob-pv-ov') || e.target.closest('[data-mob-pv-close]')) fecharMobQuickView();
+  });
   // Barra flutuante em vidro para alternar, juntar ou remover níveis de receita (Receita Simples e Controle Especial)
   const rxDockEl = $('#mob-rx-dock');
   let _rxHoldTimer = 0, _rxHoldFired = false;
@@ -7712,6 +7812,7 @@ function bind() {
     const key = b.dataset.rxOpen;
     if (key && S.drafts[key]) {
       abrir(key);
+      if (window.innerWidth <= 860 && typeof setMobTab === 'function') setMobTab('ed');
       renderMobRxDock();
     }
   });
@@ -7999,6 +8100,7 @@ function bind() {
 
   const lista = $('#side-list');
   lista.addEventListener('click', e => {
+    if (_mobHoldFired) { _mobHoldFired = false; e.preventDefault(); return; }
     const novo = e.target.closest('[data-act="novo"]'); if (novo) return menuNovo(novo);
     if (e.target.closest('[data-act="ver-alg"]')) { S.verAlergicos = !S.verAlergicos; return renderSide(); }
     if (e.target.closest('[data-act="ver-cond"]')) { S.verContraindicados = !S.verContraindicados; return renderSide(); }
