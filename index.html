@@ -830,8 +830,16 @@ html:not([data-theme=dark]) .ed{background:#f1f7fe;border-left:1px solid #cfe0f3
 @media (max-width:1400px){.top>.brand{width:260px}}
 @media (max-width:1280px){.top>.brand{width:248px}}
 @media (max-width:1120px){.top>.brand{width:232px}}
-.top>.brand span{display:inline!important;font-family:var(--font-brand);font-weight:700;letter-spacing:-.01em;color:var(--text)}
-.top>.brand span b{color:var(--brand)}
+.top>.brand .brand-wrap{position:relative;display:inline-flex;align-items:center}
+.top>.brand .brand-name{display:inline!important;font-family:var(--font-brand);font-weight:700;letter-spacing:-.01em;color:var(--text);line-height:1}
+.top>.brand .brand-name b{color:var(--brand)}
+.top>.brand .brand-ver{position:absolute;left:1px;top:100%;margin-top:0;font-family:var(--font);font-size:8.8px;font-weight:500;letter-spacing:.04em;line-height:1;color:var(--text-3);opacity:.44;white-space:nowrap;pointer-events:none}
+html:not([data-theme=dark]) .top>.brand .brand-ver{color:#6a84a2;opacity:.52}
+@media screen and (max-width:860px){
+  html:not([data-theme=dark]) .top>.brand .brand-name{color:#ffffff}
+  html:not([data-theme=dark]) .top>.brand .brand-name b{color:#7cb8ff}
+  html:not([data-theme=dark]) .top>.brand .brand-ver{color:#c9ddf2;opacity:.55;font-size:8px}
+}
 .top>.brand svg{width:38px;height:38px;flex:none}
 #btn-side-open{display:none;margin-left:10px}
 .app.no-side #btn-side-open{display:inline-grid}
@@ -1193,7 +1201,17 @@ html:not([data-theme=dark]) .mob-rx-merge{background:rgba(14,34,59,.08);border-c
 html:not([data-theme=dark]) .mob-rx-merge:hover{background:rgba(14,34,59,.14);color:#0e223b}
 html:not([data-theme=dark]) .mob-rx-x{color:#4e6b8a}
 
-/* Botões de ação da medicação (Favorito + Visualização com pop-up conectado não editável) */
+/* Hover no número da medicação no editor (Web): vira X vermelho para excluir sem abrir */
+.card-sum .num{position:relative;transition:background .14s,color .14s}
+.card-sum .num .num-x{display:none;font-size:14px;line-height:1;font-weight:800}
+@media (hover:hover) and (pointer:fine){
+  .card-sum .num{cursor:pointer}
+  .card-sum .num:hover{background:#dc2626!important;color:#ffffff!important}
+  .card-sum .num:hover .num-v{display:none}
+  .card-sum .num:hover .num-x{display:inline}
+}
+
+/* Botões de ação da medicação (Favorito + Visualização em balão flutuante para o centro) */
 .md-act{display:inline-flex;align-items:center;gap:3px;flex:none;margin-left:4px}
 .md-fav,.md-view{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;color:var(--text-3);transition:background .14s,color .14s,transform .1s}
 .md-fav svg.i,.md-view svg.i{width:15px;height:15px}
@@ -1201,20 +1219,27 @@ html:not([data-theme=dark]) .mob-rx-x{color:#4e6b8a}
 .md-fav.fav-on{color:#f5c042}
 html:not([data-theme=dark]) .side .md-fav.fav-on{color:#d99a00}
 .md-view:hover,.md-view.on{background:var(--brand);color:#ffffff!important}
-.md-wrap.view-open .md{border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;border-color:var(--brand)!important;margin-bottom:0!important}
-.md-view-pop{background:var(--surface);color:var(--text);border:1px solid var(--brand);border-top:0;border-radius:0 0 11px 11px;padding:10px;margin-top:-1px;margin-bottom:6px;box-shadow:0 12px 26px -10px rgba(14,34,59,.26);display:flex;flex-direction:column;gap:7px;animation:pop .14s ease-out}
-[data-theme=dark] .md-view-pop{background:#112236;color:#e8eef6;border-color:#4ea3f5}
-html:not([data-theme=dark]) .side .md-view-pop{background:#ffffff;color:#0e223b;border-color:#68acee}
-.md-vp-h{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.med-pop-float{position:fixed;z-index:215;width:min(346px,calc(100vw - 320px));background:var(--surface);color:var(--text);border:1.5px solid var(--brand);border-radius:14px;padding:12px;box-shadow:0 20px 48px -12px rgba(10,24,44,.38),0 4px 14px -4px rgba(11,111,199,.18);display:flex;flex-direction:column;gap:8px;animation:pop .14s ease-out}
+.med-pop-float.hidden{display:none!important}
+.med-pop-float::before{content:"";position:absolute;left:-9px;top:var(--arrow-top,22px);width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-right:9px solid var(--brand)}
+.med-pop-float::after{content:"";position:absolute;left:-7px;top:calc(var(--arrow-top,22px) + 1px);width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:8px solid var(--surface)}
+[data-theme=dark] .med-pop-float{background:#112236;color:#e8eef6;border-color:#4ea3f5}
+[data-theme=dark] .med-pop-float::before{border-right-color:#4ea3f5}
+[data-theme=dark] .med-pop-float::after{border-right-color:#112236}
+.md-vp-h{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:5px;border-bottom:1px solid var(--line)}
 .md-vp-via{font-size:10.5px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);padding:2px 7px;border-radius:6px}
 .md-vp-tipo{font-size:10.5px;font-weight:650;color:var(--text-3)}
 .md-vp-fld{display:flex;flex-direction:column;gap:2px}
 .md-vp-lbl{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3)}
-.md-vp-box{padding:6px 9px;border-radius:7px;border:1px solid var(--line-strong);background:var(--surface-2);font-size:12.3px;line-height:1.4;color:var(--text);user-select:text}
+.md-vp-box{padding:6px 9px;border-radius:7px;border:1px solid var(--line-strong);background:var(--surface-2);font-size:12.5px;line-height:1.4;color:var(--text);user-select:text}
 [data-theme=dark] .md-vp-box{background:#0b1726;border-color:#243b55;color:#e8eef6}
-html:not([data-theme=dark]) .side .md-vp-box{background:#f3f8fe;border-color:#c3daf3;color:#0e223b}
 .md-vp-box.bold{font-weight:700}
 .md-vp-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:6px}
+
+/* Mini botão flutuante de lixeira acima da barra de vidro ao segurar no celular */
+.mob-rx-trash-pop{position:fixed;z-index:220;width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;background:#dc2626;color:#ffffff;border:1.5px solid rgba(255,255,255,.85);box-shadow:0 8px 20px -4px rgba(185,28,28,.55);animation:pop .14s ease-out;transform:translateX(-50%)}
+.mob-rx-trash-pop svg.i{width:14px;height:14px}
+.mob-rx-trash-pop:active{transform:translateX(-50%) scale(.9)}
 .ed-foot{position:relative}
 .ed-foot .btn-fila-view,.mob-act-bar .btn-fila-view{flex:none;padding:0 11px;gap:6px}
 .ed-foot .btn-fila-view .count,.mob-act-bar .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
@@ -1527,6 +1552,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
     <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-merge" viewBox="0 0 24 24"><path d="M5 6h4a4 4 0 0 1 4 4v2a4 4 0 0 0 4 4h2"/><path d="M5 18h4a4 4 0 0 0 4-4v-2a4 4 0 0 1 4-4h2"/><path d="m16 5 3 3-3 3"/><path d="m16 13 3 3-3 3"/></symbol>
   </defs>
 </svg>
 
@@ -1545,7 +1571,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
         <circle cx="24" cy="20.2" r="5.6" fill="var(--surface)" stroke="url(#pm-pin-t)" stroke-width="2.2"/>
         <path d="M24 17.4v5.6M21.2 20.2h5.6" stroke="#0b6fc7" stroke-width="2.2" stroke-linecap="round"/>
       </svg>
-      <span>Pin<b>Med</b></span>
+      <span class="brand-wrap"><span class="brand-name">Pin<b>Med</b></span><small class="brand-ver" id="brand-ver">v0.49 beta</small></span>
     </div>
 
     <button type="button" class="mob-pac-toggle mob-only" id="btn-mob-pac-toggle" aria-expanded="false" title="Mostrar ou ocultar dados do paciente"><span id="mob-pac-toggle-lbl">Paciente ▾</span></button>
@@ -1678,6 +1704,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
     </nav>
   </div>
   <div class="fila-pop hidden" id="pop-fila-ed" role="dialog" aria-label="Fila de impressão"></div>
+  <div class="med-pop-float hidden" id="med-pop-float" role="dialog" aria-label="Visualização rápida da medicação"></div>
 </div>
 
 <div id="pinmed-lock" class="hidden" role="dialog" aria-modal="true" aria-labelledby="lock-title">
@@ -5126,9 +5153,49 @@ function registrarRecenteMed(i) {
   db.recMeds = [k, ...db.recMeds.filter(x => x !== k)].slice(0, 6);
   save(false);
 }
-function toggleMedView(i) {
-  S.medViewIdx = (S.medViewIdx === i ? null : i);
-  renderSide();
+function fecharMedViewPop() {
+  S.medViewIdx = null;
+  const pop = $('#med-pop-float');
+  if (pop) { pop.classList.add('hidden'); pop.innerHTML = ''; }
+  $$('.side .md-view.on').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); });
+}
+function toggleMedView(i, anchorEl) {
+  if (S.medViewIdx === i) { fecharMedViewPop(); return; }
+  const m = CATALOGO[i]; if (!m) return;
+  const pop = $('#med-pop-float'); if (!pop) return;
+  S.medViewIdx = i;
+  $$('.side .md-view.on').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); });
+  if (anchorEl) { anchorEl.classList.add('on'); anchorEl.setAttribute('aria-expanded', 'true'); }
+  const aId = alertaIdadeMed(m);
+  const idDanger = aId.find(([nv]) => nv === 'danger');
+  const idWarn = aId.find(([nv]) => nv === 'warn');
+  const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
+  const ehEsp = medEhEspecial(m);
+  const ehAtbMed = !ehListaC1(m.n) && m.t !== 'C1' && (m.t === 'ATB' || ehAtb(m.n, m.a));
+  const viaLbl = VIAS[m.v] || 'Uso oral';
+  const tipoLbl = ehAtbMed ? 'Controle Especial · Antibiótico (2 vias)' : (ehEsp ? 'Controle Especial C1 · 2 vias' : 'Receita Simples');
+  const obsCompleta = [m.o, obsIdade ? `⚠ ${obsIdade}` : ''].filter(Boolean).join(' · ');
+  pop.innerHTML = `<div class="md-vp-h"><span class="md-vp-via">${esc(viaLbl)}</span><span class="md-vp-tipo">${esc(tipoLbl)}</span></div>
+    <div class="md-vp-fld"><span class="md-vp-lbl">Medicamento</span><div class="md-vp-box bold">${esc(m.n)}</div></div>
+    <div class="md-vp-row">
+      <div class="md-vp-fld"><span class="md-vp-lbl">Apresentação</span><div class="md-vp-box">${esc(m.a || '—')}</div></div>
+      <div class="md-vp-fld"><span class="md-vp-lbl">Quantidade</span><div class="md-vp-box">${esc(m.q || '—')}</div></div>
+    </div>
+    <div class="md-vp-fld"><span class="md-vp-lbl">Posologia</span><div class="md-vp-box">${esc(m.p || '—')}</div></div>
+    ${obsCompleta ? `<div class="md-vp-fld"><span class="md-vp-lbl">Observação</span><div class="md-vp-box">${esc(obsCompleta)}</div></div>` : ''}`;
+  pop.classList.remove('hidden');
+  const sideRect = $('.side')?.getBoundingClientRect();
+  const btnRect = (anchorEl || $(`.side [data-med-view="${i}"]`))?.getBoundingClientRect();
+  if (btnRect) {
+    const popH = pop.offsetHeight || 220;
+    const left = Math.round((sideRect ? sideRect.right : btnRect.right) + 8);
+    const idealTop = Math.round(btnRect.top + btnRect.height / 2 - 28);
+    const top = Math.max(62, Math.min(window.innerHeight - popH - 14, idealTop));
+    const arrowTop = Math.max(14, Math.min(popH - 26, Math.round(btnRect.top + btnRect.height / 2 - top - 8)));
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+    pop.style.setProperty('--arrow-top', arrowTop + 'px');
+  }
 }
 function buscarMedsFiltrados(termos) {
   const idAnos = idadeAtualAnos();
@@ -5150,26 +5217,11 @@ function renderMedBtnHTML({ m, i }) {
     : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
   const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
   const ehEsp = medEhEspecial(m);
-  const ehAtbMed = !ehListaC1(m.n) && m.t !== 'C1' && (m.t === 'ATB' || ehAtb(m.n, m.a));
   const fav = isMedFav(m);
   const aberto = S.medViewIdx === i;
-  const viaLbl = VIAS[m.v] || 'Uso oral';
-  const tipoLbl = ehAtbMed ? 'Controle Especial · Antibiótico (2 vias)' : (ehEsp ? 'Controle Especial C1 · 2 vias' : 'Receita Simples');
-  const obsCompleta = [m.o, obsIdade ? `⚠ ${obsIdade}` : ''].filter(Boolean).join(' · ');
-  const popHTML = aberto ? `<div class="md-view-pop" role="region" aria-label="Detalhes de ${esc(m.n)}">
-    <div class="md-vp-h"><span class="md-vp-via">${esc(viaLbl)}</span><span class="md-vp-tipo">${esc(tipoLbl)}</span></div>
-    <div class="md-vp-fld"><span class="md-vp-lbl">Medicamento</span><div class="md-vp-box bold">${esc(m.n)}</div></div>
-    <div class="md-vp-row">
-      <div class="md-vp-fld"><span class="md-vp-lbl">Apresentação</span><div class="md-vp-box">${esc(m.a || '—')}</div></div>
-      <div class="md-vp-fld"><span class="md-vp-lbl">Quantidade</span><div class="md-vp-box">${esc(m.q || '—')}</div></div>
-    </div>
-    <div class="md-vp-fld"><span class="md-vp-lbl">Posologia</span><div class="md-vp-box">${esc(m.p || '—')}</div></div>
-    ${obsCompleta ? `<div class="md-vp-fld"><span class="md-vp-lbl">Observação</span><div class="md-vp-box">${esc(obsCompleta)}</div></div>` : ''}
-  </div>` : '';
-  return `<div class="md-wrap${aberto ? ' view-open' : ''}" data-med="${i}">
+  return `<div class="md-wrap" data-med="${i}">
     <span class="mi-sw md-sw${ehEsp ? ' is-c1' : ''}" aria-hidden="true">${ic('layers')}<span>Adc. à Fila · ${ehEsp ? 'Controle Especial' : 'Receita'}</span></span>
     <button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-act"><span class="md-fav${fav ? ' fav-on' : ''}" data-med-fav="${i}" role="button" tabindex="0" title="${fav ? 'Remover dos favoritos' : 'Favoritar'}" aria-label="${fav ? 'Remover dos favoritos' : 'Favoritar'}">${ic(fav ? 'star-f' : 'star')}</span><span class="md-view${aberto ? ' on' : ''}" data-med-view="${i}" role="button" tabindex="0" title="${aberto ? 'Ocultar visualização' : 'Visualizar medicação'}" aria-label="Visualizar medicação" aria-expanded="${aberto ? 'true' : 'false'}">${ic('eye')}</span></span></button>
-    ${popHTML}
   </div>`;
 }
 function renderMeds() {
@@ -5364,7 +5416,7 @@ function cardItem(it, i, n) {
   const subResumo = [it.apresentacao, it.qtd].filter(Boolean).join(' · ') || VIAS[it.via] || 'Clique para editar';
   return `<div class="card${aberto ? ' open' : ''}" data-i="${i}">
     <button type="button" class="card-sum" data-act="toggle-card" aria-expanded="${aberto ? 'true' : 'false'}">
-      <span class="num" aria-hidden="true">${numOrd}</span>
+      <span class="num" data-act="rm-item-quick" title="Excluir medicação"><span class="num-v">${numOrd}</span><span class="num-x" aria-hidden="true">×</span></span>
       <span class="card-sum-tx"><b>${esc(titResumo)}</b><small>${esc(subResumo)}</small></span>
       ${ic('chev', 'chev')}
     </button>
@@ -6049,10 +6101,45 @@ function addMedSwipe(i) {
   if (S.ativo === key) { renderEditor(); renderPreview(); }
   toast(`${m.n} adicionado à fila (${ehEsp ? 'Controle Especial' : 'Receita'} · ${nItens})`);
 }
+function removerRxDaBarra(slot) {
+  if (!slot || !S.rxNiveis[slot]) return;
+  const outroSlot = slot === 'simples' ? 'especial' : 'simples';
+  const keyOutro = S.rxNiveis[outroSlot];
+  S.rxNiveis[slot] = null;
+  fecharRxTrashPop();
+  if (keyOutro && S.drafts[keyOutro]) {
+    abrir(keyOutro);
+  }
+  renderMobRxDock();
+  toast('Removido da barra', 'info');
+}
+function fecharRxTrashPop() {
+  document.getElementById('mob-rx-trash-pop')?.remove();
+}
+function abrirRxTrashPop(pillEl, slot) {
+  fecharRxTrashPop();
+  if (!pillEl || !slot) return;
+  const r = pillEl.getBoundingClientRect();
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.id = 'mob-rx-trash-pop';
+  btn.className = 'mob-rx-trash-pop';
+  btn.setAttribute('aria-label', 'Excluir da barra');
+  btn.title = 'Excluir da barra';
+  btn.innerHTML = ic('trash');
+  btn.style.left = Math.round(r.left + r.width / 2) + 'px';
+  btn.style.top = Math.max(8, Math.round(r.top - 36)) + 'px';
+  btn.addEventListener('click', ev => {
+    ev.stopPropagation();
+    removerRxDaBarra(slot);
+  });
+  document.body.appendChild(btn);
+}
 function mesclarReceitasNiveis() {
   const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] ? S.rxNiveis.simples : null;
   const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] ? S.rxNiveis.especial : null;
   if (!kS || !kE) return;
+  fecharRxTrashPop();
   const dS = S.drafts[kS], dE = S.drafts[kE];
   const itensE = itensValidos(dE.doc);
   const itensS = itensValidos(dS.doc);
@@ -6078,10 +6165,11 @@ function mesclarReceitasNiveis() {
   S.rxNiveis.especial = kE;
   abrir(kE);
   renderMobRxDock();
-  toast('Receitas mescladas em Controle Especial (dupla)');
+  toast('Receitas juntas em Controle Especial (dupla)');
 }
 function renderMobRxDock() {
   const dock = $('#mob-rx-dock'); if (!dock) return;
+  fecharRxTrashPop();
   const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] && !S.fila.includes(S.rxNiveis.simples) && S.drafts[S.rxNiveis.simples].doc.tipo === 'receita' ? S.rxNiveis.simples : null;
   const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] && !S.fila.includes(S.rxNiveis.especial) && S.drafts[S.rxNiveis.especial].doc.tipo === 'especial' ? S.rxNiveis.especial : null;
   const nS = kS ? itensValidos(S.drafts[kS].doc).length : 0;
@@ -6096,7 +6184,7 @@ function renderMobRxDock() {
   h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
   h += `<button type="button" class="mob-rx-pill is-esp${onE ? ' on' : ''}" data-rx-open="${esc(kE)}" data-rx-slot="especial" aria-pressed="${onE ? 'true' : 'false'}">${ic('shield')}<span>Controle Especial</span><span class="rx-n" data-rx-rm="especial" title="Remover da barra"><span class="rx-n-v">${nE}</span><span class="rx-n-x" aria-hidden="true">×</span></span></button>`;
   h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
-  h += `<button type="button" class="mob-rx-merge" data-rx-merge title="Mesclar em Receita de Controle Especial (dupla)">${ic('layers')}<span>Mesclar</span></button>`;
+  h += `<button type="button" class="mob-rx-merge" data-rx-merge title="Juntar em Receita de Controle Especial (dupla)">${ic('merge')}<span>Juntar</span></button>`;
   dock.innerHTML = h;
   dock.classList.remove('hidden');
 }
@@ -7202,11 +7290,13 @@ function iniciarTutorial() {
     { sel: '#btn-cond', mob: 'side', titulo: 'Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
     { sel: '.side .search', mob: 'side', titulo: 'Busca, Medicamentos e listas interligadas', texto: isMobInit
       ? 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Toque em uma medicação para adicionar na receita aberta (antibióticos e C1 abrem em Controle Especial).'
-      : 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Clique na medicação para adicionar na receita aberta (antibióticos e C1 vão para Controle Especial) ou no ícone de olho para visualizar os detalhes sem editar.' },
-    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila) e Barra de Vidro', texto: 'Arraste um modelo ou medicação da esquerda para a direita para enviar direto à Fila (sem abrir o Editor). Se abrir Receita Simples e Controle Especial ao mesmo tempo, surge a barra inferior de vidro: alterne entre elas, role para o lado para Mesclar em receita dupla ou segure sobre o tipo para remover da barra.' },
-    { sel: '#tab-meds', mob: 'side', deskOnly: true, titulo: 'Receita Simples + Controle Especial (Barra de Vidro)', texto: 'Ao selecionar medicações de níveis diferentes (Receita Simples e Controle Especial/Antibiótico), surge a barra flutuante de vidro embaixo para alternar entre elas, clicar em Mesclar (unificando em receita dupla com a controlada como item 1) ou passar o mouse sobre o número para remover (×). Ao enviar para a Fila, ela sai da barra.' },
+      : 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Clique na medicação para adicionar na receita aberta (antibióticos e C1 vão para Controle Especial) ou no ícone de olho para abrir o balão de visualização rápida.' },
+    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila) e Barra de Vidro', texto: 'Arraste um modelo ou medicação da esquerda para a direita para enviar direto à Fila (sem abrir o Editor). Se abrir Receita Simples e Controle Especial ao mesmo tempo, surge a barra inferior de vidro: alterne entre elas, role para o lado para Juntar em receita dupla ou segure sobre o tipo para exibir a lixeira de exclusão acima.' },
+    { sel: '#tab-meds', mob: 'side', deskOnly: true, titulo: 'Receita Simples + Controle Especial (Barra de Vidro)', texto: 'Ao selecionar medicações de níveis diferentes (Receita Simples e Controle Especial/Antibiótico), surge a barra flutuante de vidro embaixo para alternar entre elas, clicar em Juntar (unificando em receita dupla com a controlada como item 1) ou passar o mouse sobre o número para remover (×) e voltar à receita anterior. Ao enviar para a Fila, ela sai da barra.' },
     { sel: '#tab-texto', mob: 'side', titulo: 'Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
-    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: 'Editor sanfonado e formatação', texto: 'Os medicamentos e orientações abrem recolhidos para manter a tela limpa — clique em qualquer item para expandir e editar. Formatação POC e Formato de impressão ficam no rodapé.' },
+    { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: 'Editor sanfonado e exclusão rápida', texto: isMobInit
+      ? 'Os medicamentos e orientações abrem recolhidos para manter a tela limpa — toque em qualquer item para expandir e editar. Formatação POC e Formato de impressão ficam no rodapé.'
+      : 'Os medicamentos e orientações abrem recolhidos para manter a tela limpa — clique no item para expandir e editar, ou passe o mouse sobre o número da medicação para exibir o × e excluir sem abrir.' },
     { sel: '.pv-zoom-float', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: 'Prévia fiel da folha A4 e Zoom', texto: 'A coluna central exibe a folha A4 sem distrações, com o controle de zoom e tela cheia flutuando no canto inferior direito.' },
     { sel: '#btn-print', mob: 'center', titulo: 'Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — ao entrar na fila, a receita sai da barra inferior e fica pronta para impressão 2-por-folha e conferência clínica final.' },
     { sel: '#btn-cfg', mob: 'side', titulo: 'Configurações, Cadeado, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, bloqueia o acesso com o cadeado, faz backup dos modelos e baixa/instala o PinMed como aplicativo.' }
@@ -7585,7 +7675,7 @@ function bind() {
     sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
     sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
   }
-  // Barra flutuante em vidro para alternar, mesclar ou remover níveis de receita (Receita Simples e Controle Especial)
+  // Barra flutuante em vidro para alternar, juntar ou remover níveis de receita (Receita Simples e Controle Especial)
   const rxDockEl = $('#mob-rx-dock');
   let _rxHoldTimer = 0, _rxHoldFired = false;
   rxDockEl?.addEventListener('touchstart', e => {
@@ -7596,13 +7686,9 @@ function bind() {
     const slot = pill.dataset.rxSlot;
     _rxHoldTimer = setTimeout(() => {
       _rxHoldFired = true;
-      navigator.vibrate?.(18);
-      if (slot && S.rxNiveis[slot]) {
-        S.rxNiveis[slot] = null;
-        renderMobRxDock();
-        toast('Removido da barra', 'info');
-      }
-    }, 500);
+      navigator.vibrate?.(16);
+      abrirRxTrashPop(pill, slot);
+    }, 480);
   }, { passive: true });
   const _cancelRxHold = () => { clearTimeout(_rxHoldTimer); _rxHoldTimer = 0; };
   rxDockEl?.addEventListener('touchmove', _cancelRxHold, { passive: true });
@@ -7617,14 +7703,10 @@ function bind() {
     const rm = e.target.closest('[data-rx-rm]');
     if (rm && window.innerWidth > 860) {
       e.stopPropagation();
-      const slot = rm.dataset.rxRm;
-      if (slot && S.rxNiveis[slot]) {
-        S.rxNiveis[slot] = null;
-        renderMobRxDock();
-        toast('Removido da barra', 'info');
-      }
+      removerRxDaBarra(rm.dataset.rxRm);
       return;
     }
+    fecharRxTrashPop();
     const b = e.target.closest('[data-rx-open]');
     if (!b) return;
     const key = b.dataset.rxOpen;
@@ -7633,6 +7715,13 @@ function bind() {
       renderMobRxDock();
     }
   });
+  document.addEventListener('pointerdown', e => {
+    if (S.medViewIdx !== null && !e.target.closest('#med-pop-float, [data-med-view]')) fecharMedViewPop();
+    if ($('#mob-rx-trash-pop') && !e.target.closest('#mob-rx-trash-pop, .mob-rx-pill')) fecharRxTrashPop();
+  });
+  $('#side-list')?.addEventListener('scroll', () => {
+    if (S.medViewIdx !== null) fecharMedViewPop();
+  }, { passive: true });
   // Barra de ação mobile (Editor e Prévia: Visualizar fila, Adc. à fila e Imprimir)
   $('#mob-act-bar')?.addEventListener('click', e => {
     const a = e.target.closest('[data-act]')?.dataset.act;
@@ -7923,7 +8012,7 @@ function bind() {
     const mFav = e.target.closest('[data-med-fav]');
     if (mFav) { e.stopPropagation(); return toggleMedFav(+mFav.dataset.medFav); }
     const mView = e.target.closest('[data-med-view]');
-    if (mView) { e.stopPropagation(); return toggleMedView(+mView.dataset.medView); }
+    if (mView) { e.stopPropagation(); return toggleMedView(+mView.dataset.medView, mView); }
     if (e.target.closest('.md-view-pop')) return;
     const md = e.target.closest('.md');
     if (md) {
@@ -8039,6 +8128,23 @@ function bind() {
     const d = draft(); if (!d) return;
     const act = b.dataset.act, card = b.closest('[data-i]'), i = card ? +card.dataset.i : -1, its = d.doc.itens;
     switch (act) {
+      case 'rm-item-quick': {
+        if (window.innerWidth > 860) {
+          e.stopPropagation();
+          if (i >= 0 && i < its.length) {
+            pushUndo(S.ativo, true); its.splice(i, 1); if (!its.length) its.push(novoItem());
+            renderEditor(); changed({ forcarSide: true });
+          }
+          return;
+        }
+        // No celular, tocar no número apenas abre/fecha o cartão normalmente
+        const keyC = 'item-' + i;
+        const abrirC = !S.edAbertos.has(keyC);
+        if (abrirC) S.edAbertos.add(keyC); else S.edAbertos.delete(keyC);
+        card?.classList.toggle('open', abrirC);
+        b.closest('.card-sum')?.setAttribute('aria-expanded', abrirC ? 'true' : 'false');
+        return;
+      }
       case 'toggle-card': {
         const keyC = 'item-' + i;
         const abrirC = !S.edAbertos.has(keyC);
