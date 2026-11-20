@@ -1151,8 +1151,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 
 /* Navegação inferior e carrossel exclusivos para celulares + Dock Liquid Glass de receitas de níveis diferentes (Web e Mobile) */
 .mob-nav,.mob-only,.mi-sw,.mob-act-bar{display:none}
-.mob-bottom-stack{position:fixed;left:284px;right:420px;bottom:16px;z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
-.app.no-side ~ .mob-bottom-stack{left:0}
+.mob-bottom-stack{position:fixed;left:294px;right:568px;bottom:16px;z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.app.no-side ~ .mob-bottom-stack{left:14px}
+@media (max-width:1400px){.mob-bottom-stack{left:270px;right:530px}}
+@media (max-width:1280px){.mob-bottom-stack{left:258px;right:502px}}
+@media (max-width:1120px){.mob-bottom-stack{left:242px;right:482px}}
 .mob-bottom-stack>*{pointer-events:auto}
 .mob-rx-dock{display:inline-flex;align-items:center;gap:5px;padding:5px 6px;border-radius:999px;max-width:100%;background:linear-gradient(180deg,rgba(16,38,66,.72) 0%,rgba(9,22,40,.84) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 14px 34px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.34);animation:pop .18s ease-out}
 .mob-rx-dock.hidden{display:none!important}
@@ -1161,9 +1164,19 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .mob-rx-pill.is-esp{background:rgba(217,119,6,.24);border-color:rgba(251,191,36,.34);color:rgba(255,246,229,.88)}
 .mob-rx-pill.is-esp.on{background:rgba(217,119,6,.56);border-color:rgba(253,211,77,.82);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 10px -2px rgba(217,119,6,.45)}
 .mob-rx-pill:active{transform:scale(.95)}
-.mob-rx-pill .rx-n{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ffffff;color:#0b4a8a;font-size:11px;font-weight:800;display:inline-grid;place-items:center}
+.mob-rx-pill .rx-n{min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#ffffff;color:#0b4a8a;font-size:11px;font-weight:800;display:inline-grid;place-items:center;position:relative;transition:background .14s,color .14s}
 .mob-rx-pill.is-esp .rx-n{color:#8a4b00}
+.mob-rx-pill .rx-n-x{display:none;font-size:13px;line-height:1;font-weight:800}
+@media (hover:hover) and (pointer:fine){
+  .mob-rx-pill .rx-n:hover{background:#dc2626!important;color:#ffffff!important}
+  .mob-rx-pill .rx-n:hover .rx-n-v{display:none}
+  .mob-rx-pill .rx-n:hover .rx-n-x{display:inline}
+}
 .mob-rx-split{width:1px;height:22px;background:rgba(255,255,255,.22);flex:none}
+.mob-rx-merge{height:38px;padding:0 13px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:750;color:#eef6ff;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);white-space:nowrap;flex:none;transition:transform .12s,background .15s}
+.mob-rx-merge svg.i{width:14px;height:14px;flex:none}
+.mob-rx-merge:hover{background:rgba(255,255,255,.26);color:#ffffff}
+.mob-rx-merge:active{transform:scale(.95)}
 .mob-rx-x{width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;color:rgba(255,255,255,.72);flex:none}
 .mob-rx-x svg.i{width:13px;height:13px}
 html:not([data-theme=dark]) .mob-rx-dock{background:linear-gradient(180deg,rgba(255,255,255,.88) 0%,rgba(229,241,253,.94) 100%);border-color:rgba(11,111,199,.22);box-shadow:0 14px 34px -6px rgba(14,34,59,.24),inset 0 1px 0 rgba(255,255,255,.98)}
@@ -1176,6 +1189,8 @@ html:not([data-theme=dark]) .mob-rx-pill.is-esp.on{background:#c96d00;border-col
 html:not([data-theme=dark]) .mob-rx-pill.is-esp .rx-n{background:rgba(217,119,6,.18);color:#8a4b00}
 html:not([data-theme=dark]) .mob-rx-pill.is-esp.on .rx-n{background:#ffffff;color:#8a4b00}
 html:not([data-theme=dark]) .mob-rx-split{background:rgba(14,34,59,.15)}
+html:not([data-theme=dark]) .mob-rx-merge{background:rgba(14,34,59,.08);border-color:rgba(14,34,59,.18);color:#143252}
+html:not([data-theme=dark]) .mob-rx-merge:hover{background:rgba(14,34,59,.14);color:#0e223b}
 html:not([data-theme=dark]) .mob-rx-x{color:#4e6b8a}
 
 /* Botões de ação da medicação (Favorito + Visualização com pop-up conectado não editável) */
@@ -1308,6 +1323,9 @@ html:not([data-theme=dark]) .side .md-vp-box{background:#f3f8fe;border-color:#c3
   .ed-foot{display:none!important}
   .mob-bottom-stack{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;pointer-events:none}
   .mob-bottom-stack>*{pointer-events:auto}
+  .mob-rx-dock{max-width:calc(100vw - 20px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;justify-content:flex-start}
+  .mob-rx-dock::-webkit-scrollbar{display:none}
+  .mob-rx-pill,.mob-rx-merge{flex:none;-webkit-user-select:none;user-select:none}
 
   /* Barra de ação flutuante em vidro, sempre 8px acima da Barra carrossel, com 3 botões iguais */
   .mob-act-bar{width:100%;max-width:420px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
@@ -5089,6 +5107,7 @@ function renderSide() {
   _sideSig = _calcSideSig();
 }
 const medKey = m => `${m.n}|${m.a}`;
+const medEhEspecial = m => !!m && (m.t === 'C1' || m.t === 'ATB' || ehListaC1(m.n) || ehAtb(m.n, m.a));
 const isMedFav = m => Array.isArray(db?.favMeds) && db.favMeds.includes(medKey(m));
 function toggleMedFav(i) {
   const m = CATALOGO[i]; if (!m) return;
@@ -5130,11 +5149,12 @@ function renderMedBtnHTML({ m, i }) {
     ? `<span class="tg tg-alg" title="${esc(idDanger[1])}">Idade</span>`
     : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
   const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
-  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
+  const ehEsp = medEhEspecial(m);
+  const ehAtbMed = !ehListaC1(m.n) && m.t !== 'C1' && (m.t === 'ATB' || ehAtb(m.n, m.a));
   const fav = isMedFav(m);
   const aberto = S.medViewIdx === i;
   const viaLbl = VIAS[m.v] || 'Uso oral';
-  const tipoLbl = ehC1 ? 'Controle Especial · 2 vias' : (m.t === 'ATB' || ehAtb(m.n, m.a) ? 'Antibiótico · 2 vias' : 'Receita Simples');
+  const tipoLbl = ehAtbMed ? 'Controle Especial · Antibiótico (2 vias)' : (ehEsp ? 'Controle Especial C1 · 2 vias' : 'Receita Simples');
   const obsCompleta = [m.o, obsIdade ? `⚠ ${obsIdade}` : ''].filter(Boolean).join(' · ');
   const popHTML = aberto ? `<div class="md-view-pop" role="region" aria-label="Detalhes de ${esc(m.n)}">
     <div class="md-vp-h"><span class="md-vp-via">${esc(viaLbl)}</span><span class="md-vp-tipo">${esc(tipoLbl)}</span></div>
@@ -5147,7 +5167,7 @@ function renderMedBtnHTML({ m, i }) {
     ${obsCompleta ? `<div class="md-vp-fld"><span class="md-vp-lbl">Observação</span><div class="md-vp-box">${esc(obsCompleta)}</div></div>` : ''}
   </div>` : '';
   return `<div class="md-wrap${aberto ? ' view-open' : ''}" data-med="${i}">
-    <span class="mi-sw md-sw${ehC1 ? ' is-c1' : ''}" aria-hidden="true">${ic('layers')}<span>Adc. à Fila · ${ehC1 ? 'Controle C1' : 'Receita'}</span></span>
+    <span class="mi-sw md-sw${ehEsp ? ' is-c1' : ''}" aria-hidden="true">${ic('layers')}<span>Adc. à Fila · ${ehEsp ? 'Controle Especial' : 'Receita'}</span></span>
     <button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-act"><span class="md-fav${fav ? ' fav-on' : ''}" data-med-fav="${i}" role="button" tabindex="0" title="${fav ? 'Remover dos favoritos' : 'Favoritar'}" aria-label="${fav ? 'Remover dos favoritos' : 'Favoritar'}">${ic(fav ? 'star-f' : 'star')}</span><span class="md-view${aberto ? ' on' : ''}" data-med-view="${i}" role="button" tabindex="0" title="${aberto ? 'Ocultar visualização' : 'Visualizar medicação'}" aria-label="Visualizar medicação" aria-expanded="${aberto ? 'true' : 'false'}">${ic('eye')}</span></span></button>
     ${popHTML}
   </div>`;
@@ -6000,16 +6020,15 @@ function addMedSwipe(i) {
   const m = CATALOGO[i]; if (!m) return;
   registrarRecenteMed(i);
   const item = novoItem({ nome: m.n, apresentacao: m.a, qtd: m.q, posologia: m.p, obs: m.o, via: m.v });
-  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
-  const slot = ehC1 ? 'especial' : 'simples';
+  const ehEsp = medEhEspecial(m);
+  const slot = ehEsp ? 'especial' : 'simples';
   let key = S.rxSwipe[slot];
   if (!key || !S.drafts[key]) {
     key = uid('novo');
-    const doc = novoDoc(ehC1 ? 'especial' : 'receita');
-    doc.titulo = ehC1 ? 'Receita de Controle Especial' : 'Receita';
+    const doc = novoDoc(ehEsp ? 'especial' : 'receita');
+    doc.titulo = ehEsp ? 'Receita de Controle Especial' : 'Receita';
     doc.itens = [item];
-    if (ehC1) doc.duasVias = true;
-    else if (ehAtb(m.n, m.a)) doc.duasVias = true;
+    if (ehEsp) { doc.duasVias = true; doc.meiaFolha = false; }
     if (localEhPoc() && suportaLayoutPoc(doc) && !doc.layoutPreOpLab) doc.layoutPoc = true;
     S.drafts[key] = { doc, modeloId: null };
     S.rxSwipe[slot] = key;
@@ -6018,31 +6037,66 @@ function addMedSwipe(i) {
     if (!Array.isArray(doc.itens)) doc.itens = [];
     doc.itens = itensValidos(doc);
     doc.itens.push(item);
-    if (!ehC1 && ehAtb(m.n, m.a)) doc.duasVias = true;
+    if (ehEsp) { doc.duasVias = true; doc.meiaFolha = false; }
   }
   if (!S.fila.includes(key)) S.fila.push(key);
+  if (S.rxNiveis.simples === key) S.rxNiveis.simples = null;
+  if (S.rxNiveis.especial === key) S.rxNiveis.especial = null;
   const nItens = itensValidos(S.drafts[key].doc).length;
   renderSide();
   renderFilaUI();
+  renderMobRxDock();
   if (S.ativo === key) { renderEditor(); renderPreview(); }
-  toast(`${m.n} adicionado à fila (${ehC1 ? 'Controle C1' : 'Receita'} · ${nItens})`);
+  toast(`${m.n} adicionado à fila (${ehEsp ? 'Controle Especial' : 'Receita'} · ${nItens})`);
+}
+function mesclarReceitasNiveis() {
+  const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] ? S.rxNiveis.simples : null;
+  const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] ? S.rxNiveis.especial : null;
+  if (!kS || !kE) return;
+  const dS = S.drafts[kS], dE = S.drafts[kE];
+  const itensE = itensValidos(dE.doc);
+  const itensS = itensValidos(dS.doc);
+  if (!itensE.length && !itensS.length) return;
+  pushUndo(kE, true);
+  dE.doc.tipo = 'especial';
+  dE.doc.duasVias = true;
+  dE.doc.meiaFolha = false;
+  // Medicação da receita dupla / controle especial como item 1 seguida das demais da receita simples
+  dE.doc.itens = [...itensE, ...itensS];
+  const oriS = (dS.doc.orientacoes || '').trim();
+  const oriE = (dE.doc.orientacoes || '').trim();
+  if (oriS && !oriE.includes(oriS)) {
+    dE.doc.orientacoes = oriE ? `${oriE}\n${oriS}` : oriS;
+  }
+  if (!dS.modeloId) {
+    delete S.drafts[kS];
+    delete S.undo[kS];
+    delete S.redo[kS];
+  }
+  S.fila = S.fila.filter(x => x !== kS);
+  S.rxNiveis.simples = null;
+  S.rxNiveis.especial = kE;
+  abrir(kE);
+  renderMobRxDock();
+  toast('Receitas mescladas em Controle Especial (dupla)');
 }
 function renderMobRxDock() {
   const dock = $('#mob-rx-dock'); if (!dock) return;
-  const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] && S.drafts[S.rxNiveis.simples].doc.tipo === 'receita' ? S.rxNiveis.simples : null;
-  const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] && S.drafts[S.rxNiveis.especial].doc.tipo === 'especial' ? S.rxNiveis.especial : null;
+  const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] && !S.fila.includes(S.rxNiveis.simples) && S.drafts[S.rxNiveis.simples].doc.tipo === 'receita' ? S.rxNiveis.simples : null;
+  const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] && !S.fila.includes(S.rxNiveis.especial) && S.drafts[S.rxNiveis.especial].doc.tipo === 'especial' ? S.rxNiveis.especial : null;
   const nS = kS ? itensValidos(S.drafts[kS].doc).length : 0;
   const nE = kE ? itensValidos(S.drafts[kE].doc).length : 0;
   if (!nS) S.rxNiveis.simples = null;
   if (!nE) S.rxNiveis.especial = null;
-  // A barra flutuante em vidro só aparece se ambos os níveis (Receita Simples e Controle Especial) estiverem selecionados
+  // A barra flutuante em vidro só aparece se ambos os níveis (Receita Simples e Controle Especial) estiverem selecionados e fora da fila
   if (!nS || !nE) { dock.classList.add('hidden'); dock.innerHTML = ''; return; }
   const onS = S.ativo === kS;
   const onE = S.ativo === kE;
-  let h = `<button type="button" class="mob-rx-pill${onS ? ' on' : ''}" data-rx-open="${esc(kS)}" aria-pressed="${onS ? 'true' : 'false'}">${ic('pill')}<span>Receita Simples</span><span class="rx-n">${nS}</span></button>`;
+  let h = `<button type="button" class="mob-rx-pill${onS ? ' on' : ''}" data-rx-open="${esc(kS)}" data-rx-slot="simples" aria-pressed="${onS ? 'true' : 'false'}">${ic('pill')}<span>Receita Simples</span><span class="rx-n" data-rx-rm="simples" title="Remover da barra"><span class="rx-n-v">${nS}</span><span class="rx-n-x" aria-hidden="true">×</span></span></button>`;
   h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
-  h += `<button type="button" class="mob-rx-pill is-esp${onE ? ' on' : ''}" data-rx-open="${esc(kE)}" aria-pressed="${onE ? 'true' : 'false'}">${ic('shield')}<span>Controle Especial</span><span class="rx-n">${nE}</span></button>`;
-  h += `<button type="button" class="mob-rx-x" data-rx-close title="Ocultar barra" aria-label="Ocultar barra">${ic('x')}</button>`;
+  h += `<button type="button" class="mob-rx-pill is-esp${onE ? ' on' : ''}" data-rx-open="${esc(kE)}" data-rx-slot="especial" aria-pressed="${onE ? 'true' : 'false'}">${ic('shield')}<span>Controle Especial</span><span class="rx-n" data-rx-rm="especial" title="Remover da barra"><span class="rx-n-v">${nE}</span><span class="rx-n-x" aria-hidden="true">×</span></span></button>`;
+  h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
+  h += `<button type="button" class="mob-rx-merge" data-rx-merge title="Mesclar em Receita de Controle Especial (dupla)">${ic('layers')}<span>Mesclar</span></button>`;
   dock.innerHTML = h;
   dock.classList.remove('hidden');
 }
@@ -6507,25 +6561,21 @@ function addMed(i) {
   const m = CATALOGO[i]; if (!m) return;
   registrarRecenteMed(i);
   const item = novoItem({ nome: m.n, apresentacao: m.a, qtd: m.q, posologia: m.p, obs: m.o, via: m.v });
-  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
-  const tipoAlvo = ehC1 ? 'especial' : 'receita';
-  const slotAlvo = ehC1 ? 'especial' : 'simples';
+  const ehEsp = medEhEspecial(m);
+  const tipoAlvo = ehEsp ? 'especial' : 'receita';
+  const slotAlvo = ehEsp ? 'especial' : 'simples';
   const d = draft(), tipoAtual = d?.doc?.tipo;
-  if (d && tipoAtual === 'receita' && itensValidos(d.doc).length) S.rxNiveis.simples = S.ativo;
-  else if (d && tipoAtual === 'especial' && itensValidos(d.doc).length) S.rxNiveis.especial = S.ativo;
+  if (d && !S.fila.includes(S.ativo) && tipoAtual === 'receita' && itensValidos(d.doc).length) S.rxNiveis.simples = S.ativo;
+  else if (d && !S.fila.includes(S.ativo) && tipoAtual === 'especial' && itensValidos(d.doc).length) S.rxNiveis.especial = S.ativo;
 
   if (d && tipoAtual === tipoAlvo) {
     pushUndo(S.ativo, true);
     const its = d.doc.itens, vazio = its.findIndex(x => !x.nome.trim());
     const idxItem = vazio >= 0 ? vazio : its.length;
     if (vazio >= 0) its[vazio] = item; else its.push(item);
-    if ((m.t === 'ATB' || ehAtb(m.n, m.a)) && tipoAtual === 'receita' && !d.doc.duasVias) {
-      d.doc.duasVias = true; d.doc.meiaFolha = false;
-      toast(`${m.n} adicionado · receita passou para 2 vias`, 'info');
-    } else {
-      toast(`${m.n} adicionado`);
-    }
-    S.rxNiveis[slotAlvo] = S.ativo;
+    if (ehEsp) { d.doc.duasVias = true; d.doc.meiaFolha = false; }
+    toast(`${m.n} adicionado`);
+    if (!S.fila.includes(S.ativo)) S.rxNiveis[slotAlvo] = S.ativo;
     S.edAbertos.add('item-' + idxItem);
     renderEditor(); changed({ forcarSide: true });
     renderMobRxDock();
@@ -6537,32 +6587,30 @@ function addMed(i) {
   }
 
   let keyAlvo = S.rxNiveis[slotAlvo];
-  if (keyAlvo && S.drafts[keyAlvo] && S.drafts[keyAlvo].doc.tipo === tipoAlvo) {
+  if (keyAlvo && S.drafts[keyAlvo] && !S.fila.includes(keyAlvo) && S.drafts[keyAlvo].doc.tipo === tipoAlvo) {
     pushUndo(keyAlvo, true);
     const docAlvo = S.drafts[keyAlvo].doc;
     const its = docAlvo.itens, vazio = its.findIndex(x => !x.nome.trim());
     const idxItem = vazio >= 0 ? vazio : its.length;
     if (vazio >= 0) its[vazio] = item; else its.push(item);
-    if (!ehC1 && (m.t === 'ATB' || ehAtb(m.n, m.a)) && !docAlvo.duasVias) {
-      docAlvo.duasVias = true; docAlvo.meiaFolha = false;
-    }
+    if (ehEsp) { docAlvo.duasVias = true; docAlvo.meiaFolha = false; }
     S.ativo = keyAlvo;
     S.edAbertos.add('item-' + idxItem);
     renderAll();
     renderMobRxDock();
-    toast(`${m.n} adicionado em ${ehC1 ? 'Controle Especial' : 'Receita Simples'}`);
+    toast(`${m.n} adicionado em ${ehEsp ? 'Controle Especial' : 'Receita Simples'}`);
     return;
   }
 
   const key = novoDocumento(tipoAlvo, [item]);
   const nd = S.drafts[key].doc;
-  nd.titulo = ehC1 ? 'Receita de Controle Especial' : 'Receita';
-  if (!ehC1 && (m.t === 'ATB' || ehAtb(m.n, m.a))) { nd.duasVias = true; nd.meiaFolha = false; }
+  nd.titulo = ehEsp ? 'Receita de Controle Especial' : 'Receita';
+  if (ehEsp) { nd.duasVias = true; nd.meiaFolha = false; }
   S.rxNiveis[slotAlvo] = key;
   S.edAbertos.add('item-0');
   renderAll();
   renderMobRxDock();
-  toast(ehC1 ? `${m.n}: aberto em Receita de Controle Especial` : `${m.n} adicionado em Receita Simples`);
+  toast(ehEsp ? `${m.n}: aberto em Receita de Controle Especial` : `${m.n} adicionado em Receita Simples`);
 }
 async function salvar() {
   const d = draft(); if (!d) return;
@@ -6631,9 +6679,17 @@ function toggleFav(id) {
 function toggleFila(key) {
   if (!key || !docDe(key)) return;
   const i = S.fila.indexOf(key);
-  if (i >= 0) { S.fila.splice(i, 1); toast('Removido da fila', 'info'); }
-  else { S.fila.push(key); toast(`Adicionado à fila — ${S.fila.length} documento${S.fila.length > 1 ? 's' : ''}`); }
-  renderSide(); renderFilaUI();
+  if (i >= 0) {
+    S.fila.splice(i, 1);
+    toast('Removido da fila', 'info');
+  } else {
+    S.fila.push(key);
+    // Ao entrar na fila, sai da barra inferior de vidro e permanece somente na fila
+    if (S.rxNiveis.simples === key) S.rxNiveis.simples = null;
+    if (S.rxNiveis.especial === key) S.rxNiveis.especial = null;
+    toast(`Adicionado à fila — ${S.fila.length} documento${S.fila.length > 1 ? 's' : ''}`);
+  }
+  renderSide(); renderFilaUI(); renderMobRxDock();
 }
 async function novaConsulta() {
   const pend = S.fila.length || Object.keys(S.drafts).some(isDirty) || S.paciente.nome || S.paciente.alergias || S.paciente.peso || S.paciente.idade || S.paciente.gestante || S.paciente.lactante;
@@ -7144,14 +7200,17 @@ function iniciarTutorial() {
     { sel: '.pf-nome', selMob: '#btn-mob-pac', mob: 'side', titulo: 'Nome do paciente', texto: 'Preencha o nome do paciente uma vez na barra superior para replicar automaticamente em todas as receitas, exames e atestados da consulta.' },
     { sel: '#pf-alg', mob: 'side', titulo: 'Alergias com busca inteligente', texto: 'Clique para pesquisar medicamentos ou classes; modelos incompatíveis são ocultados na biblioteca e bloqueados antes da impressão.' },
     { sel: '#btn-cond', mob: 'side', titulo: 'Condições clínicas (Gestante, Lactante, Idade e Peso)', texto: 'Oculta prescrições contraindicadas na gestação, lactação ou faixa etária, alerta riscos clínicos e calcula doses pediátricas por peso.' },
-    { sel: '.side .search', mob: 'side', titulo: 'Busca por texto ou voz e abas', texto: 'Pesquise por doença, CID ou remédio digitando ou usando o microfone, e alterne entre Modelos, Medicamentos e Texto rápido. Os grupos começam fechados para manter a tela limpa.' },
-    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila e Carrossel)', texto: 'Arraste um modelo da esquerda para a direita para "Adc. à Fila" ou um medicamento para montar receita/controle especial. Arraste a tela para alternar entre Modelos, Editor e Prévia.' },
+    { sel: '.side .search', mob: 'side', titulo: 'Busca, Medicamentos e listas interligadas', texto: isMobInit
+      ? 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Toque em uma medicação para adicionar na receita aberta (antibióticos e C1 abrem em Controle Especial).'
+      : 'Pesquise por doença, CID ou remédio (texto ou voz) e alterne entre Modelos, Medicamentos e Texto rápido. Favoritos, Recentes e Nesta consulta continuam visíveis ao trocar de aba. Clique na medicação para adicionar na receita aberta (antibióticos e C1 vão para Controle Especial) ou no ícone de olho para visualizar os detalhes sem editar.' },
+    { sel: '#side-list', selMob: '#side-list', mob: 'side', mobOnly: true, demo: 'swipe', titulo: 'Arraste para o lado (Fila) e Barra de Vidro', texto: 'Arraste um modelo ou medicação da esquerda para a direita para enviar direto à Fila (sem abrir o Editor). Se abrir Receita Simples e Controle Especial ao mesmo tempo, surge a barra inferior de vidro: alterne entre elas, role para o lado para Mesclar em receita dupla ou segure sobre o tipo para remover da barra.' },
+    { sel: '#tab-meds', mob: 'side', deskOnly: true, titulo: 'Receita Simples + Controle Especial (Barra de Vidro)', texto: 'Ao selecionar medicações de níveis diferentes (Receita Simples e Controle Especial/Antibiótico), surge a barra flutuante de vidro embaixo para alternar entre elas, clicar em Mesclar (unificando em receita dupla com a controlada como item 1) ou passar o mouse sobre o número para remover (×). Ao enviar para a Fila, ela sai da barra.' },
     { sel: '#tab-texto', mob: 'side', titulo: 'Texto rápido (evolução → documento)', texto: 'Para documentos extensos como Hemocomponentes, Encaminhamento, APAC e Risco Cirúrgico, esta aba abre sozinha: cole a evolução e clique em Preencher.' },
     { sel: 'aside.ed', selMob: '.mob-tab[data-mob="ed"]', mob: 'ed', titulo: 'Editor sanfonado e formatação', texto: 'Os medicamentos e orientações abrem recolhidos para manter a tela limpa — clique em qualquer item para expandir e editar. Formatação POC e Formato de impressão ficam no rodapé.' },
     { sel: '.pv-zoom-float', selMob: '.mob-tab[data-mob="center"]', mob: 'center', titulo: 'Prévia fiel da folha A4 e Zoom', texto: 'A coluna central exibe a folha A4 sem distrações, com o controle de zoom e tela cheia flutuando no canto inferior direito.' },
-    { sel: '#btn-print', mob: 'center', titulo: 'Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — o PinMed oferece otimização 2-por-folha e faz uma conferência clínica final.' },
+    { sel: '#btn-print', mob: 'center', titulo: 'Fila e impressão otimizada', texto: 'Adicione vários documentos da consulta à fila e clique em Imprimir — ao entrar na fila, a receita sai da barra inferior e fica pronta para impressão 2-por-folha e conferência clínica final.' },
     { sel: '#btn-cfg', mob: 'side', titulo: 'Configurações, Cadeado, Backup e Download', texto: 'No botão ⚙ você altera o Local de atendimento, bloqueia o acesso com o cadeado, faz backup dos modelos e baixa/instala o PinMed como aplicativo.' }
-  ].filter(p => !p.mobOnly || isMobInit).map((p, i) => ({ ...p, titulo: `${i + 1}. ${p.titulo}` }));
+  ].filter(p => (!p.mobOnly || isMobInit) && (!p.deskOnly || !isMobInit)).map((p, i) => ({ ...p, titulo: `${i + 1}. ${p.titulo}` }));
   let idx = 0, _tPos = 0;
   const fechar = () => {
     clearTimeout(_tPos);
@@ -7526,11 +7585,44 @@ function bind() {
     sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
     sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
   }
-  // Barra flutuante em vidro para alternar entre Receita Simples e Controle Especial
-  $('#mob-rx-dock')?.addEventListener('click', e => {
-    if (e.target.closest('[data-rx-close]')) {
-      S.rxNiveis = { simples: null, especial: null };
-      renderMobRxDock();
+  // Barra flutuante em vidro para alternar, mesclar ou remover níveis de receita (Receita Simples e Controle Especial)
+  const rxDockEl = $('#mob-rx-dock');
+  let _rxHoldTimer = 0, _rxHoldFired = false;
+  rxDockEl?.addEventListener('touchstart', e => {
+    const pill = e.target.closest('.mob-rx-pill[data-rx-slot]');
+    if (!pill || e.touches.length !== 1) return;
+    _rxHoldFired = false;
+    clearTimeout(_rxHoldTimer);
+    const slot = pill.dataset.rxSlot;
+    _rxHoldTimer = setTimeout(() => {
+      _rxHoldFired = true;
+      navigator.vibrate?.(18);
+      if (slot && S.rxNiveis[slot]) {
+        S.rxNiveis[slot] = null;
+        renderMobRxDock();
+        toast('Removido da barra', 'info');
+      }
+    }, 500);
+  }, { passive: true });
+  const _cancelRxHold = () => { clearTimeout(_rxHoldTimer); _rxHoldTimer = 0; };
+  rxDockEl?.addEventListener('touchmove', _cancelRxHold, { passive: true });
+  rxDockEl?.addEventListener('touchend', _cancelRxHold, { passive: true });
+  rxDockEl?.addEventListener('touchcancel', _cancelRxHold, { passive: true });
+  rxDockEl?.addEventListener('click', e => {
+    if (_rxHoldFired) { _rxHoldFired = false; e.preventDefault(); return; }
+    if (e.target.closest('[data-rx-merge]')) {
+      mesclarReceitasNiveis();
+      return;
+    }
+    const rm = e.target.closest('[data-rx-rm]');
+    if (rm && window.innerWidth > 860) {
+      e.stopPropagation();
+      const slot = rm.dataset.rxRm;
+      if (slot && S.rxNiveis[slot]) {
+        S.rxNiveis[slot] = null;
+        renderMobRxDock();
+        toast('Removido da barra', 'info');
+      }
       return;
     }
     const b = e.target.closest('[data-rx-open]');
