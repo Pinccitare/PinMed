@@ -1149,8 +1149,57 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
 .save-pop.show{opacity:1;transform:translate(-50%,0) scale(1)}
 .save-pop svg.i{width:17px;height:17px;stroke-width:2.5}
 
-/* Navegação inferior e carrossel exclusivos para celulares (mantém 3 colunas no desktop) */
-.mob-bottom-stack,.mob-nav,.mob-only,.mi-sw,.mob-rx-dock,.mob-act-bar{display:none}
+/* Navegação inferior e carrossel exclusivos para celulares + Dock Liquid Glass de receitas de níveis diferentes (Web e Mobile) */
+.mob-nav,.mob-only,.mi-sw,.mob-act-bar{display:none}
+.mob-bottom-stack{position:fixed;left:284px;right:420px;bottom:16px;z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.app.no-side ~ .mob-bottom-stack{left:0}
+.mob-bottom-stack>*{pointer-events:auto}
+.mob-rx-dock{display:inline-flex;align-items:center;gap:5px;padding:5px 6px;border-radius:999px;max-width:100%;background:linear-gradient(180deg,rgba(16,38,66,.72) 0%,rgba(9,22,40,.84) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 14px 34px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.34);animation:pop .18s ease-out}
+.mob-rx-dock.hidden{display:none!important}
+.mob-rx-pill{height:38px;padding:0 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:rgba(235,244,255,.88);background:rgba(35,137,232,.24);border:1px solid rgba(125,184,240,.32);white-space:nowrap;transition:transform .12s,background .15s,border-color .15s,box-shadow .15s}
+.mob-rx-pill.on{background:rgba(35,137,232,.56);border-color:rgba(165,212,255,.78);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 10px -2px rgba(11,111,199,.45)}
+.mob-rx-pill.is-esp{background:rgba(217,119,6,.24);border-color:rgba(251,191,36,.34);color:rgba(255,246,229,.88)}
+.mob-rx-pill.is-esp.on{background:rgba(217,119,6,.56);border-color:rgba(253,211,77,.82);color:#ffffff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 2px 10px -2px rgba(217,119,6,.45)}
+.mob-rx-pill:active{transform:scale(.95)}
+.mob-rx-pill .rx-n{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ffffff;color:#0b4a8a;font-size:11px;font-weight:800;display:inline-grid;place-items:center}
+.mob-rx-pill.is-esp .rx-n{color:#8a4b00}
+.mob-rx-split{width:1px;height:22px;background:rgba(255,255,255,.22);flex:none}
+.mob-rx-x{width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;color:rgba(255,255,255,.72);flex:none}
+.mob-rx-x svg.i{width:13px;height:13px}
+html:not([data-theme=dark]) .mob-rx-dock{background:linear-gradient(180deg,rgba(255,255,255,.88) 0%,rgba(229,241,253,.94) 100%);border-color:rgba(11,111,199,.22);box-shadow:0 14px 34px -6px rgba(14,34,59,.24),inset 0 1px 0 rgba(255,255,255,.98)}
+html:not([data-theme=dark]) .mob-rx-pill{background:rgba(11,111,199,.09);border-color:rgba(11,111,199,.20);color:#24486e}
+html:not([data-theme=dark]) .mob-rx-pill.on{background:#0b6fc7;border-color:#0b6fc7;color:#ffffff;box-shadow:0 3px 10px -2px rgba(11,111,199,.38)}
+html:not([data-theme=dark]) .mob-rx-pill .rx-n{background:rgba(11,111,199,.16);color:#095ca6}
+html:not([data-theme=dark]) .mob-rx-pill.on .rx-n{background:#ffffff;color:#095ca6}
+html:not([data-theme=dark]) .mob-rx-pill.is-esp{background:rgba(217,119,6,.10);border-color:rgba(217,119,6,.24);color:#7a4100}
+html:not([data-theme=dark]) .mob-rx-pill.is-esp.on{background:#c96d00;border-color:#c96d00;color:#ffffff;box-shadow:0 3px 10px -2px rgba(201,109,0,.38)}
+html:not([data-theme=dark]) .mob-rx-pill.is-esp .rx-n{background:rgba(217,119,6,.18);color:#8a4b00}
+html:not([data-theme=dark]) .mob-rx-pill.is-esp.on .rx-n{background:#ffffff;color:#8a4b00}
+html:not([data-theme=dark]) .mob-rx-split{background:rgba(14,34,59,.15)}
+html:not([data-theme=dark]) .mob-rx-x{color:#4e6b8a}
+
+/* Botões de ação da medicação (Favorito + Visualização com pop-up conectado não editável) */
+.md-act{display:inline-flex;align-items:center;gap:3px;flex:none;margin-left:4px}
+.md-fav,.md-view{width:28px;height:28px;border-radius:8px;display:inline-grid;place-items:center;color:var(--text-3);transition:background .14s,color .14s,transform .1s}
+.md-fav svg.i,.md-view svg.i{width:15px;height:15px}
+.md-fav:hover{background:rgba(245,192,66,.16);color:#d99a00}
+.md-fav.fav-on{color:#f5c042}
+html:not([data-theme=dark]) .side .md-fav.fav-on{color:#d99a00}
+.md-view:hover,.md-view.on{background:var(--brand);color:#ffffff!important}
+.md-wrap.view-open .md{border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;border-color:var(--brand)!important;margin-bottom:0!important}
+.md-view-pop{background:var(--surface);color:var(--text);border:1px solid var(--brand);border-top:0;border-radius:0 0 11px 11px;padding:10px;margin-top:-1px;margin-bottom:6px;box-shadow:0 12px 26px -10px rgba(14,34,59,.26);display:flex;flex-direction:column;gap:7px;animation:pop .14s ease-out}
+[data-theme=dark] .md-view-pop{background:#112236;color:#e8eef6;border-color:#4ea3f5}
+html:not([data-theme=dark]) .side .md-view-pop{background:#ffffff;color:#0e223b;border-color:#68acee}
+.md-vp-h{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.md-vp-via{font-size:10.5px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);padding:2px 7px;border-radius:6px}
+.md-vp-tipo{font-size:10.5px;font-weight:650;color:var(--text-3)}
+.md-vp-fld{display:flex;flex-direction:column;gap:2px}
+.md-vp-lbl{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3)}
+.md-vp-box{padding:6px 9px;border-radius:7px;border:1px solid var(--line-strong);background:var(--surface-2);font-size:12.3px;line-height:1.4;color:var(--text);user-select:text}
+[data-theme=dark] .md-vp-box{background:#0b1726;border-color:#243b55;color:#e8eef6}
+html:not([data-theme=dark]) .side .md-vp-box{background:#f3f8fe;border-color:#c3daf3;color:#0e223b}
+.md-vp-box.bold{font-weight:700}
+.md-vp-row{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:6px}
 .ed-foot{position:relative}
 .ed-foot .btn-fila-view,.mob-act-bar .btn-fila-view{flex:none;padding:0 11px;gap:6px}
 .ed-foot .btn-fila-view .count,.mob-act-bar .btn-fila-view .count{min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11px;font-weight:750;display:inline-grid;place-items:center}
@@ -1238,7 +1287,11 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .side .mi-t{font-size:13.5px}
   .side .grp-t{padding:9px 8px;font-size:13px}
 
-  /* Swipe nos Medicamentos ("+ Receita" / "+ Controle C1") */
+  /* Swipe nos Medicamentos ("+ Fila · Receita" / "+ Fila · Controle C1") e Favorito sempre visível sem botão + */
+  .side .md-view,.side .md-add{display:none!important}
+  .side .md-fav{opacity:1!important;pointer-events:auto!important;width:32px;height:32px;color:#8aa4bf}
+  .side .md-fav.fav-on{color:#f5c042}
+  html:not([data-theme=dark]) .side .md-fav.fav-on{color:#d99a00}
   .side .md-wrap{position:relative;overflow:hidden;border-radius:10px;margin-bottom:4px}
   .side .md-sw{position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding-left:16px;background:#eaf4ff;color:#0b4a8a;font-size:12.5px;font-weight:750;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .12s,background .15s}
   .side .md-sw svg.i{width:16px;height:16px;color:#0b6fc7;flex:none}
@@ -1255,26 +1308,6 @@ dialog.dlg::backdrop{background:rgba(8,20,40,.45);backdrop-filter:blur(4px)}
   .ed-foot{display:none!important}
   .mob-bottom-stack{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:85;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;pointer-events:none}
   .mob-bottom-stack>*{pointer-events:auto}
-
-  /* Pop-up flutuante de receitas montadas por swipe (empilhado acima da barra carrossel) */
-  .mob-rx-dock{display:inline-flex;align-items:center;gap:4px;padding:4px 5px;border-radius:999px;max-width:100%;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32);animation:pop .18s ease-out}
-  .mob-rx-dock.hidden{display:none!important}
-  .app:not([data-mob="side"]) .mob-rx-dock{display:none!important}
-  .mob-rx-pill{height:38px;padding:0 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#ffffff;background:rgba(35,137,232,.36);border:1px solid rgba(125,184,240,.42);white-space:nowrap;transition:transform .12s,background .14s}
-  .mob-rx-pill.is-esp{background:rgba(217,119,6,.36);border-color:rgba(251,191,36,.48);color:#fff6e5}
-  .mob-rx-pill:active{transform:scale(.95)}
-  .mob-rx-pill .rx-n{min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ffffff;color:#0b4a8a;font-size:11px;font-weight:800;display:inline-grid;place-items:center}
-  .mob-rx-pill.is-esp .rx-n{color:#8a4b00}
-  .mob-rx-split{width:1px;height:22px;background:rgba(255,255,255,.22);flex:none}
-  .mob-rx-x{width:30px;height:30px;border-radius:999px;display:inline-grid;place-items:center;color:rgba(255,255,255,.72);flex:none}
-  .mob-rx-x svg.i{width:13px;height:13px}
-  html:not([data-theme=dark]) .mob-rx-dock{background:linear-gradient(180deg,rgba(255,255,255,.86) 0%,rgba(238,245,252,.92) 100%);border-color:rgba(12,35,64,.14);box-shadow:0 12px 30px -6px rgba(12,35,64,.24),inset 0 1px 0 rgba(255,255,255,.95)}
-  html:not([data-theme=dark]) .mob-rx-pill{background:rgba(11,111,199,.14);border-color:rgba(11,111,199,.28);color:#0b4a8a}
-  html:not([data-theme=dark]) .mob-rx-pill .rx-n{background:#0b6fc7;color:#ffffff}
-  html:not([data-theme=dark]) .mob-rx-pill.is-esp{background:rgba(217,119,6,.14);border-color:rgba(217,119,6,.32);color:#8a4b00}
-  html:not([data-theme=dark]) .mob-rx-pill.is-esp .rx-n{background:#c96d00;color:#ffffff}
-  html:not([data-theme=dark]) .mob-rx-split{background:rgba(12,35,64,.16)}
-  html:not([data-theme=dark]) .mob-rx-x{color:#5b6b7f}
 
   /* Barra de ação flutuante em vidro, sempre 8px acima da Barra carrossel, com 3 botões iguais */
   .mob-act-bar{width:100%;max-width:420px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:5px;border-radius:999px;background:linear-gradient(180deg,rgba(16,38,66,.66) 0%,rgba(9,22,40,.78) 100%);-webkit-backdrop-filter:blur(22px) saturate(185%);backdrop-filter:blur(22px) saturate(185%);border:1px solid rgba(255,255,255,.26);box-shadow:0 12px 30px -6px rgba(4,12,24,.55),inset 0 1px 0 rgba(255,255,255,.32)}
@@ -1475,6 +1508,7 @@ body.pm-locked .app{pointer-events:none;user-select:none}
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
     <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
   </defs>
 </svg>
 
@@ -4470,6 +4504,8 @@ function hydrate(o = {}) {
   return {
     locais, modelos, seed: SEED,
     recentes: (Array.isArray(o.recentes) && o.recentes.length ? o.recentes : rec_default).filter(id => modelos.some(m => m.id === id)),
+    favMeds: Array.isArray(o.favMeds) ? o.favMeds.map(String) : [],
+    recMeds: Array.isArray(o.recMeds) ? o.recMeds.map(String) : [],
     localAtivoId: locais.some(l => l.id === o.localAtivoId) ? o.localAtivoId : locais[0].id,
     prescritor: { nome: limparPonto(p.nome), crm: limparPonto(p.crm), esp: String(p.esp || p.especialidade || ''), endereco: String(p.endereco || ''), telefone: String(p.telefone || ''), cidade: String(p.cidade || '') },
     prefs: { tema: prefs.tema || (o.darkMode ? 'escuro' : 'auto'), zoom: +prefs.zoom || 0, zoomMode: prefs.zoomMode === 'page' ? 'page' : 'width', paperDim: !!prefs.paperDim, semBiblioteca: !!prefs.semBiblioteca, abertos: Array.isArray(prefs.abertos) ? prefs.abertos.map(String) : [], secFechadas: Array.isArray(prefs.secFechadas) ? prefs.secFechadas.map(String) : null },
@@ -4534,6 +4570,8 @@ const S = {
   img: { mod: 'rx', contraste: 'sem', pend: null },
   undo: {}, redo: {}, textoRapido: '', trResultado: null,
   rxSwipe: { simples: null, especial: null },
+  rxNiveis: { simples: null, especial: null },
+  medViewIdx: null,
   edAbertos: new Set()
 };
 function idadeAtualAnos() {
@@ -4711,7 +4749,7 @@ function changed(opts = {}) {
     const precisaSide = _forcarSide || sigAtual !== _sideSig;
     _forcarSide = false;
     _sideSig = sigAtual;
-    const fns = [renderPreview, renderStatus, renderAlerts, syncExChips];
+    const fns = [renderPreview, renderStatus, renderAlerts, syncExChips, renderMobRxDock];
     if (precisaSide) fns.splice(1, 0, renderSide);
     seguro(...fns);
   });
@@ -4723,7 +4761,7 @@ function seguro(...fns) {
     try { fn(); } catch (e) { console.error(e); if (typeof toast === 'function') toast('Erro ao atualizar a tela: ' + e.message, 'warn'); }
   }
 }
-function renderAll() { seguro(renderSide, renderEditor, renderPreview, renderFilaUI); }
+function renderAll() { seguro(renderSide, renderEditor, renderPreview, renderFilaUI, renderMobRxDock); }
 
 /* ---------- Alergias do paciente ----------
    O campo "Alergias" (ao lado do paciente) esconde da lista os modelos que contêm o medicamento
@@ -5040,13 +5078,38 @@ function renderSide() {
   } else {
     const favs = modelos.filter(m => m.fav && naoSel(m)).sort(porNome);
     const rec = db.recentes.map(getModelo).filter(m => m && !m.fav && naoSel(m) && modelos.includes(m)).slice(0, 4);
-    html += secaoColapsavel('fav', 'Favoritos', 'star', favs.map(m => mostra(m, false)))
-      + secaoColapsavel('rec', 'Recentes', 'clock', rec.map(m => mostra(m, false)));
+    const favMedsItens = buscarMedsFiltrados([]).filter(({ m }) => isMedFav(m)).map(renderMedBtnHTML);
+    const recMedsItens = (db.recMeds || []).map(k => buscarMedsFiltrados([]).find(({ m }) => medKey(m) === k)).filter(x => x && !isMedFav(x.m)).slice(0, 4).map(renderMedBtnHTML);
+    html += secaoColapsavel('fav', 'Favoritos', 'star', [...favs.map(m => mostra(m, false)), ...favMedsItens])
+      + secaoColapsavel('rec', 'Recentes', 'clock', [...rec.map(m => mostra(m, false)), ...recMedsItens]);
     html += renderGrupos(modelos.filter(naoSel), 'Biblioteca', 'book');
     if (!db.modelos.length && !novos.length) html = `<div class="empty-st">${ic('file')}<b>Sua biblioteca está vazia</b><p>Crie seu primeiro modelo.</p><button type="button" class="btn btn-primary btn-sm" data-act="novo">${ic('plus')} Novo documento</button></div>`;
   }
   setHTML($('#side-list'), html);
   _sideSig = _calcSideSig();
+}
+const medKey = m => `${m.n}|${m.a}`;
+const isMedFav = m => Array.isArray(db?.favMeds) && db.favMeds.includes(medKey(m));
+function toggleMedFav(i) {
+  const m = CATALOGO[i]; if (!m) return;
+  const k = medKey(m);
+  if (!Array.isArray(db.favMeds)) db.favMeds = [];
+  const idx = db.favMeds.indexOf(k);
+  if (idx >= 0) db.favMeds.splice(idx, 1);
+  else db.favMeds.unshift(k);
+  save(false);
+  renderSide();
+}
+function registrarRecenteMed(i) {
+  const m = CATALOGO[i]; if (!m) return;
+  const k = medKey(m);
+  if (!Array.isArray(db.recMeds)) db.recMeds = [];
+  db.recMeds = [k, ...db.recMeds.filter(x => x !== k)].slice(0, 6);
+  save(false);
+}
+function toggleMedView(i) {
+  S.medViewIdx = (S.medViewIdx === i ? null : i);
+  renderSide();
 }
 function buscarMedsFiltrados(termos) {
   const idAnos = idadeAtualAnos();
@@ -5068,9 +5131,25 @@ function renderMedBtnHTML({ m, i }) {
     : (idWarn ? `<span class="tg tg-warn" title="${esc(idWarn[1])}">Idade</span>` : '');
   const obsIdade = idDanger ? idDanger[1] : (idWarn ? idWarn[1] : '');
   const ehC1 = m.t === 'C1' || ehListaC1(m.n);
-  return `<div class="md-wrap" data-med="${i}">
-    <span class="mi-sw md-sw${ehC1 ? ' is-c1' : ''}" aria-hidden="true">${ic('plus')}<span>${ehC1 ? '+ Controle C1' : '+ Receita'}</span></span>
-    <button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-add" aria-hidden="true">${ic('plus')}</span></button>
+  const fav = isMedFav(m);
+  const aberto = S.medViewIdx === i;
+  const viaLbl = VIAS[m.v] || 'Uso oral';
+  const tipoLbl = ehC1 ? 'Controle Especial · 2 vias' : (m.t === 'ATB' || ehAtb(m.n, m.a) ? 'Antibiótico · 2 vias' : 'Receita Simples');
+  const obsCompleta = [m.o, obsIdade ? `⚠ ${obsIdade}` : ''].filter(Boolean).join(' · ');
+  const popHTML = aberto ? `<div class="md-view-pop" role="region" aria-label="Detalhes de ${esc(m.n)}">
+    <div class="md-vp-h"><span class="md-vp-via">${esc(viaLbl)}</span><span class="md-vp-tipo">${esc(tipoLbl)}</span></div>
+    <div class="md-vp-fld"><span class="md-vp-lbl">Medicamento</span><div class="md-vp-box bold">${esc(m.n)}</div></div>
+    <div class="md-vp-row">
+      <div class="md-vp-fld"><span class="md-vp-lbl">Apresentação</span><div class="md-vp-box">${esc(m.a || '—')}</div></div>
+      <div class="md-vp-fld"><span class="md-vp-lbl">Quantidade</span><div class="md-vp-box">${esc(m.q || '—')}</div></div>
+    </div>
+    <div class="md-vp-fld"><span class="md-vp-lbl">Posologia</span><div class="md-vp-box">${esc(m.p || '—')}</div></div>
+    ${obsCompleta ? `<div class="md-vp-fld"><span class="md-vp-lbl">Observação</span><div class="md-vp-box">${esc(obsCompleta)}</div></div>` : ''}
+  </div>` : '';
+  return `<div class="md-wrap${aberto ? ' view-open' : ''}" data-med="${i}">
+    <span class="mi-sw md-sw${ehC1 ? ' is-c1' : ''}" aria-hidden="true">${ic('layers')}<span>Adc. à Fila · ${ehC1 ? 'Controle C1' : 'Receita'}</span></span>
+    <button type="button" class="md" data-med="${i}" title="${esc(obsIdade ? `${obsIdade}\n${m.p}` : m.p)}"><span class="md-b"><b>${esc(m.n)}</b><small>${esc(m.a)} · ${esc(m.q)}</small>${obsIdade ? `<small style="color:${idDanger ? '#ff99a8' : '#f6be7e'}">⚠ ${esc(obsIdade)}</small>` : ''}</span>${medAlergico(m.n) ? '<span class="tg tg-alg" title="Paciente com alergia registrada">Alergia</span>' : ''}${idTag}${m.t === 'C1' ? '<span class="tg tg-c1">C1</span>' : m.t === 'ATB' ? '<span class="tg tg-atb">ATB</span>' : ''}<span class="md-act"><span class="md-fav${fav ? ' fav-on' : ''}" data-med-fav="${i}" role="button" tabindex="0" title="${fav ? 'Remover dos favoritos' : 'Favoritar'}" aria-label="${fav ? 'Remover dos favoritos' : 'Favoritar'}">${ic(fav ? 'star-f' : 'star')}</span><span class="md-view${aberto ? ' on' : ''}" data-med-view="${i}" role="button" tabindex="0" title="${aberto ? 'Ocultar visualização' : 'Visualizar medicação'}" aria-label="Visualizar medicação" aria-expanded="${aberto ? 'true' : 'false'}">${ic('eye')}</span></span></button>
+    ${popHTML}
   </div>`;
 }
 function renderMeds() {
@@ -5088,16 +5167,36 @@ function renderMeds() {
     : base;
   const ocultosIdade = base.length - lista.length;
   let html = '';
+  // Fila, Nesta consulta, Favoritos e Recentes interligados com a aba Modelos (não somem ao alternar filtro)
+  const sel = S.fila.map(k => [k, docDe(k)]).filter(([, d]) => d);
+  if (sel.length) {
+    html += `<div class="sel-sec"><div class="sec-h">${ic('print')}<span>Fila</span><span class="n">${sel.length}</span><span class="sp"></span><button type="button" class="sel-print-btn" data-act="sel-print" title="Imprimir os ${sel.length} documento${sel.length > 1 ? 's' : ''} da fila">${ic('print')} Imprimir (${sel.length})</button><button type="button" class="lnk" data-act="sel-limpar" title="Limpar fila">Limpar</button></div>${sel.map(([k, d]) => itemHTML(k, d, true)).join('')}</div>`;
+  }
   if (idAnos !== null && (ocultosIdade || S.verContraindicados)) {
     html += S.verContraindicados
       ? `<div class="alg-note">${ic('alert')}<p>Mostrando todos os medicamentos, inclusive os contraindicados para ${esc(idadeFormatada())}.</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Ocultar</button></div>`
       : `<div class="alg-note">${ic('alert')}<p><b>${ocultosIdade} medicamento${ocultosIdade > 1 ? 's ocultados' : ' ocultado'}</b> por restrição de idade (${esc(idadeFormatada())}).</p><button type="button" class="btn btn-secondary btn-sm" data-act="ver-cond">Mostrar</button></div>`;
+  }
+  const novos = Object.entries(S.drafts).filter(([k, d]) => !d.modeloId && (termos.length || !S.fila.includes(k)) && casaBusca(d.doc, termos));
+  html += secao('Nesta consulta', 'clock', novos.map(([k, d]) => itemHTML(k, d.doc, false, !!termos.length)));
+  if (!termos.length) {
+    const porNome = (a, b) => a.titulo.localeCompare(b.titulo, 'pt-BR');
+    const naoSel = m => !S.fila.includes(m.id);
+    const modsVis = modelosVisiveis();
+    const mostraMod = m => itemHTML(m.id, S.drafts[m.id]?.doc || m, false, false);
+    const favMods = modsVis.filter(m => m.fav && naoSel(m)).sort(porNome).map(mostraMod);
+    const recMods = db.recentes.map(getModelo).filter(m => m && !m.fav && naoSel(m) && modsVis.includes(m)).slice(0, 4).map(mostraMod);
+    const favMedsItens = lista.filter(({ m }) => isMedFav(m)).map(renderMedBtnHTML);
+    const recMedsItens = (db.recMeds || []).map(k => lista.find(({ m }) => medKey(m) === k)).filter(x => x && !isMedFav(x.m)).slice(0, 4).map(renderMedBtnHTML);
+    html += secaoColapsavel('fav', 'Favoritos', 'star', [...favMedsItens, ...favMods])
+      + secaoColapsavel('rec', 'Recentes', 'clock', [...recMedsItens, ...recMods]);
   }
   const grupos = new Map();
   lista.forEach(x => { if (!grupos.has(x.m.c)) grupos.set(x.m.c, []); grupos.get(x.m.c).push(x); });
   if (termos.length && lista.length) {
     html += secao(`Medicamentos (${lista.length})`, 'pill', lista.map(renderMedBtnHTML));
   } else {
+    html += `<div class="sec-h">${ic('pill')}<span>Catálogo de medicamentos</span></div>`;
     grupos.forEach((itens, g) => {
       const aberto = !!termos.length || ABERTOS_GRP.has('med:' + g);
       html += `<button type="button" class="grp-t" data-grp="med:${esc(g)}" aria-expanded="${aberto}">${ic('chev')}${esc(g)}<span class="n">${itens.length}</span></button>`;
@@ -5899,6 +5998,7 @@ function toggleFilaPop(forcarFechar = false) {
 }
 function addMedSwipe(i) {
   const m = CATALOGO[i]; if (!m) return;
+  registrarRecenteMed(i);
   const item = novoItem({ nome: m.n, apresentacao: m.a, qtd: m.q, posologia: m.p, obs: m.o, via: m.v });
   const ehC1 = m.t === 'C1' || ehListaC1(m.n);
   const slot = ehC1 ? 'especial' : 'simples';
@@ -5920,25 +6020,29 @@ function addMedSwipe(i) {
     doc.itens.push(item);
     if (!ehC1 && ehAtb(m.n, m.a)) doc.duasVias = true;
   }
+  if (!S.fila.includes(key)) S.fila.push(key);
   const nItens = itensValidos(S.drafts[key].doc).length;
-  renderMobRxDock();
+  renderSide();
+  renderFilaUI();
   if (S.ativo === key) { renderEditor(); renderPreview(); }
-  toast(`${m.n} → ${ehC1 ? 'Controle C1' : 'Receita'} (${nItens})`);
+  toast(`${m.n} adicionado à fila (${ehC1 ? 'Controle C1' : 'Receita'} · ${nItens})`);
 }
 function renderMobRxDock() {
   const dock = $('#mob-rx-dock'); if (!dock) return;
-  const kS = S.rxSwipe.simples && S.drafts[S.rxSwipe.simples] ? S.rxSwipe.simples : null;
-  const kE = S.rxSwipe.especial && S.drafts[S.rxSwipe.especial] ? S.rxSwipe.especial : null;
+  const kS = S.rxNiveis.simples && S.drafts[S.rxNiveis.simples] && S.drafts[S.rxNiveis.simples].doc.tipo === 'receita' ? S.rxNiveis.simples : null;
+  const kE = S.rxNiveis.especial && S.drafts[S.rxNiveis.especial] && S.drafts[S.rxNiveis.especial].doc.tipo === 'especial' ? S.rxNiveis.especial : null;
   const nS = kS ? itensValidos(S.drafts[kS].doc).length : 0;
   const nE = kE ? itensValidos(S.drafts[kE].doc).length : 0;
-  if (!nS) S.rxSwipe.simples = null;
-  if (!nE) S.rxSwipe.especial = null;
-  if (!nS && !nE) { dock.classList.add('hidden'); dock.innerHTML = ''; return; }
-  let h = '';
-  if (nS) h += `<button type="button" class="mob-rx-pill" data-rx-open="${esc(kS)}">${ic('pill')}<span>Receita</span><span class="rx-n">${nS}</span></button>`;
-  if (nS && nE) h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
-  if (nE) h += `<button type="button" class="mob-rx-pill is-esp" data-rx-open="${esc(kE)}">${ic('shield')}<span>Especial</span><span class="rx-n">${nE}</span></button>`;
-  h += `<button type="button" class="mob-rx-x" data-rx-close title="Ocultar aviso" aria-label="Ocultar">${ic('x')}</button>`;
+  if (!nS) S.rxNiveis.simples = null;
+  if (!nE) S.rxNiveis.especial = null;
+  // A barra flutuante em vidro só aparece se ambos os níveis (Receita Simples e Controle Especial) estiverem selecionados
+  if (!nS || !nE) { dock.classList.add('hidden'); dock.innerHTML = ''; return; }
+  const onS = S.ativo === kS;
+  const onE = S.ativo === kE;
+  let h = `<button type="button" class="mob-rx-pill${onS ? ' on' : ''}" data-rx-open="${esc(kS)}" aria-pressed="${onS ? 'true' : 'false'}">${ic('pill')}<span>Receita Simples</span><span class="rx-n">${nS}</span></button>`;
+  h += `<span class="mob-rx-split" aria-hidden="true"></span>`;
+  h += `<button type="button" class="mob-rx-pill is-esp${onE ? ' on' : ''}" data-rx-open="${esc(kE)}" aria-pressed="${onE ? 'true' : 'false'}">${ic('shield')}<span>Controle Especial</span><span class="rx-n">${nE}</span></button>`;
+  h += `<button type="button" class="mob-rx-x" data-rx-close title="Ocultar barra" aria-label="Ocultar barra">${ic('x')}</button>`;
   dock.innerHTML = h;
   dock.classList.remove('hidden');
 }
@@ -6401,28 +6505,64 @@ function mudarTipo(t) {
 }
 function addMed(i) {
   const m = CATALOGO[i]; if (!m) return;
+  registrarRecenteMed(i);
   const item = novoItem({ nome: m.n, apresentacao: m.a, qtd: m.q, posologia: m.p, obs: m.o, via: m.v });
-  const d = draft(), tipo = d?.doc.tipo;
-  const cabe = d && (m.t === 'C1' ? tipo === 'especial' : (tipo === 'receita' || tipo === 'especial'));
-  if (!cabe) {
-    const key = novoDocumento(m.t === 'C1' ? 'especial' : 'receita', [item]);
-    const nd = S.drafts[key].doc;
-    nd.titulo = m.n.replace(/^(cloridrato|oxalato|fosfato sódico|maleato|bromidrato) de /i, '').replace(/^./, c => c.toUpperCase()) + ' ' + m.a.split(' ').slice(0, 2).join(' ');
-    if (m.t === 'ATB') { nd.duasVias = true; nd.meiaFolha = false; }
-    renderAll();
-    toast(m.t === 'C1' ? `${m.n}: aberto em novo receituário de controle especial` : `${m.n} adicionado em nova receita`);
+  const ehC1 = m.t === 'C1' || ehListaC1(m.n);
+  const tipoAlvo = ehC1 ? 'especial' : 'receita';
+  const slotAlvo = ehC1 ? 'especial' : 'simples';
+  const d = draft(), tipoAtual = d?.doc?.tipo;
+  if (d && tipoAtual === 'receita' && itensValidos(d.doc).length) S.rxNiveis.simples = S.ativo;
+  else if (d && tipoAtual === 'especial' && itensValidos(d.doc).length) S.rxNiveis.especial = S.ativo;
+
+  if (d && tipoAtual === tipoAlvo) {
+    pushUndo(S.ativo, true);
+    const its = d.doc.itens, vazio = its.findIndex(x => !x.nome.trim());
+    const idxItem = vazio >= 0 ? vazio : its.length;
+    if (vazio >= 0) its[vazio] = item; else its.push(item);
+    if ((m.t === 'ATB' || ehAtb(m.n, m.a)) && tipoAtual === 'receita' && !d.doc.duasVias) {
+      d.doc.duasVias = true; d.doc.meiaFolha = false;
+      toast(`${m.n} adicionado · receita passou para 2 vias`, 'info');
+    } else {
+      toast(`${m.n} adicionado`);
+    }
+    S.rxNiveis[slotAlvo] = S.ativo;
+    S.edAbertos.add('item-' + idxItem);
+    renderEditor(); changed({ forcarSide: true });
+    renderMobRxDock();
+    setTimeout(() => {
+      const eb = $('#ed-body');
+      if (eb) eb.scrollTo({ top: eb.scrollHeight, behavior: 'smooth' });
+    }, 40);
     return;
   }
-  pushUndo(S.ativo, true);
-  const its = d.doc.itens, vazio = its.findIndex(x => !x.nome.trim());
-  if (vazio >= 0) its[vazio] = item; else its.push(item);
-  if (m.t === 'ATB' && tipo === 'receita' && !d.doc.duasVias) { d.doc.duasVias = true; d.doc.meiaFolha = false; toast(`${m.n} adicionado · receita passou para 2 vias`, 'info'); }
-  else toast(`${m.n} adicionado`);
-  renderEditor(); changed({ forcarSide: true });
-  setTimeout(() => {
-    const eb = $('#ed-body');
-    if (eb) eb.scrollTo({ top: eb.scrollHeight, behavior: 'smooth' });
-  }, 40);
+
+  let keyAlvo = S.rxNiveis[slotAlvo];
+  if (keyAlvo && S.drafts[keyAlvo] && S.drafts[keyAlvo].doc.tipo === tipoAlvo) {
+    pushUndo(keyAlvo, true);
+    const docAlvo = S.drafts[keyAlvo].doc;
+    const its = docAlvo.itens, vazio = its.findIndex(x => !x.nome.trim());
+    const idxItem = vazio >= 0 ? vazio : its.length;
+    if (vazio >= 0) its[vazio] = item; else its.push(item);
+    if (!ehC1 && (m.t === 'ATB' || ehAtb(m.n, m.a)) && !docAlvo.duasVias) {
+      docAlvo.duasVias = true; docAlvo.meiaFolha = false;
+    }
+    S.ativo = keyAlvo;
+    S.edAbertos.add('item-' + idxItem);
+    renderAll();
+    renderMobRxDock();
+    toast(`${m.n} adicionado em ${ehC1 ? 'Controle Especial' : 'Receita Simples'}`);
+    return;
+  }
+
+  const key = novoDocumento(tipoAlvo, [item]);
+  const nd = S.drafts[key].doc;
+  nd.titulo = ehC1 ? 'Receita de Controle Especial' : 'Receita';
+  if (!ehC1 && (m.t === 'ATB' || ehAtb(m.n, m.a))) { nd.duasVias = true; nd.meiaFolha = false; }
+  S.rxNiveis[slotAlvo] = key;
+  S.edAbertos.add('item-0');
+  renderAll();
+  renderMobRxDock();
+  toast(ehC1 ? `${m.n}: aberto em Receita de Controle Especial` : `${m.n} adicionado em Receita Simples`);
 }
 async function salvar() {
   const d = draft(); if (!d) return;
@@ -6507,6 +6647,8 @@ async function novaConsulta() {
   const manter = S.ativo && getModelo(S.ativo) ? S.ativo : (db.recentes.find(getModelo) || db.modelos[0]?.id);
   S.drafts = {}; S.fila = []; S.calcAberta = false;
   S.rxSwipe = { simples: null, especial: null };
+  S.rxNiveis = { simples: null, especial: null };
+  S.medViewIdx = null;
   renderMobRxDock(); toggleFilaPop(true);
   if (S.aba === 'texto') $('#tr-box')?.remove();
   fillPaciente(); abrir(manter, { semSalvar: true }); renderFilaUI();
@@ -7346,6 +7488,7 @@ function bind() {
         if (e.target.closest('.mi-a')) return;
         swBox = mi; swMain = $('.mi-main', mi); swAct = $('.mi-a', mi); swKind = 'mi';
       } else if (mdw) {
+        if (e.target.closest('[data-med-fav],[data-med-view],.md-view-pop')) return;
         swBox = mdw; swMain = $('.md', mdw); swAct = null; swKind = 'md';
       } else return;
       isx = e.touches[0].clientX; isy = e.touches[0].clientY;
@@ -7383,10 +7526,10 @@ function bind() {
     sideListEl.addEventListener('touchend', endMiSwipe, { passive: true });
     sideListEl.addEventListener('touchcancel', endMiSwipe, { passive: true });
   }
-  // Pop-up flutuante das receitas montadas via swipe em Medicamentos
+  // Barra flutuante em vidro para alternar entre Receita Simples e Controle Especial
   $('#mob-rx-dock')?.addEventListener('click', e => {
     if (e.target.closest('[data-rx-close]')) {
-      S.rxSwipe = { simples: null, especial: null };
+      S.rxNiveis = { simples: null, especial: null };
       renderMobRxDock();
       return;
     }
@@ -7395,7 +7538,7 @@ function bind() {
     const key = b.dataset.rxOpen;
     if (key && S.drafts[key]) {
       abrir(key);
-      if (window.innerWidth <= 860) setMobTab('ed');
+      renderMobRxDock();
     }
   });
   // Barra de ação mobile (Editor e Prévia: Visualizar fila, Adc. à fila e Imprimir)
@@ -7685,10 +7828,14 @@ function bind() {
     if (grpAll) return toggleTodosGrupos(grpAll.dataset.v, (grpAll.dataset.grps || '').split('\n').filter(Boolean));
     const sec = e.target.closest('.sec-t[data-sec]'); if (sec) return toggleSecao(sec.dataset.sec);
     const g = e.target.closest('.grp-t'); if (g) return toggleGrupo(g.dataset.grp);
+    const mFav = e.target.closest('[data-med-fav]');
+    if (mFav) { e.stopPropagation(); return toggleMedFav(+mFav.dataset.medFav); }
+    const mView = e.target.closest('[data-med-view]');
+    if (mView) { e.stopPropagation(); return toggleMedView(+mView.dataset.medView); }
+    if (e.target.closest('.md-view-pop')) return;
     const md = e.target.closest('.md');
     if (md) {
       addMed(+md.dataset.med);
-      if (S.aba === 'modelos') trocarAba('meds');
       return;
     }
     const it = e.target.closest('.mi'); if (!it) return;
@@ -7696,7 +7843,6 @@ function bind() {
     if (act === 'fav') toggleFav(k);
     else if (act === 'fila') toggleFila(k);
     else {
-      if (S.aba === 'meds') trocarAba('modelos');
       abrir(k, { fromUser: true });  // clicar só abre para ver/editar; para imprimir use o botão de fila do item
     }
   });
